@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import '../../data/datasource/local_data_source.dart';
 import '../../domain/entity/hymn_entity.dart';
+import '../widgets/hover_widget.dart';
 
 class CISHomeScreen extends StatelessWidget {
   CISHomeScreen({super.key});
@@ -34,9 +35,7 @@ class CISHomeScreen extends StatelessWidget {
                 itemCount: snapshot.data!.length,
                 itemBuilder: (context, index) {
                   HymnEntity hymn = snapshot.data![index];
-                  return ListTile(
-                    title: Text('${hymn.number}: ${hymn.title}'),
-                  );
+                  return HoverableListItem(hymn: hymn);
                 },
               );
             } else if (snapshot.hasError) {
