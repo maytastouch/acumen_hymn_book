@@ -34,9 +34,9 @@ class HymnModel {
       String chorusText = '';
       bool isChorus = false;
       int verseNumber = 1;
-
       for (var line in lines.skip(1)) {
-        if (line.startsWith('Chorus')) {
+        // Convert line to lowercase for a case-insensitive comparison
+        if (line.toLowerCase().startsWith('chorus')) {
           if (verseBuffer.isNotEmpty) {
             // Add previous verse
             verses.add(Verse(
