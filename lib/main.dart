@@ -1,9 +1,19 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:acumen_hymn_book/christ_in_song/presentation/pages/cis_bottom_bar_screen.dart';
 import 'package:desktop_window/desktop_window.dart';
-import 'package:flutter/material.dart';
+
+import 'christ_in_song/data/datasource/local_data_source.dart';
+import 'christ_in_song/domain/entity/hymn_entity.dart';
+import 'christ_in_song/presentation/bloc/search_bloc.dart';
 
 void main() {
   runApp(const MyApp());
+}
+
+Future<List<HymnEntity>> csiFetchHymnList() {
+  // Replace with your actual logic to fetch hymn list
+  return LocalMethods.readHymnsFromFile('assets/hymns/en/meta.json');
 }
 
 class MyApp extends StatefulWidget {
@@ -18,16 +28,22 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     DesktopWindow.setMinWindowSize(
-      //width * height
       const Size(717, 600),
     );
   }
 
   @override
   Widget build(Object context) {
-    return const MaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: ChristInSongBottomBarScreen(),
+      home: MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (context) => SearchBloc(csiFetchHymnList()),
+          ),
+        ],
+        child: const ChristInSongBottomBarScreen(),
+      ),
     );
   }
 }
