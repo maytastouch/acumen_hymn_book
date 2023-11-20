@@ -47,47 +47,22 @@ class _HymnTemplateState extends State<HymnTemplate> {
   }
 
   List<Widget> _buildVerseAndChorusWidgets() {
-    List<Widget> widgets = [];
-
-    for (int i = 0; i < widget.hymnModel!.verses.length; i++) {
-      Verse verse = widget.hymnModel!.verses[i];
-      widgets.add(
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 10.0),
-          child: Text(
-            "Verse ${verse.number}:\n${verse.text}",
-            style: const TextStyle(
-              color: Colors.black,
-              fontSize: 15,
-              height: 1.5,
-            ),
+    return widget.hymnModel!.verses.map((Verse verse) {
+      return Padding(
+        padding: const EdgeInsets.symmetric(vertical: 10.0),
+        child: Text(
+          verse.isChorus
+              ? "Chorus:\n${verse.text}"
+              : "Verse ${verse.number}:\n${verse.text}",
+          style: TextStyle(
+            color: Colors.black,
+            fontSize: 15,
+            fontStyle: verse.isChorus ? FontStyle.italic : FontStyle.normal,
+            height: 1.5,
           ),
         ),
       );
-
-      // Check if the next verse is actually a chorus (same verse number)
-      if (i + 1 < widget.hymnModel!.verses.length &&
-          widget.hymnModel!.verses[i + 1].number == verse.number) {
-        i++; // Skip the next verse as it's a chorus for the current verse
-        Verse chorus = widget.hymnModel!.verses[i];
-        widgets.add(
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10.0),
-            child: Text(
-              "Chorus:\n${chorus.text}",
-              style: const TextStyle(
-                color: Colors.black,
-                fontSize: 15,
-                fontStyle: FontStyle.italic,
-                height: 1.5,
-              ),
-            ),
-          ),
-        );
-      }
-    }
-
-    return widgets;
+    }).toList();
   }
 
   @override

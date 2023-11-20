@@ -31,41 +31,63 @@ class HymnModel {
 
       List<Verse> verses = [];
       StringBuffer verseBuffer = StringBuffer();
-      int verseNumber = 1;
+      String chorusText = '';
       bool isChorus = false;
+      int verseNumber = 1;
 
       for (var line in lines.skip(1)) {
-        // Skip the title line
-        if (line.trim().isEmpty && verseBuffer.isNotEmpty) {
-          if (isChorus) {
-            verses.add(
-                Verse(text: verseBuffer.toString().trim(), isChorus: true));
-          } else {
+        if (line.startsWith('Chorus')) {
+          if (verseBuffer.isNotEmpty) {
+            // Add previous verse
             verses.add(Verse(
                 text: verseBuffer.toString().trim(),
                 number: verseNumber++,
                 isChorus: false));
+            verseBuffer.clear();
           }
-          verseBuffer.clear();
-          isChorus = false;
-        } else if (line.startsWith(RegExp(r'Chorus', caseSensitive: false))) {
           isChorus = true;
+          continue;
+        }
+
+        if (line.trim().isEmpty) {
+          if (verseBuffer.isNotEmpty) {
+            if (isChorus) {
+              // Capture the chorus text
+              chorusText = verseBuffer.toString().trim();
+              isChorus = false;
+            } else {
+              // Add verse
+              verses.add(Verse(
+                  text: verseBuffer.toString().trim(),
+                  number: verseNumber++,
+                  isChorus: false));
+            }
+            verseBuffer.clear();
+          }
+          // Add chorus after each verse
+          if (!isChorus && chorusText.isNotEmpty) {
+            verses.add(Verse(text: chorusText, isChorus: true));
+          }
         } else {
           verseBuffer.writeln(line);
         }
       }
 
-      // Add the last verse or chorus if there's remaining text
+      // Handle the final verse or chorus
       if (verseBuffer.isNotEmpty) {
         if (isChorus) {
-          verses
-              .add(Verse(text: verseBuffer.toString().trim(), isChorus: true));
+          chorusText = verseBuffer.toString().trim();
         } else {
           verses.add(Verse(
               text: verseBuffer.toString().trim(),
               number: verseNumber,
               isChorus: false));
         }
+      }
+
+      // Add chorus at the end if it was not added
+      if (!isChorus && chorusText.isNotEmpty) {
+        verses.add(Verse(text: chorusText, isChorus: true));
       }
 
       return HymnModel(
@@ -85,22 +107,14 @@ class Verse {
   final String text;
   final bool isChorus;
 
-  Verse({this.number = 1, required this.text, this.isChorus = false});
+  Verse({this.number, required this.text, this.isChorus = false});
 
   @override
   String toString() {
     if (isChorus) {
-      // If it's a chorus, label it as "Chorus"
       return 'Chorus:\n$text';
     } else {
-      // If it's a verse, label it with its number
       return 'Verse $number:\n$text';
     }
   }
-}
-
-class Chorus {
-  String subtitle;
-
-  Chorus({required this.subtitle});
 }
