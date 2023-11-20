@@ -31,8 +31,8 @@ class HymnModel {
 
       List<Verse> verses = [];
       StringBuffer verseBuffer = StringBuffer();
-      int verseNumber = 2;
-      bool isChorus = true;
+      int verseNumber = 1;
+      bool isChorus = false;
 
       for (var line in lines.skip(1)) {
         // Skip the title line
