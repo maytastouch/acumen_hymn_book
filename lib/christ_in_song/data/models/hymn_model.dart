@@ -1,65 +1,94 @@
-import 'dart:io';
+import 'package:flutter/services.dart' show rootBundle;
 
-class Hymn {
-  int hymnNumber;
-  String hymnTitle;
-  List<Verse> verses;
+class HymnModel {
+  final int hymnNumber;
+  final String hymnTitle;
+  final List<Verse> verses;
 
-  Hymn({
+  HymnModel({
     required this.hymnNumber,
     required this.hymnTitle,
     required this.verses,
   });
 
   // Parse Markdown file to create a Hymn object
-  static Future<Hymn> fromMarkdownFile(String filePath) async {
-    var file = File(filePath);
-    var contents = await file.readAsString();
+  static Future<HymnModel?> fromMarkdownFile(String filePath) async {
+    try {
+      String contents = await rootBundle.loadString(filePath);
 
-    // Extract hymn number, title, verses from the contents
-    var lines = contents.split('\n');
-    var titleLine = lines.firstWhere((line) => line.startsWith('##'));
-    var titleParts = titleLine.split(' ');
-    var hymnNumber = int.parse(titleParts[1]);
-    var hymnTitle = titleParts.sublist(2).join(' ');
-
-    List<Verse> verses = [];
-    Chorus? chorus;
-    bool isChorus = false;
-
-    for (var line in lines) {
-      if (line.startsWith('CHORUS')) {
-        isChorus = true;
-        chorus =
-            Chorus(subtitle: ''); // Initialize chorus with an empty subtitle
-        continue;
+      var filename = filePath.split('/').last;
+      var hymnNumberString = filename.split('.').first;
+      var hymnNumber = int.tryParse(hymnNumberString);
+      if (hymnNumber == null) {
+        throw FormatException(
+            'Unable to parse hymn number from file name: $filename');
       }
 
-      if (isChorus) {
-        chorus!.subtitle = line; // Set the chorus subtitle
-        isChorus = false;
-      } else if (line.trim().isNotEmpty) {
-        verses.add(Verse(number: verses.length + 1, text: line));
-        if (chorus != null) {
-          // Add chorus after each verse
-          verses.add(Verse(number: verses.length + 1, text: chorus.subtitle));
+      var lines = contents.split('\n');
+      var titleLine =
+          lines.firstWhere((line) => line.startsWith('##'), orElse: () => '');
+      var hymnTitle = titleLine.replaceFirst('##', '').trim();
+
+      List<Verse> verses = [];
+      StringBuffer verseBuffer = StringBuffer();
+      int verseNumber = 1;
+      bool isChorus = false;
+
+      for (var line in lines.skip(1)) {
+        if (line.startsWith('Chorus')) {
+          if (verseBuffer.isNotEmpty) {
+            verses.add(Verse(
+                number: verseNumber++, text: verseBuffer.toString().trim()));
+            verseBuffer.clear();
+          }
+          isChorus = true;
+          continue;
+        }
+
+        if (line.trim().isEmpty) {
+          if (verseBuffer.isNotEmpty) {
+            if (isChorus) {
+              // Add chorus text without verse number
+              verses.add(Verse(text: verseBuffer.toString().trim()));
+              isChorus = false; // Reset chorus flag
+            } else {
+              verses.add(Verse(
+                  number: verseNumber++, text: verseBuffer.toString().trim()));
+            }
+            verseBuffer.clear();
+          }
+        } else {
+          verseBuffer.writeln(line);
         }
       }
-    }
 
-    return Hymn(
-      hymnNumber: hymnNumber,
-      hymnTitle: hymnTitle,
-      verses: verses,
-    );
+      // Add the last verse or chorus if there's remaining text
+      if (verseBuffer.isNotEmpty) {
+        if (isChorus) {
+          verses.add(Verse(text: verseBuffer.toString().trim()));
+        } else {
+          verses.add(
+              Verse(number: verseNumber, text: verseBuffer.toString().trim()));
+        }
+      }
+
+      return HymnModel(
+        hymnNumber: hymnNumber,
+        hymnTitle: hymnTitle,
+        verses: verses,
+      );
+    } catch (e) {
+      print('Error loading hymn from file: $e');
+      return null;
+    }
   }
 }
 
 class Verse {
-  int number;
-  String text;
+  final int? number; // Make number nullable
+  final String text;
 
-  Verse({required this.number, required this.text});
+  Verse({this.number, required this.text});
 }
 
 class Chorus {

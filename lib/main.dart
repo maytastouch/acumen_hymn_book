@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:acumen_hymn_book/christ_in_song/presentation/pages/cis_bottom_bar_screen.dart';
 import 'package:desktop_window/desktop_window.dart';
 
-import 'christ_in_song/data/datasource/local_data_source.dart';
+import 'christ_in_song/data/datasource/local_data_source_methods.dart';
 import 'christ_in_song/domain/entity/hymn_entity.dart';
 import 'christ_in_song/presentation/bloc/search_bloc.dart';
 

@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
-
 import '../../domain/entity/hymn_entity.dart';
 
 class HoverableListItem extends StatefulWidget {
   final HymnEntity hymn;
-  final bool isHovered;
+  final VoidCallback onTap;
 
   const HoverableListItem({
     Key? key,
     required this.hymn,
-    this.isHovered = false,
+    required this.onTap,
   }) : super(key: key);
 
   @override
@@ -33,10 +32,13 @@ class _HoverableListItemState extends State<HoverableListItem> {
     return MouseRegion(
       onHover: _onHover,
       onExit: _onExit,
-      child: Container(
-        color: isHovered ? Colors.grey[300] : Colors.transparent,
-        child: ListTile(
-          title: Text('${widget.hymn.number}: ${widget.hymn.title}'),
+      child: GestureDetector(
+        onTap: widget.onTap,
+        child: Container(
+          color: isHovered ? Colors.grey[300] : Colors.transparent,
+          child: ListTile(
+            title: Text('${widget.hymn.number}: ${widget.hymn.title}'),
+          ),
         ),
       ),
     );
