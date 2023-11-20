@@ -33,9 +33,10 @@ class HymnModel {
       StringBuffer verseBuffer = StringBuffer();
       String chorusText = '';
       bool isChorus = false;
+      bool lastAddedWasChorus = false; // Track if last added verse was a chorus
       int verseNumber = 1;
+
       for (var line in lines.skip(1)) {
-        // Convert line to lowercase for a case-insensitive comparison
         if (line.toLowerCase().startsWith('chorus')) {
           if (verseBuffer.isNotEmpty) {
             // Add previous verse
@@ -44,6 +45,7 @@ class HymnModel {
                 number: verseNumber++,
                 isChorus: false));
             verseBuffer.clear();
+            lastAddedWasChorus = false; // Reset flag as verse is added
           }
           isChorus = true;
           continue;
@@ -52,21 +54,21 @@ class HymnModel {
         if (line.trim().isEmpty) {
           if (verseBuffer.isNotEmpty) {
             if (isChorus) {
-              // Capture the chorus text
               chorusText = verseBuffer.toString().trim();
               isChorus = false;
             } else {
-              // Add verse
               verses.add(Verse(
                   text: verseBuffer.toString().trim(),
                   number: verseNumber++,
                   isChorus: false));
+              lastAddedWasChorus = false; // Reset flag as verse is added
             }
             verseBuffer.clear();
           }
-          // Add chorus after each verse
-          if (!isChorus && chorusText.isNotEmpty) {
+          // Add chorus after each verse if the last added was not a chorus
+          if (!lastAddedWasChorus && !isChorus && chorusText.isNotEmpty) {
             verses.add(Verse(text: chorusText, isChorus: true));
+            lastAddedWasChorus = true; // Set flag as chorus is added
           }
         } else {
           verseBuffer.writeln(line);
@@ -82,19 +84,17 @@ class HymnModel {
               text: verseBuffer.toString().trim(),
               number: verseNumber,
               isChorus: false));
+          lastAddedWasChorus = false; // Reset flag as verse is added
         }
       }
 
-      // Add chorus at the end if it was not added
-      if (!isChorus && chorusText.isNotEmpty) {
+      // Add chorus at the end if it was not added and the last added was not a chorus
+      if (!lastAddedWasChorus && chorusText.isNotEmpty) {
         verses.add(Verse(text: chorusText, isChorus: true));
       }
 
       return HymnModel(
-        hymnNumber: hymnNumber,
-        hymnTitle: hymnTitle,
-        verses: verses,
-      );
+          hymnNumber: hymnNumber, hymnTitle: hymnTitle, verses: verses);
     } catch (e) {
       print('Error loading hymn from file: $e');
       return null;
