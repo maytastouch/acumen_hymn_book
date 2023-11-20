@@ -4,8 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:acumen_hymn_book/christ_in_song/data/models/hymn_model.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../core/constants/app_colors.dart';
+import '../font_bloc/font_bloc.dart';
 import 'back_widget.dart';
 import 'text_widget.dart';
 
@@ -23,6 +25,26 @@ class HymnTemplate extends StatefulWidget {
 
 class _HymnTemplateState extends State<HymnTemplate> {
   late ScrollController _controller;
+  //double _sliderFontSize; // No initial value here
+
+  late double _sliderFontSize; // No initial value here
+
+  @override
+  void initState() {
+    super.initState();
+    _loadDefaultFontSize();
+    // Listen for the up and down key events
+    _controller = ScrollController();
+    RawKeyboard.instance.addListener(_handleKeyDownEvent);
+  }
+
+  void _loadDefaultFontSize() async {
+    // Load the default font size from shared preferences
+    final defaultFontSize = await FontBloc.loadFontSize();
+    setState(() {
+      _sliderFontSize = defaultFontSize.toDouble();
+    });
+  }
 
   void _handleKeyDownEvent(RawKeyEvent keyEvent) {
     if (keyEvent is RawKeyDownEvent) {
@@ -49,29 +71,20 @@ class _HymnTemplateState extends State<HymnTemplate> {
   List<Widget> _buildVerseAndChorusWidgets() {
     return widget.hymnModel!.verses.map((Verse verse) {
       return Padding(
-        padding: const EdgeInsets.symmetric(vertical: 10.0),
+        padding: const EdgeInsets.symmetric(vertical: 70.0),
         child: Text(
           verse.isChorus
               ? "Chorus:\n${verse.text}"
               : "Verse ${verse.number}:\n${verse.text}",
           style: TextStyle(
             color: Colors.black,
-            fontSize: 15,
+            fontSize: _sliderFontSize,
             fontStyle: verse.isChorus ? FontStyle.italic : FontStyle.normal,
             height: 1.5,
           ),
         ),
       );
     }).toList();
-  }
-
-  @override
-  void initState() {
-    super.initState();
-
-    // Listen for the up and down key events
-    _controller = ScrollController();
-    RawKeyboard.instance.addListener(_handleKeyDownEvent);
   }
 
   @override
@@ -106,28 +119,35 @@ class _HymnTemplateState extends State<HymnTemplate> {
           ),
         ],
       ),
-      body: Container(
-        color: AppColors.pageColor,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10.0),
-          child: ListView(
-            controller: _controller,
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(top: 20.0, bottom: 30),
-                child: Text(
-                  "${widget.hymnModel!.hymnNumber} - ${widget.hymnModel!.hymnTitle}",
-                  style: const TextStyle(
-                    color: Colors.black,
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
+      body: BlocBuilder<FontBloc, FontState>(
+        builder: (context, state) {
+          if (state is FontSizeUpdated) {
+            _sliderFontSize = state.fontSize.toDouble();
+          }
+          return Container(
+            color: AppColors.pageColor,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10.0),
+              child: ListView(
+                controller: _controller,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(top: 20.0, bottom: 30),
+                    child: Text(
+                      "${widget.hymnModel!.hymnNumber} - ${widget.hymnModel!.hymnTitle}",
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: _sliderFontSize,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                   ),
-                ),
+                  ..._buildVerseAndChorusWidgets(),
+                ],
               ),
-              ..._buildVerseAndChorusWidgets(),
-            ],
-          ),
-        ),
+            ),
+          );
+        },
       ),
     );
   }

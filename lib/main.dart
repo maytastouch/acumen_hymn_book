@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:acumen_hymn_book/christ_in_song/presentation/pages/cis_bottom_bar_screen.dart';
 import 'package:desktop_window/desktop_window.dart';
+import 'package:acumen_hymn_book/christ_in_song/presentation/pages/settings/font_settings.dart';
+import 'package:acumen_hymn_book/christ_in_song/data/datasource/local_data_source_methods.dart';
+import 'package:acumen_hymn_book/christ_in_song/domain/entity/hymn_entity.dart';
+import 'package:acumen_hymn_book/christ_in_song/presentation/search_bloc/search_bloc.dart';
 
-import 'christ_in_song/data/datasource/local_data_source_methods.dart';
-import 'christ_in_song/domain/entity/hymn_entity.dart';
-import 'christ_in_song/presentation/bloc/search_bloc.dart';
+import 'christ_in_song/presentation/font_bloc/font_bloc.dart';
 
 void main() {
   runApp(const MyApp());
@@ -33,16 +35,22 @@ class _MyAppState extends State<MyApp> {
   }
 
   @override
-  Widget build(Object context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: MultiBlocProvider(
-        providers: [
-          BlocProvider(
-            create: (context) => SearchBloc(csiFetchHymnList()),
-          ),
-        ],
-        child: const ChristInSongBottomBarScreen(),
+  Widget build(BuildContext context) {
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => SearchBloc(csiFetchHymnList()),
+        ),
+        BlocProvider(
+          create: (context) => FontBloc(20),
+        ),
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        home: const ChristInSongBottomBarScreen(),
+        routes: {
+          FontSettings.routeName: (ctx) => const FontSettings(),
+        },
       ),
     );
   }

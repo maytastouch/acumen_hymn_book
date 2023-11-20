@@ -7,7 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../data/datasource/local_data_source_methods.dart';
 import '../../data/models/hymn_model.dart';
 import '../../domain/entity/hymn_entity.dart';
-import '../bloc/search_bloc.dart';
+import '../search_bloc/search_bloc.dart';
 import '../widgets/hover_widget.dart';
 import '../widgets/hymn_template_widget.dart';
 
