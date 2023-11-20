@@ -141,7 +141,7 @@ class _HymnTemplateState extends State<HymnTemplate> {
               Padding(
                 padding: const EdgeInsets.only(top: 20.0, bottom: 30),
                 child: Text(
-                  widget.hymnModel!.hymnTitle,
+                  "${widget.hymnModel!.hymnNumber} - ${widget.hymnModel!.hymnTitle}",
                   style: const TextStyle(
                     color: Colors.black,
                     fontSize: 18,
