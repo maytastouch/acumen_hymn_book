@@ -16,6 +16,7 @@ class HymnModel {
     try {
       String contents = await rootBundle.loadString(filePath);
 
+      // Extract the hymn number from the file path
       var filename = filePath.split('/').last;
       var hymnNumberString = filename.split('.').first;
       var hymnNumber = int.tryParse(hymnNumberString);
@@ -24,6 +25,7 @@ class HymnModel {
             'Unable to parse hymn number from file name: $filename');
       }
 
+      // Extract hymn title from the contents
       var lines = contents.split('\n');
       var titleLine =
           lines.firstWhere((line) => line.startsWith('##'), orElse: () => '');
@@ -32,29 +34,14 @@ class HymnModel {
       List<Verse> verses = [];
       StringBuffer verseBuffer = StringBuffer();
       int verseNumber = 1;
-      bool isChorus = false;
 
       for (var line in lines.skip(1)) {
-        if (line.startsWith('Chorus')) {
-          if (verseBuffer.isNotEmpty) {
-            verses.add(Verse(
-                number: verseNumber++, text: verseBuffer.toString().trim()));
-            verseBuffer.clear();
-          }
-          isChorus = true;
-          continue;
-        }
-
+        // Skip the title line
         if (line.trim().isEmpty) {
           if (verseBuffer.isNotEmpty) {
-            if (isChorus) {
-              // Add chorus text without verse number
-              verses.add(Verse(text: verseBuffer.toString().trim()));
-              isChorus = false; // Reset chorus flag
-            } else {
-              verses.add(Verse(
-                  number: verseNumber++, text: verseBuffer.toString().trim()));
-            }
+            verses.add(Verse(
+                number: verseNumber, text: verseBuffer.toString().trim()));
+            verseNumber++;
             verseBuffer.clear();
           }
         } else {
@@ -62,14 +49,10 @@ class HymnModel {
         }
       }
 
-      // Add the last verse or chorus if there's remaining text
+      // Add the last verse if there's remaining text
       if (verseBuffer.isNotEmpty) {
-        if (isChorus) {
-          verses.add(Verse(text: verseBuffer.toString().trim()));
-        } else {
-          verses.add(
-              Verse(number: verseNumber, text: verseBuffer.toString().trim()));
-        }
+        verses.add(
+            Verse(number: verseNumber, text: verseBuffer.toString().trim()));
       }
 
       return HymnModel(
@@ -85,10 +68,10 @@ class HymnModel {
 }
 
 class Verse {
-  final int? number; // Make number nullable
+  final int number;
   final String text;
 
-  Verse({this.number, required this.text});
+  Verse({required this.number, required this.text});
 }
 
 class Chorus {
