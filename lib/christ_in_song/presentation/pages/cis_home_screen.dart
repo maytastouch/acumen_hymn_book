@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:acumen_hymn_book/christ_in_song/presentation/widgets/text_widget.dart';
 import 'package:acumen_hymn_book/core/constants/app_colors.dart';
 import 'package:flutter/foundation.dart';
@@ -7,7 +9,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../data/datasource/local_data_source_methods.dart';
 import '../../data/models/hymn_model.dart';
 import '../../domain/entity/hymn_entity.dart';
-import '../search_bloc/search_bloc.dart';
+import '../bloc/search_bloc/search_bloc.dart';
 import '../widgets/hover_widget.dart';
 import '../widgets/hymn_template_widget.dart';
 
@@ -166,6 +168,7 @@ class _CISHomeScreenState extends State<CISHomeScreen> {
       );
     } else {
       // Handle the null case, e.g., show an error message or navigate to an error page.
+
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Error: Hymn not found or could not be loaded.'),

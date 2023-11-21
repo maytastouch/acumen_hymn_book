@@ -19,6 +19,7 @@ class CISSettings extends StatelessWidget {
           text: 'Settings',
           textSize: 20,
           color: Colors.white,
+          isTitle: true,
         ),
         elevation: 0,
       ),

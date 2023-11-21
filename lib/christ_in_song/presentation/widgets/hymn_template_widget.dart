@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 // ignore: must_be_immutable
+import 'package:acumen_hymn_book/christ_in_song/presentation/bloc/favorite_bloc/favorite_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -7,7 +8,8 @@ import 'package:acumen_hymn_book/christ_in_song/data/models/hymn_model.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../core/constants/app_colors.dart';
-import '../font_bloc/font_bloc.dart';
+
+import '../bloc/font_bloc/font_bloc.dart';
 import 'back_widget.dart';
 import 'text_widget.dart';
 
@@ -110,12 +112,35 @@ class _HymnTemplateState extends State<HymnTemplate> {
           textSize: 18,
         ),
         actions: [
-          IconButton(
-            icon: const Icon(
-              Icons.favorite_border,
-              color: Colors.grey,
-            ),
-            onPressed: () {},
+          BlocBuilder<FavoriteBloc, FavoriteState>(
+            builder: (context, state) {
+              if (state is FavoriteLoaded) {
+                bool isFavorite = state.hymnModel.any(
+                    (hymn) => hymn.hymnNumber == widget.hymnModel!.hymnNumber);
+
+                return IconButton(
+                  icon: Icon(
+                    isFavorite ? Icons.favorite : Icons.favorite_border,
+                    color: isFavorite ? Colors.red : Colors.grey,
+                  ),
+                  onPressed: () {
+                    BlocProvider.of<FavoriteBloc>(context).add(
+                      SetFavoriteEvent(hymnModel: widget.hymnModel!),
+                    );
+                  },
+                );
+              } else {
+                // Default icon when state is not FavoriteLoaded
+                return IconButton(
+                  icon: const Icon(Icons.favorite_border, color: Colors.grey),
+                  onPressed: () {
+                    BlocProvider.of<FavoriteBloc>(context).add(
+                      SetFavoriteEvent(hymnModel: widget.hymnModel!),
+                    );
+                  },
+                );
+              }
+            },
           ),
         ],
       ),

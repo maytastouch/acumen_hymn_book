@@ -5,7 +5,7 @@ import 'package:flutter_iconly/flutter_iconly.dart';
 
 import '../../../../core/constants/app_colors.dart';
 
-import '../../font_bloc/font_bloc.dart';
+import '../../bloc/font_bloc/font_bloc.dart';
 import '../../widgets/text_widget.dart';
 
 class FontSettings extends StatefulWidget {

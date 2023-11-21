@@ -5,9 +5,10 @@ import 'package:desktop_window/desktop_window.dart';
 import 'package:acumen_hymn_book/christ_in_song/presentation/pages/settings/font_settings.dart';
 import 'package:acumen_hymn_book/christ_in_song/data/datasource/local_data_source_methods.dart';
 import 'package:acumen_hymn_book/christ_in_song/domain/entity/hymn_entity.dart';
-import 'package:acumen_hymn_book/christ_in_song/presentation/search_bloc/search_bloc.dart';
 
-import 'christ_in_song/presentation/font_bloc/font_bloc.dart';
+import 'christ_in_song/presentation/bloc/favorite_bloc/favorite_bloc.dart';
+import 'christ_in_song/presentation/bloc/font_bloc/font_bloc.dart';
+import 'christ_in_song/presentation/bloc/search_bloc/search_bloc.dart';
 
 void main() {
   runApp(const MyApp());
@@ -43,6 +44,9 @@ class _MyAppState extends State<MyApp> {
         ),
         BlocProvider(
           create: (context) => FontBloc(20),
+        ),
+        BlocProvider(
+          create: (context) => FavoriteBloc(),
         ),
       ],
       child: MaterialApp(

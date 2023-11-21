@@ -1,11 +1,12 @@
+import 'package:equatable/equatable.dart';
 import 'package:flutter/services.dart' show rootBundle;
 
-class HymnModel {
+class HymnModel extends Equatable {
   final int hymnNumber;
   final String hymnTitle;
   final List<Verse> verses;
 
-  HymnModel({
+  const HymnModel({
     required this.hymnNumber,
     required this.hymnTitle,
     required this.verses,
@@ -100,6 +101,12 @@ class HymnModel {
       return null;
     }
   }
+
+  @override
+  List<Object> get props => [hymnNumber];
+
+  @override
+  bool get stringify => true;
 }
 
 class Verse {
