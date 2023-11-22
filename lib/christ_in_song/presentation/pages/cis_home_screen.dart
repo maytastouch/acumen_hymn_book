@@ -2,6 +2,7 @@
 
 import 'package:acumen_hymn_book/christ_in_song/presentation/widgets/text_widget.dart';
 import 'package:acumen_hymn_book/core/constants/app_colors.dart';
+import 'package:acumen_hymn_book/side_bar_widget.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -38,6 +39,7 @@ class _CISHomeScreenState extends State<CISHomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: const SideBar(),
       appBar: AppBar(
         title: TextWidget(
           text: 'Christ In Song',
@@ -46,6 +48,7 @@ class _CISHomeScreenState extends State<CISHomeScreen> {
           isTitle: true,
         ),
         backgroundColor: AppColors.mainColor,
+        iconTheme: const IconThemeData(color: Colors.white),
       ),
       body: Column(
         children: [
@@ -99,15 +102,19 @@ class _CISHomeScreenState extends State<CISHomeScreen> {
             child: BlocBuilder<SearchBloc, SearchState>(
               builder: (context, state) {
                 if (state is SearchLoaded) {
-                  return ListView.builder(
-                    itemCount: state.hymns.length,
-                    itemBuilder: (context, index) {
-                      HymnEntity hymn = state.hymns[index];
-                      return HoverableListItem(
-                        hymn: hymn,
-                        onTap: () => _onHymnTap(hymn),
-                      );
-                    },
+                  return Container(
+                    margin:
+                        const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                    child: ListView.builder(
+                      itemCount: state.hymns.length,
+                      itemBuilder: (context, index) {
+                        HymnEntity hymn = state.hymns[index];
+                        return HoverableListItem(
+                          hymn: hymn,
+                          onTap: () => _onHymnTap(hymn),
+                        );
+                      },
+                    ),
                   );
                 }
                 // Return initial or other states

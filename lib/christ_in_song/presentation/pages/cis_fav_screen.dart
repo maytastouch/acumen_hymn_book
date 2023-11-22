@@ -31,7 +31,6 @@ class _CISFavouriteScreenState extends State<CISFavouriteScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: const BackWidget(),
         title: TextWidget(
           text: 'Christ In Song Favorites',
           color: Colors.white,

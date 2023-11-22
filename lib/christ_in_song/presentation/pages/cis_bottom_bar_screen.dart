@@ -20,7 +20,7 @@ class _ChristInSongBottomBarScreenState
   int _selectedIndex = 0;
 
   final List _pages = [
-    CISHomeScreen(),
+    const CISHomeScreen(),
     const CISFavouriteScreen(),
     const CISSettings(),
   ];
