@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../theme_bloc/theme_bloc.dart';
 import '../../domain/entity/hymn_entity.dart';
 
 class HoverableListItem extends StatefulWidget {
@@ -12,7 +14,6 @@ class HoverableListItem extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  // ignore: library_private_types_in_public_api
   _HoverableListItemState createState() => _HoverableListItemState();
 }
 
@@ -29,18 +30,33 @@ class _HoverableListItemState extends State<HoverableListItem> {
 
   @override
   Widget build(BuildContext context) {
-    return MouseRegion(
-      onHover: _onHover,
-      onExit: _onExit,
-      child: GestureDetector(
-        onTap: widget.onTap,
-        child: Container(
-          color: isHovered ? Colors.grey[300] : Colors.transparent,
-          child: ListTile(
-            title: Text('${widget.hymn.number}: ${widget.hymn.title}'),
+    return BlocBuilder<ThemeBloc, ThemeState>(
+      builder: (context, themeState) {
+        Color textColor = themeState.themeData.brightness == Brightness.dark
+            ? Colors.white
+            : Colors.black;
+
+        Color hoverColor = themeState.themeData.brightness == Brightness.dark
+            ? Colors.grey[700]! // Dark hover color
+            : Colors.grey[300]!; // Light hover color
+
+        return MouseRegion(
+          onHover: _onHover,
+          onExit: _onExit,
+          child: GestureDetector(
+            onTap: widget.onTap,
+            child: Container(
+              color: isHovered ? hoverColor : Colors.transparent,
+              child: ListTile(
+                title: Text(
+                  '${widget.hymn.number}: ${widget.hymn.title}',
+                  style: TextStyle(color: textColor),
+                ),
+              ),
+            ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../core/constants/app_colors.dart';
+import '../../../side_bar_widget.dart';
 import '../../data/models/hymn_model.dart';
 import '../widgets/back_widget.dart';
 import '../widgets/fav_hover_widget.dart';
@@ -30,7 +31,9 @@ class _CISFavouriteScreenState extends State<CISFavouriteScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: const SideBar(),
       appBar: AppBar(
+        iconTheme: const IconThemeData(color: Colors.white),
         title: TextWidget(
           text: 'Christ In Song Favorites',
           color: Colors.white,

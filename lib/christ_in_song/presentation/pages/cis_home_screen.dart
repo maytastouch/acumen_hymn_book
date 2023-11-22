@@ -86,7 +86,6 @@ class _CISHomeScreenState extends State<CISHomeScreen> {
                   ),
                   hintText: "Search",
                   hintStyle: TextStyle(
-                    color: Colors.black,
                     fontSize: 16,
                   ),
                   prefixIcon: Icon(

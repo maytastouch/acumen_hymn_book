@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../theme_bloc/theme_bloc.dart';
 import '../../data/models/hymn_model.dart';
 
 class FavHoverableListItem extends StatefulWidget {
@@ -29,18 +31,26 @@ class _FavHoverableListItemState extends State<FavHoverableListItem> {
 
   @override
   Widget build(BuildContext context) {
-    return MouseRegion(
-      onHover: _onHover,
-      onExit: _onExit,
-      child: GestureDetector(
-        onTap: widget.onTap,
-        child: Container(
-          color: isHovered ? Colors.grey[300] : Colors.transparent,
-          child: ListTile(
-            title: Text('${widget.hymn.hymnNumber}: ${widget.hymn.hymnTitle}'),
+    return BlocBuilder<ThemeBloc, ThemeState>(
+      builder: (context, themeState) {
+        Color hoverColor = themeState.themeData.brightness == Brightness.dark
+            ? Colors.grey[700]! // Dark hover color
+            : Colors.grey[300]!;
+        return MouseRegion(
+          onHover: _onHover,
+          onExit: _onExit,
+          child: GestureDetector(
+            onTap: widget.onTap,
+            child: Container(
+              color: isHovered ? hoverColor : Colors.transparent,
+              child: ListTile(
+                title:
+                    Text('${widget.hymn.hymnNumber}: ${widget.hymn.hymnTitle}'),
+              ),
+            ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }

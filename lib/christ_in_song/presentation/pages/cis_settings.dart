@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 
 import '../../../core/constants/app_colors.dart';
+import '../../../side_bar_widget.dart';
 import '../widgets/text_widget.dart';
 
 class CISSettings extends StatelessWidget {
@@ -12,7 +13,9 @@ class CISSettings extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: const SideBar(),
       appBar: AppBar(
+        iconTheme: const IconThemeData(color: Colors.white),
         //backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         backgroundColor: AppColors.mainColor,
         title: TextWidget(
@@ -32,18 +35,15 @@ class CISSettings extends StatelessWidget {
                 title: 'Help and Feedback',
                 icon: IconlyLight.profile,
                 onPressed: () async {},
-                color: Colors.black,
               ),
               _listTiles(
                 title: 'About this this app',
                 icon: IconlyLight.bookmark,
-                color: Colors.black,
                 onPressed: () {},
               ),
               _listTiles(
                   title: 'Font Size',
                   icon: IconlyLight.setting,
-                  color: Colors.black,
                   onPressed: () {
                     GlobalMethods.navigateTo(
                         ctx: context, routeName: FontSettings.routeName);
@@ -51,7 +51,6 @@ class CISSettings extends StatelessWidget {
               _listTiles(
                 title: 'Name of the church',
                 icon: IconlyLight.filter,
-                color: Colors.black,
                 onPressed: () {},
               ),
             ],
@@ -67,14 +66,21 @@ class CISSettings extends StatelessWidget {
     String? subtitle,
     required IconData icon,
     required Function onPressed,
-    required Color color,
   }) {
     return ListTile(
       title: Padding(
         padding: const EdgeInsets.only(top: 14.0),
-        child: TextWidget(text: title, color: color, textSize: 20),
+        //child: TextWidget(text: title, color: color, textSize: 20),
+        child: Text(
+          title,
+          style: const TextStyle(fontSize: 20),
+        ),
       ),
-      subtitle: TextWidget(text: subtitle ?? "", color: color, textSize: 18),
+      //subtitle: TextWidget(text: subtitle ?? "", color: color, textSize: 18),
+      subtitle: Text(
+        subtitle ?? '',
+        style: const TextStyle(fontSize: 18),
+      ),
       leading: Icon(icon),
       trailing: const Icon(IconlyLight.arrowRight2),
       onTap: () {
