@@ -7,7 +7,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../theme_bloc/theme_bloc.dart';
+
+import '../../../general_bloc/theme_bloc/theme_bloc.dart';
 import '../../data/datasource/local_data_source_methods.dart';
 import '../../data/models/hymn_model.dart';
 import '../../domain/entity/hymn_entity.dart';

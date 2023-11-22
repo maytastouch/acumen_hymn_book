@@ -7,7 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 
 import '../../../core/constants/app_colors.dart';
-import '../../../theme_bloc/theme_bloc.dart';
+import '../../../general_bloc/theme_bloc/theme_bloc.dart';
 
 class ChristInSongBottomBarScreen extends StatefulWidget {
   const ChristInSongBottomBarScreen({super.key});

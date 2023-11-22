@@ -1,10 +1,11 @@
+import 'package:acumen_hymn_book/general_bloc/theme_bloc/theme_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 
 import 'christ_in_song/presentation/widgets/text_widget.dart';
 import 'core/app_themes.dart';
-import 'theme_bloc/theme_bloc.dart';
+
 
 class SideBar extends StatefulWidget {
   const SideBar({super.key});

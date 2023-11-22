@@ -5,7 +5,8 @@ import 'package:flutter_iconly/flutter_iconly.dart';
 
 import '../../../../core/constants/app_colors.dart';
 
-import '../../../../theme_bloc/theme_bloc.dart';
+import '../../../../general_bloc/theme_bloc/theme_bloc.dart';
+
 import '../../bloc/font_bloc/font_bloc.dart';
 import '../../widgets/text_widget.dart';
 

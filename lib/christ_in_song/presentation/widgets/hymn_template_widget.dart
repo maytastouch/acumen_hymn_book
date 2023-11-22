@@ -6,7 +6,8 @@ import 'package:acumen_hymn_book/christ_in_song/presentation/bloc/font_bloc/font
 import 'package:acumen_hymn_book/christ_in_song/presentation/widgets/text_widget.dart';
 import 'package:acumen_hymn_book/core/constants/app_colors.dart';
 
-import '../../../theme_bloc/theme_bloc.dart';
+
+import '../../../general_bloc/theme_bloc/theme_bloc.dart';
 import '../bloc/favorite_bloc/favorite_bloc.dart';
 import 'back_widget.dart';
 

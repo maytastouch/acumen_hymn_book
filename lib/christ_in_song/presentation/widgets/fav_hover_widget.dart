@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../theme_bloc/theme_bloc.dart';
+
+import '../../../general_bloc/theme_bloc/theme_bloc.dart';
 import '../../data/models/hymn_model.dart';
 
 class FavHoverableListItem extends StatefulWidget {

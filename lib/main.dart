@@ -1,3 +1,4 @@
+import 'package:acumen_hymn_book/general_bloc/theme_bloc/theme_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:acumen_hymn_book/christ_in_song/presentation/pages/cis_bottom_bar_screen.dart';
@@ -9,7 +10,7 @@ import 'package:acumen_hymn_book/christ_in_song/domain/entity/hymn_entity.dart';
 import 'christ_in_song/presentation/bloc/favorite_bloc/favorite_bloc.dart';
 import 'christ_in_song/presentation/bloc/font_bloc/font_bloc.dart';
 import 'christ_in_song/presentation/bloc/search_bloc/search_bloc.dart';
-import 'theme_bloc/theme_bloc.dart';
+
 
 void main() {
   runApp(const MyApp());

@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../core/constants/app_colors.dart';
+import '../../../general_bloc/theme_bloc/theme_bloc.dart';
 import '../../../side_bar_widget.dart';
-import '../../../theme_bloc/theme_bloc.dart';
+
 import '../../data/models/hymn_model.dart';
 import '../widgets/fav_hover_widget.dart';
 import '../widgets/hymn_template_widget.dart';
