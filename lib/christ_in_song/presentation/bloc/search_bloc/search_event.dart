@@ -15,3 +15,5 @@ class SearchHymnsEvent extends SearchEvent {
   @override
   List<Object> get props => [query];
 }
+
+class LoadAllHymnsEvent extends SearchEvent {}

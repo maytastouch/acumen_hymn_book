@@ -59,10 +59,18 @@ class _CISHomeScreenState extends State<CISHomeScreen> {
               child: TextField(
                 //controller: _searchController,
                 onChanged: (value) {
-                  context
-                      .read<SearchBloc>()
-                      .add(SearchHymnsEvent(query: value));
+                  if (value.isEmpty) {
+                    // Handle empty search query
+                    context
+                        .read<SearchBloc>()
+                        .add(LoadAllHymnsEvent()); // or your equivalent event
+                  } else {
+                    context
+                        .read<SearchBloc>()
+                        .add(SearchHymnsEvent(query: value));
+                  }
                 },
+
                 decoration: const InputDecoration(
                   enabledBorder: OutlineInputBorder(
                     borderSide: BorderSide(color: AppColors.mainColor),
@@ -113,32 +121,35 @@ class _CISHomeScreenState extends State<CISHomeScreen> {
   }
 
   Widget _initialBodyWidget() {
-    return FutureBuilder<List<HymnEntity>>(
-      future: christInSongMap,
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.done) {
-          if (snapshot.hasData) {
-            // Build ListView if data is available
-            return ListView.builder(
-              itemCount: snapshot.data!.length,
-              itemBuilder: (context, index) {
-                HymnEntity hymn = snapshot.data![index];
-                return HoverableListItem(
-                  hymn: hymn,
-                  onTap: () => _onHymnTap(hymn),
-                );
-              },
-            );
-          } else if (snapshot.hasError) {
-            // Display error if any
-            return Center(
-              child: Text('Error: ${snapshot.error}'),
-            );
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+      child: FutureBuilder<List<HymnEntity>>(
+        future: christInSongMap,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.done) {
+            if (snapshot.hasData) {
+              // Build ListView if data is available
+              return ListView.builder(
+                itemCount: snapshot.data!.length,
+                itemBuilder: (context, index) {
+                  HymnEntity hymn = snapshot.data![index];
+                  return HoverableListItem(
+                    hymn: hymn,
+                    onTap: () => _onHymnTap(hymn),
+                  );
+                },
+              );
+            } else if (snapshot.hasError) {
+              // Display error if any
+              return Center(
+                child: Text('Error: ${snapshot.error}'),
+              );
+            }
           }
-        }
-        // Display loading indicator while the future is in progress
-        return const Center(child: CircularProgressIndicator());
-      },
+          // Display loading indicator while the future is in progress
+          return const Center(child: CircularProgressIndicator());
+        },
+      ),
     );
   }
 

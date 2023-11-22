@@ -33,7 +33,7 @@ class _CISFavouriteScreenState extends State<CISFavouriteScreen> {
       appBar: AppBar(
         leading: const BackWidget(),
         title: TextWidget(
-          text: 'Favorites',
+          text: 'Christ In Song Favorites',
           color: Colors.white,
           textSize: 20,
           isTitle: true,
@@ -58,18 +58,21 @@ class _CISFavouriteScreenState extends State<CISFavouriteScreen> {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Expanded(
-                  child: ListView.builder(
-                    itemCount: cisFavoriteHymnList.length,
-                    itemBuilder: (context, index) {
-                      HymnModel hymn = cisFavoriteHymnList[index];
-                      return FavHoverableListItem(
-                        hymn: hymn,
-                        onTap: () => _onHymnTap(hymn),
-                      );
-                    },
+                  child: Container(
+                    margin:
+                        const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                    child: ListView.builder(
+                      itemCount: cisFavoriteHymnList.length,
+                      itemBuilder: (context, index) {
+                        HymnModel hymn = cisFavoriteHymnList[index];
+                        return FavHoverableListItem(
+                          hymn: hymn,
+                          onTap: () => _onHymnTap(hymn),
+                        );
+                      },
+                    ),
                   ),
                 ),
-                const Text('Christ In Song Favorite Screen'),
               ],
             );
           },

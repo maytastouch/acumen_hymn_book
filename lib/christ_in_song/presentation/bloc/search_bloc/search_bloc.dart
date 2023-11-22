@@ -28,6 +28,14 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
       } catch (e) {
         emit(SearchError(errorMessage: e.toString()));
       }
+    } else if (event is LoadAllHymnsEvent) {
+      emit(SearchLoading());
+      try {
+        List<HymnEntity> allHymns = await searchedHymnList;
+        emit(SearchLoaded(hymns: allHymns));
+      } catch (e) {
+        emit(SearchError(errorMessage: e.toString()));
+      }
     }
   }
 }
