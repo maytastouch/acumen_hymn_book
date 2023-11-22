@@ -11,7 +11,7 @@ import '../../../general_bloc/theme_bloc/theme_bloc.dart';
 
 class ChristInSongBottomBarScreen extends StatefulWidget {
   const ChristInSongBottomBarScreen({super.key});
-  static const routeName = "/ChurchNameSettings";
+  static const routeName = "/ChristInSongBottomBarScreen";
 
   @override
   State<ChristInSongBottomBarScreen> createState() =>
