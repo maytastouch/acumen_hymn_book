@@ -1,8 +1,11 @@
+import 'package:acumen_hymn_book/christ_in_song/presentation/pages/cis_bottom_bar_screen.dart';
+import 'package:acumen_hymn_book/core/constants/global_methods.dart';
 import 'package:acumen_hymn_book/general_bloc/theme_bloc/theme_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 
+import 'Keresete Mo Kopelong/presentation/pages/tn_bottom_bar_screen.dart';
 import 'christ_in_song/presentation/widgets/text_widget.dart';
 import 'core/app_themes.dart';
 import 'general_bloc/church_name_bloc/church_name_bloc.dart';
@@ -66,16 +69,23 @@ class _SideBarState extends State<SideBar> {
             },
           ),
           _listTiles(
-            title: 'Silozi SDA Hymn',
+            title: 'Keresete Mo Kopelong',
             icon: IconlyLight.arrowUpCircle,
-            onPressed: () {},
+            onPressed: () {
+              GlobalMethods.navigateTo(
+                  ctx: context, routeName: TnBottomBarScreen.routeName);
+            },
             context: context,
           ),
           const Divider(),
           _listTiles(
             title: 'Christ In Song',
             icon: IconlyLight.arrowUpCircle,
-            onPressed: () {},
+            onPressed: () {
+              GlobalMethods.navigateTo(
+                  ctx: context,
+                  routeName: ChristInSongBottomBarScreen.routeName);
+            },
             context: context,
           ),
           const Divider(),

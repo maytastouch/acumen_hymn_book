@@ -38,11 +38,13 @@ class _HymnTemplateState extends State<HymnTemplate> {
   }
 
   void _handleKeyDownEvent(RawKeyEvent keyEvent) {
-    if (keyEvent is RawKeyDownEvent) {
+    if (keyEvent is RawKeyDownEvent && _controller.hasClients) {
+      // Adjusted the offset value for smoother scrolling
+      const offsetIncrement = 50.0;
       if (keyEvent.logicalKey == LogicalKeyboardKey.arrowDown) {
         if (_controller.offset < _controller.position.maxScrollExtent) {
           _controller.animateTo(
-            _controller.offset + 200.0,
+            _controller.offset + offsetIncrement,
             duration: const Duration(milliseconds: 100),
             curve: Curves.linear,
           );
@@ -50,14 +52,14 @@ class _HymnTemplateState extends State<HymnTemplate> {
       } else if (keyEvent.logicalKey == LogicalKeyboardKey.arrowUp) {
         if (_controller.offset > 0.0) {
           _controller.animateTo(
-            _controller.offset - 200.0,
+            _controller.offset - offsetIncrement,
             duration: const Duration(milliseconds: 100),
             curve: Curves.linear,
           );
         }
       }
     }
-  } 
+  }
 
   void _loadDefaultFontSize() async {
     final defaultFontSize = await FontBloc

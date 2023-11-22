@@ -1,5 +1,6 @@
-import 'package:acumen_hymn_book/christ_in_song/presentation/pages/cis_fav_screen.dart';
-import 'package:acumen_hymn_book/christ_in_song/presentation/pages/cis_home_screen.dart';
+import 'package:acumen_hymn_book/Keresete%20Mo%20Kopelong/presentation/pages/tn_fav_screen.dart';
+import 'package:acumen_hymn_book/Keresete%20Mo%20Kopelong/presentation/pages/tn_home_screen.dart';
+
 import 'package:acumen_hymn_book/christ_in_song/presentation/pages/cis_settings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,22 +10,20 @@ import 'package:flutter_iconly/flutter_iconly.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../../general_bloc/theme_bloc/theme_bloc.dart';
 
-class ChristInSongBottomBarScreen extends StatefulWidget {
-  const ChristInSongBottomBarScreen({super.key});
-  static const routeName = "/ChurchNameSettings";
+class TnBottomBarScreen extends StatefulWidget {
+  const TnBottomBarScreen({super.key});
+  static const routeName = "/TnBottomBarScreen";
 
   @override
-  State<ChristInSongBottomBarScreen> createState() =>
-      _ChristInSongBottomBarScreenState();
+  State<TnBottomBarScreen> createState() => _TnBottomBarScreenState();
 }
 
-class _ChristInSongBottomBarScreenState
-    extends State<ChristInSongBottomBarScreen> {
+class _TnBottomBarScreenState extends State<TnBottomBarScreen> {
   int _selectedIndex = 0;
 
   final List _pages = [
-    const CISHomeScreen(),
-    const CISFavouriteScreen(),
+    const TnHomeScreen(),
+    const TnFavouriteScreen(),
     const CISSettings(),
   ];
 

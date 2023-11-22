@@ -8,6 +8,8 @@ import 'package:acumen_hymn_book/christ_in_song/data/datasource/local_data_sourc
 import 'package:acumen_hymn_book/christ_in_song/domain/entity/hymn_entity.dart';
 import 'package:oktoast/oktoast.dart';
 
+import 'Keresete Mo Kopelong/presentation/bloc/tn_search_bloc/tn_search_bloc.dart';
+import 'Keresete Mo Kopelong/presentation/pages/tn_bottom_bar_screen.dart';
 import 'christ_in_song/presentation/bloc/favorite_bloc/favorite_bloc.dart';
 import 'christ_in_song/presentation/bloc/font_bloc/font_bloc.dart';
 import 'christ_in_song/presentation/bloc/search_bloc/search_bloc.dart';
@@ -21,6 +23,11 @@ void main() {
 Future<List<HymnEntity>> csiFetchHymnList() {
   // Replace with your actual logic to fetch hymn list
   return LocalMethods.readHymnsFromFile('assets/hymns/en/meta.json');
+}
+
+Future<List<HymnEntity>> tnFetchHymnList() {
+  // Replace with your actual logic to fetch hymn list
+  return LocalMethods.readHymnsFromFile('assets/hymns/tn/meta.json');
 }
 
 class MyApp extends StatefulWidget {
@@ -44,8 +51,12 @@ class _MyAppState extends State<MyApp> {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          //for searching hymns
+          //for searching cis  hymns
           create: (context) => SearchBloc(csiFetchHymnList()),
+        ),
+        BlocProvider(
+          //for searching tn  hymns
+          create: (context) => TnSearchBloc(tnFetchHymnList()),
         ),
         BlocProvider(
           //for changing font size
@@ -75,6 +86,10 @@ class _MyAppState extends State<MyApp> {
                 FontSettings.routeName: (ctx) => const FontSettings(),
                 ChurchNameSettings.routeName: (ctx) =>
                     const ChurchNameSettings(),
+                // ignore: equal_keys_in_map
+                ChristInSongBottomBarScreen.routeName: (ctx) =>
+                    const ChristInSongBottomBarScreen(),
+                TnBottomBarScreen.routeName: (ctx) => const TnBottomBarScreen(),
               },
             ),
           );

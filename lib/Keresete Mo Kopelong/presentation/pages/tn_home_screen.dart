@@ -1,5 +1,9 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'package:acumen_hymn_book/christ_in_song/data/datasource/local_data_source_methods.dart';
+import 'package:acumen_hymn_book/christ_in_song/data/models/hymn_model.dart';
+import 'package:acumen_hymn_book/christ_in_song/domain/entity/hymn_entity.dart';
+import 'package:acumen_hymn_book/christ_in_song/presentation/widgets/hymn_template_widget.dart';
 import 'package:acumen_hymn_book/christ_in_song/presentation/widgets/text_widget.dart';
 import 'package:acumen_hymn_book/core/constants/app_colors.dart';
 import 'package:acumen_hymn_book/side_bar_widget.dart';
@@ -7,27 +11,24 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../christ_in_song/presentation/bloc/search_bloc/search_bloc.dart';
+import '../../../christ_in_song/presentation/widgets/hover_widget.dart';
 import '../../../general_bloc/theme_bloc/theme_bloc.dart';
-import '../../data/datasource/local_data_source_methods.dart';
-import '../../data/models/hymn_model.dart';
-import '../../domain/entity/hymn_entity.dart';
-import '../bloc/search_bloc/search_bloc.dart';
-import '../widgets/hover_widget.dart';
-import '../widgets/hymn_template_widget.dart';
+import '../bloc/tn_search_bloc/tn_search_bloc.dart';
 
-class CISHomeScreen extends StatefulWidget {
-  const CISHomeScreen({super.key});
+class TnHomeScreen extends StatefulWidget {
+  const TnHomeScreen({super.key});
 
   @override
-  State<CISHomeScreen> createState() => _CISHomeScreenState();
+  State<TnHomeScreen> createState() => _TnHomeScreenState();
 }
 
-class _CISHomeScreenState extends State<CISHomeScreen> {
+class _TnHomeScreenState extends State<TnHomeScreen> {
   final Future<List<HymnEntity>> christInSongMap =
-      LocalMethods.readHymnsFromFile('assets/hymns/en/meta.json');
+      LocalMethods.readHymnsFromFile('assets/hymns/tn/meta.json');
 
   final Future<List<HymnModel>> mdHymnList =
-      LocalMethods.fromDirectory('assets/hymns/en');
+      LocalMethods.fromDirectory('assets/hymns/tn');
 
   //final TextEditingController _searchController = TextEditingController();
 
@@ -43,7 +44,7 @@ class _CISHomeScreenState extends State<CISHomeScreen> {
       drawer: const SideBar(),
       appBar: AppBar(
         title: TextWidget(
-          text: 'Christ In Song',
+          text: 'Keresete Mo Kopelong',
           color: Colors.white,
           textSize: 20,
           isTitle: true,
@@ -73,12 +74,12 @@ class _CISHomeScreenState extends State<CISHomeScreen> {
                         onChanged: (value) {
                           if (value.trim().isEmpty) {
                             // Handle empty search query
-                            context.read<SearchBloc>().add(
-                                LoadAllHymnsEvent()); // or your equivalent event
+                            context.read<TnSearchBloc>().add(
+                                TnLoadAllHymnsEvent()); // or your equivalent event
                           } else {
                             context
-                                .read<SearchBloc>()
-                                .add(SearchHymnsEvent(query: value));
+                                .read<TnSearchBloc>()
+                                .add(TnSearchHymnsEvent(query: value));
                           }
                         },
 
@@ -111,9 +112,9 @@ class _CISHomeScreenState extends State<CISHomeScreen> {
                 ),
               ),
               Expanded(
-                child: BlocBuilder<SearchBloc, SearchState>(
+                child: BlocBuilder<TnSearchBloc, TnSearchState>(
                   builder: (context, state) {
-                    if (state is SearchLoaded) {
+                    if (state is TnSearchLoaded) {
                       return Container(
                         color: dynamicColor ? Colors.black : Colors.white,
                         margin: const EdgeInsets.symmetric(
@@ -184,7 +185,7 @@ class _CISHomeScreenState extends State<CISHomeScreen> {
   Future<HymnModel?> _fetchHymnModel(HymnEntity hymnEntity) async {
     try {
       String formattedHymnNumber = hymnEntity.number.padLeft(3, '0');
-      String filePath = 'assets/hymns/en/$formattedHymnNumber.md';
+      String filePath = 'assets/hymns/tn/$formattedHymnNumber.md';
       // Adjust the path format as needed
       HymnModel? hymnModel = await HymnModel.fromMarkdownFile(filePath);
       return hymnModel;
