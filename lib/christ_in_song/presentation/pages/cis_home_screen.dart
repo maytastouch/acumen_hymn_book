@@ -51,120 +51,133 @@ class _CISHomeScreenState extends State<CISHomeScreen> {
         backgroundColor: AppColors.mainColor,
         iconTheme: const IconThemeData(color: Colors.white),
       ),
-      body: Column(
-        children: [
-          Container(
-            constraints: const BoxConstraints(
-              minWidth: 500.0,
-            ),
-            //margin: const EdgeInsets.only(top: 10),
-            padding: const EdgeInsets.only(left: 10, right: 10, top: 10),
-            child: Center(
-              child: BlocBuilder<ThemeBloc, ThemeState>(
-                builder: (context, themeState) {
-                  var dynamicColor =
-                      themeState.themeData.brightness == Brightness.dark;
-                  return TextField(
-                    //controller: _searchController,
-                    onChanged: (value) {
-                      if (value.isEmpty) {
-                        // Handle empty search query
-                        context.read<SearchBloc>().add(
-                            LoadAllHymnsEvent()); // or your equivalent event
-                      } else {
-                        context
-                            .read<SearchBloc>()
-                            .add(SearchHymnsEvent(query: value));
-                      }
-                    },
+      body: BlocBuilder<ThemeBloc, ThemeState>(
+        builder: (context, themeState) {
+          var dynamicColor = themeState.themeData.brightness == Brightness.dark;
+          return Column(
+            children: [
+              Container(
+                color: dynamicColor ? Colors.black : Colors.white,
+                constraints: const BoxConstraints(
+                  minWidth: 500.0,
+                ),
+                //margin: const EdgeInsets.only(top: 10),
+                padding: const EdgeInsets.only(left: 10, right: 10, top: 10),
+                child: Center(
+                  child: BlocBuilder<ThemeBloc, ThemeState>(
+                    builder: (context, themeState) {
+                      var dynamicColor =
+                          themeState.themeData.brightness == Brightness.dark;
+                      return TextField(
+                        //controller: _searchController,
+                        onChanged: (value) {
+                          if (value.isEmpty) {
+                            // Handle empty search query
+                            context.read<SearchBloc>().add(
+                                LoadAllHymnsEvent()); // or your equivalent event
+                          } else {
+                            context
+                                .read<SearchBloc>()
+                                .add(SearchHymnsEvent(query: value));
+                          }
+                        },
 
-                    decoration: InputDecoration(
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                            color: dynamicColor
-                                ? Colors.white
-                                : AppColors.mainColor),
-                        // borderRadius: BorderRadius.circular(30),
-                      ),
-                      focusedBorder: const OutlineInputBorder(
-                        borderSide:
-                            BorderSide(color: AppColors.mainColor, width: 2),
-                        // borderRadius: BorderRadius.circular(30),
-                      ),
-                      hintText: "Search",
-                      hintStyle: const TextStyle(
-                        fontSize: 16,
-                      ),
-                      prefixIcon: const Icon(
-                        Icons.search,
-                        color: AppColors.secondaryColor,
-                      ),
-                      contentPadding: const EdgeInsets.all(10),
-                    ),
-                  );
-                },
+                        decoration: InputDecoration(
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: dynamicColor
+                                    ? Colors.white
+                                    : AppColors.mainColor),
+                            // borderRadius: BorderRadius.circular(30),
+                          ),
+                          focusedBorder: const OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: AppColors.mainColor, width: 2),
+                            // borderRadius: BorderRadius.circular(30),
+                          ),
+                          hintText: "Search",
+                          hintStyle: const TextStyle(
+                            fontSize: 16,
+                          ),
+                          prefixIcon: const Icon(
+                            Icons.search,
+                            color: AppColors.secondaryColor,
+                          ),
+                          contentPadding: const EdgeInsets.all(10),
+                        ),
+                      );
+                    },
+                  ),
+                ),
               ),
-            ),
-          ),
-          Expanded(
-            child: BlocBuilder<SearchBloc, SearchState>(
-              builder: (context, state) {
-                if (state is SearchLoaded) {
-                  return Container(
-                    margin:
-                        const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                    child: ListView.builder(
-                      itemCount: state.hymns.length,
-                      itemBuilder: (context, index) {
-                        HymnEntity hymn = state.hymns[index];
-                        return HoverableListItem(
-                          hymn: hymn,
-                          onTap: () => _onHymnTap(hymn),
-                        );
-                      },
-                    ),
-                  );
-                }
-                // Return initial or other states
-                return _initialBodyWidget();
-              },
-            ),
-          ),
-        ],
+              Expanded(
+                child: BlocBuilder<SearchBloc, SearchState>(
+                  builder: (context, state) {
+                    if (state is SearchLoaded) {
+                      return Container(
+                        color: dynamicColor ? Colors.black : Colors.white,
+                        margin: const EdgeInsets.symmetric(
+                            horizontal: 0, vertical: 5),
+                        child: ListView.builder(
+                          itemCount: state.hymns.length,
+                          itemBuilder: (context, index) {
+                            HymnEntity hymn = state.hymns[index];
+                            return HoverableListItem(
+                              hymn: hymn,
+                              onTap: () => _onHymnTap(hymn),
+                            );
+                          },
+                        ),
+                      );
+                    }
+                    // Return initial or other states
+                    return _initialBodyWidget();
+                  },
+                ),
+              ),
+            ],
+          );
+        },
       ),
     );
   }
 
   Widget _initialBodyWidget() {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-      child: FutureBuilder<List<HymnEntity>>(
-        future: christInSongMap,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.done) {
-            if (snapshot.hasData) {
-              // Build ListView if data is available
-              return ListView.builder(
-                itemCount: snapshot.data!.length,
-                itemBuilder: (context, index) {
-                  HymnEntity hymn = snapshot.data![index];
-                  return HoverableListItem(
-                    hymn: hymn,
-                    onTap: () => _onHymnTap(hymn),
+    return BlocBuilder<ThemeBloc, ThemeState>(
+      builder: (context, themeState) {
+        var dynamicColor = themeState.themeData.brightness == Brightness.dark;
+        return Container(
+          color: dynamicColor ? Colors.black : Colors.white,
+          margin: const EdgeInsets.symmetric(horizontal: 0, vertical: 5),
+          child: FutureBuilder<List<HymnEntity>>(
+            future: christInSongMap,
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.done) {
+                if (snapshot.hasData) {
+                  // Build ListView if data is available
+                  return ListView.builder(
+                    itemCount: snapshot.data!.length,
+                    itemBuilder: (context, index) {
+                      HymnEntity hymn = snapshot.data![index];
+                      return HoverableListItem(
+                        hymn: hymn,
+                        onTap: () => _onHymnTap(hymn),
+                      );
+                    },
                   );
-                },
-              );
-            } else if (snapshot.hasError) {
-              // Display error if any
-              return Center(
-                child: Text('Error: ${snapshot.error}'),
-              );
-            }
-          }
-          // Display loading indicator while the future is in progress
-          return const Center(child: CircularProgressIndicator());
-        },
-      ),
+                } else if (snapshot.hasError) {
+                  // Display error if any
+                  return Center(
+                    child: Text('Error: ${snapshot.error}'),
+                  );
+                }
+              }
+              // Display loading indicator while the future is in progress
+              return const Center(child: CircularProgressIndicator());
+            },
+          ),
+        );
+      },
     );
   }
 

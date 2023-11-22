@@ -38,8 +38,8 @@ class _ChristInSongBottomBarScreenState
   Widget build(BuildContext context) {
     return Scaffold(
       body: _pages[_selectedIndex],
-      bottomNavigationBar: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 200.0, vertical: 40),
+      bottomNavigationBar: Container(
+        margin: const EdgeInsets.symmetric(horizontal: 200.0, vertical: 10),
         child: Container(
           constraints: const BoxConstraints(
             minWidth: 500.0,
@@ -60,7 +60,7 @@ class _ChristInSongBottomBarScreenState
                 currentIndex: _selectedIndex,
                 unselectedItemColor:
                     dynamicColor ? Colors.white : Colors.black12,
-                selectedItemColor: AppColors.mainColor,
+                selectedItemColor: const Color.fromARGB(255, 176, 41, 8),
                 items: <BottomNavigationBarItem>[
                   BottomNavigationBarItem(
                     icon: Icon(_selectedIndex == 0

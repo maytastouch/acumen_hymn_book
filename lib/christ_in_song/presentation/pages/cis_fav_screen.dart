@@ -4,8 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../core/constants/app_colors.dart';
 import '../../../side_bar_widget.dart';
+import '../../../theme_bloc/theme_bloc.dart';
 import '../../data/models/hymn_model.dart';
-import '../widgets/back_widget.dart';
 import '../widgets/fav_hover_widget.dart';
 import '../widgets/hymn_template_widget.dart';
 import '../widgets/text_widget.dart';
@@ -60,19 +60,26 @@ class _CISFavouriteScreenState extends State<CISFavouriteScreen> {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Expanded(
-                  child: Container(
-                    margin:
-                        const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                    child: ListView.builder(
-                      itemCount: cisFavoriteHymnList.length,
-                      itemBuilder: (context, index) {
-                        HymnModel hymn = cisFavoriteHymnList[index];
-                        return FavHoverableListItem(
-                          hymn: hymn,
-                          onTap: () => _onHymnTap(hymn),
-                        );
-                      },
-                    ),
+                  child: BlocBuilder<ThemeBloc, ThemeState>(
+                    builder: (context, themeState) {
+                      var dynamicColor =
+                          themeState.themeData.brightness == Brightness.dark;
+                      return Container(
+                        color: dynamicColor ? Colors.black : Colors.white,
+                        margin: const EdgeInsets.symmetric(
+                            horizontal: 0, vertical: 5),
+                        child: ListView.builder(
+                          itemCount: cisFavoriteHymnList.length,
+                          itemBuilder: (context, index) {
+                            HymnModel hymn = cisFavoriteHymnList[index];
+                            return FavHoverableListItem(
+                              hymn: hymn,
+                              onTap: () => _onHymnTap(hymn),
+                            );
+                          },
+                        ),
+                      );
+                    },
                   ),
                 ),
               ],

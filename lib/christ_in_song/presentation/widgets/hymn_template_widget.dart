@@ -55,6 +55,8 @@ class _HymnTemplateState extends State<HymnTemplate> {
             ? Colors.white
             : Colors.black;
 
+        var dynamicColor = themeState.themeData.brightness == Brightness.dark;
+
         return Scaffold(
           appBar: AppBar(
             leading: const BackWidget(),
@@ -106,7 +108,8 @@ class _HymnTemplateState extends State<HymnTemplate> {
           body: ListView(
             controller: _controller,
             children: [
-              Padding(
+              Container(
+                color: dynamicColor ? Colors.black : AppColors.pageColor,
                 padding: const EdgeInsets.only(top: 20.0, bottom: 30, left: 20),
                 child: Text(
                   "${widget.hymnModel!.hymnNumber} - ${widget.hymnModel!.hymnTitle}",
@@ -127,19 +130,25 @@ class _HymnTemplateState extends State<HymnTemplate> {
 
   List<Widget> _buildVerseAndChorusWidgets(Color textColor) {
     return widget.hymnModel!.verses.map((Verse verse) {
-      return Padding(
-        padding: const EdgeInsets.symmetric(vertical: 70.0, horizontal: 20),
-        child: Text(
-          verse.isChorus
-              ? "Chorus:\n${verse.text}"
-              : "Verse ${verse.number}:\n${verse.text}",
-          style: TextStyle(
-            color: textColor,
-            fontSize: _sliderFontSize,
-            fontStyle: verse.isChorus ? FontStyle.italic : FontStyle.normal,
-            height: 1.5,
-          ),
-        ),
+      return BlocBuilder<ThemeBloc, ThemeState>(
+        builder: (context, themeState) {
+          var dynamicColor = themeState.themeData.brightness == Brightness.dark;
+          return Container(
+            padding: const EdgeInsets.symmetric(vertical: 70.0, horizontal: 20),
+            color: dynamicColor ? Colors.black : AppColors.pageColor,
+            child: Text(
+              verse.isChorus
+                  ? "Chorus:\n${verse.text}"
+                  : "Verse ${verse.number}:\n${verse.text}",
+              style: TextStyle(
+                color: textColor,
+                fontSize: _sliderFontSize,
+                fontStyle: verse.isChorus ? FontStyle.italic : FontStyle.normal,
+                height: 1.5,
+              ),
+            ),
+          );
+        },
       );
     }).toList();
   }
