@@ -4,8 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:acumen_hymn_book/christ_in_song/presentation/pages/cis_bottom_bar_screen.dart';
 import 'package:desktop_window/desktop_window.dart';
 import 'package:acumen_hymn_book/christ_in_song/presentation/pages/settings/font_settings.dart';
-import 'package:acumen_hymn_book/christ_in_song/data/datasource/local_data_source_methods.dart';
-import 'package:acumen_hymn_book/christ_in_song/domain/entity/hymn_entity.dart';
+
 import 'package:oktoast/oktoast.dart';
 
 import 'Keresete Mo Kopelong/presentation/bloc/tn_search_bloc/tn_search_bloc.dart';
@@ -18,16 +17,6 @@ import 'general_bloc/church_name_bloc/church_name_bloc.dart';
 
 void main() {
   runApp(const MyApp());
-}
-
-Future<List<HymnEntity>> csiFetchHymnList() {
-  // Replace with your actual logic to fetch hymn list
-  return LocalMethods.readHymnsFromFile('assets/hymns/en/meta.json');
-}
-
-Future<List<HymnEntity>> tnFetchHymnList() {
-  // Replace with your actual logic to fetch hymn list
-  return LocalMethods.readHymnsFromFile('assets/hymns/tn/meta.json');
 }
 
 class MyApp extends StatefulWidget {
@@ -52,11 +41,11 @@ class _MyAppState extends State<MyApp> {
       providers: [
         BlocProvider(
           //for searching cis  hymns
-          create: (context) => SearchBloc(csiFetchHymnList()),
+          create: (context) => SearchBloc(),
         ),
         BlocProvider(
           //for searching tn  hymns
-          create: (context) => TnSearchBloc(tnFetchHymnList()),
+          create: (context) => TnSearchBloc(),
         ),
         BlocProvider(
           //for changing font size

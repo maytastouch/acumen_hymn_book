@@ -8,6 +8,7 @@ import 'package:flutter_iconly/flutter_iconly.dart';
 
 import '../../../core/constants/app_colors.dart';
 import '../../../general_bloc/theme_bloc/theme_bloc.dart';
+import '../bloc/search_bloc/search_bloc.dart';
 
 class ChristInSongBottomBarScreen extends StatefulWidget {
   const ChristInSongBottomBarScreen({super.key});
@@ -31,6 +32,7 @@ class _ChristInSongBottomBarScreenState
   //method to select index
   void _selectedPage(int index) {
     setState(() {
+      context.read<SearchBloc>().add(LoadAllHymnsEvent()); //
       _selectedIndex = index;
     });
   }

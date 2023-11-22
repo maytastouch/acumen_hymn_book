@@ -23,6 +23,8 @@ class CISHomeScreen extends StatefulWidget {
 }
 
 class _CISHomeScreenState extends State<CISHomeScreen> {
+  TextEditingController textController =
+      TextEditingController(); // Declare the TextEditingController
   final Future<List<HymnEntity>> christInSongMap =
       LocalMethods.readHymnsFromFile('assets/hymns/en/meta.json');
 
@@ -33,6 +35,7 @@ class _CISHomeScreenState extends State<CISHomeScreen> {
 
   @override
   void dispose() {
+    textController.dispose(); // Dispose the controller
     super.dispose();
     //  _searchController.dispose();
   }
@@ -69,7 +72,7 @@ class _CISHomeScreenState extends State<CISHomeScreen> {
                       var dynamicColor =
                           themeState.themeData.brightness == Brightness.dark;
                       return TextField(
-                        //controller: _searchController,
+                        controller: textController, // Use the controller here
                         onChanged: (value) {
                           if (value.trim().isEmpty) {
                             // Handle empty search query

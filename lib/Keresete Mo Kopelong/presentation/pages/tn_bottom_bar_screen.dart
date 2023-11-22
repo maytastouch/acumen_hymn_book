@@ -9,6 +9,7 @@ import 'package:flutter_iconly/flutter_iconly.dart';
 
 import '../../../core/constants/app_colors.dart';
 import '../../../general_bloc/theme_bloc/theme_bloc.dart';
+import '../bloc/tn_search_bloc/tn_search_bloc.dart';
 
 class TnBottomBarScreen extends StatefulWidget {
   const TnBottomBarScreen({super.key});
@@ -31,6 +32,7 @@ class _TnBottomBarScreenState extends State<TnBottomBarScreen> {
   void _selectedPage(int index) {
     setState(() {
       _selectedIndex = index;
+      context.read<TnSearchBloc>().add(TnLoadAllHymnsEvent()); //
     });
   }
 

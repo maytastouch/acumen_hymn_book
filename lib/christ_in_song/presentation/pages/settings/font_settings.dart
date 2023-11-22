@@ -20,6 +20,7 @@ class FontSettings extends StatefulWidget {
 
 class _FontSettingsState extends State<FontSettings> {
   late double _sliderFontSize = 20; // No initial value here
+  
 
   @override
   void initState() {
