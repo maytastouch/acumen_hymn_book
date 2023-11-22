@@ -5,7 +5,7 @@ import 'package:flutter_iconly/flutter_iconly.dart';
 
 import 'christ_in_song/presentation/widgets/text_widget.dart';
 import 'core/app_themes.dart';
-
+import 'general_bloc/church_name_bloc/church_name_bloc.dart';
 
 class SideBar extends StatefulWidget {
   const SideBar({super.key});
@@ -17,9 +17,6 @@ class SideBar extends StatefulWidget {
 class _SideBarState extends State<SideBar> {
   @override
   Widget build(BuildContext context) {
-    // ignore: unused_local_variable
-    //final Color color = themeState.getDarkTheme ? Colors.white : Colors.black;
-
     return Drawer(
       child: ListView(
         padding: EdgeInsets.zero,
@@ -29,10 +26,18 @@ class _SideBarState extends State<SideBar> {
               var dynamicColor =
                   themeState.themeData.brightness == Brightness.dark;
               return UserAccountsDrawerHeader(
-                accountName: TextWidget(
-                  text: "Ngweze SDA Church",
-                  color: Colors.white,
-                  textSize: 10,
+                accountName: BlocBuilder<ChurchNameBloc, ChurchNameState>(
+                  builder: (context, state) {
+                    String displayName = "Enter Church Name";
+                    if (state is NameChanged && state.churchName.isNotEmpty) {
+                      displayName = state.churchName;
+                    }
+                    return TextWidget(
+                      text: displayName,
+                      color: Colors.white,
+                      textSize: 20,
+                    );
+                  },
                 ),
                 accountEmail: TextWidget(
                     text: 'Praising the lord in song',
@@ -41,13 +46,14 @@ class _SideBarState extends State<SideBar> {
                 currentAccountPicture: CircleAvatar(
                   backgroundColor: dynamicColor ? Colors.black : Colors.white,
                   child: ClipOval(
-                      child: Image.asset(
-                    'assets/images/sda.png',
-                    width: 70,
-                    height: 40,
-                    fit: BoxFit.cover,
-                    filterQuality: FilterQuality.high,
-                  )),
+                    child: Image.asset(
+                      'assets/images/sda.png',
+                      width: 70,
+                      height: 40,
+                      fit: BoxFit.cover,
+                      filterQuality: FilterQuality.high,
+                    ),
+                  ),
                 ),
                 decoration: const BoxDecoration(
                   image: DecorationImage(
@@ -62,39 +68,28 @@ class _SideBarState extends State<SideBar> {
           _listTiles(
             title: 'Silozi SDA Hymn',
             icon: IconlyLight.arrowUpCircle,
-            onPressed: () {
-              // GlobalMethods.navigateTo(
-              //     ctx: context, routeName: BottomBarScreen.routeName);
-            },
+            onPressed: () {},
             context: context,
           ),
           const Divider(),
           _listTiles(
             title: 'Christ In Song',
             icon: IconlyLight.arrowUpCircle,
-            onPressed: () {
-              // GlobalMethods.navigateTo(
-              //     ctx: context, routeName: ChristBottomBarScreen.routeName);
-            },
+            onPressed: () {},
             context: context,
           ),
           const Divider(),
           _listTiles(
             title: 'SDA Hymnal',
             icon: IconlyLight.arrowUpCircle,
-            onPressed: () {
-              // GlobalMethods.navigateTo(
-              //     ctx: context, routeName: SeventhBottomBarScreen.routeName);
-            },
+            onPressed: () {},
             context: context,
           ),
           const Divider(),
-// Inside your SideBar widget
           BlocBuilder<ThemeBloc, ThemeState>(
             builder: (context, state) {
               bool isDarkMode =
                   state.themeData == appThemeData[AppTheme.DarkTheme];
-
               return SwitchListTile(
                 title: TextWidget(
                   text: isDarkMode ? 'Dark Mode' : 'Light Mode',
@@ -107,10 +102,8 @@ class _SideBarState extends State<SideBar> {
                     ? Icons.dark_mode_outlined
                     : Icons.light_mode_outlined),
                 onChanged: (bool value) {
-                  // Determine which theme to switch to
                   final appTheme =
                       value ? AppTheme.DarkTheme : AppTheme.LightTheme;
-                  // Dispatch the ThemeChanged event
                   BlocProvider.of<ThemeBloc>(context)
                       .add(ThemeChanged(theme: appTheme));
                 },
@@ -129,15 +122,13 @@ Widget _listTiles({
   String? subtitle,
   required IconData icon,
   required Function onPressed,
-  required BuildContext context, // Pass the BuildContext
+  required BuildContext context,
 }) {
   return BlocBuilder<ThemeBloc, ThemeState>(
     builder: (context, state) {
-      // Determine the text color based on the theme
       Color textColor = state.themeData.brightness == Brightness.dark
           ? Colors.white
           : Colors.black;
-
       return ListTile(
         title: Container(
           margin: const EdgeInsets.only(top: 25.0),
@@ -145,11 +136,8 @@ Widget _listTiles({
         ),
         subtitle:
             TextWidget(text: subtitle ?? "", color: textColor, textSize: 18),
-        leading: Icon(icon,
-            color: textColor), // You can also make the icon color responsive
-        onTap: () {
-          onPressed();
-        },
+        leading: Icon(icon, color: textColor),
+        onTap: () => onPressed(),
       );
     },
   );

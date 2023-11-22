@@ -6,11 +6,13 @@ import 'package:desktop_window/desktop_window.dart';
 import 'package:acumen_hymn_book/christ_in_song/presentation/pages/settings/font_settings.dart';
 import 'package:acumen_hymn_book/christ_in_song/data/datasource/local_data_source_methods.dart';
 import 'package:acumen_hymn_book/christ_in_song/domain/entity/hymn_entity.dart';
+import 'package:oktoast/oktoast.dart';
 
 import 'christ_in_song/presentation/bloc/favorite_bloc/favorite_bloc.dart';
 import 'christ_in_song/presentation/bloc/font_bloc/font_bloc.dart';
 import 'christ_in_song/presentation/bloc/search_bloc/search_bloc.dart';
 import 'christ_in_song/presentation/pages/settings/church_name.dart';
+import 'general_bloc/church_name_bloc/church_name_bloc.dart';
 
 void main() {
   runApp(const MyApp());
@@ -57,17 +59,24 @@ class _MyAppState extends State<MyApp> {
           //for changing themes
           create: (context) => ThemeBloc(),
         ),
+        BlocProvider(
+          //bloc for changing church name
+          create: (context) => ChurchNameBloc(),
+        ),
       ],
       child: BlocBuilder<ThemeBloc, ThemeState>(
         builder: (context, state) {
-          return MaterialApp(
-            theme: state.themeData,
-            debugShowCheckedModeBanner: false,
-            home: const ChristInSongBottomBarScreen(),
-            routes: {
-              FontSettings.routeName: (ctx) => const FontSettings(),
-              ChurchNameSettings.routeName: (ctx) => const ChurchNameSettings(),
-            },
+          return OKToast(
+            child: MaterialApp(
+              theme: state.themeData,
+              debugShowCheckedModeBanner: false,
+              home: const ChristInSongBottomBarScreen(),
+              routes: {
+                FontSettings.routeName: (ctx) => const FontSettings(),
+                ChurchNameSettings.routeName: (ctx) =>
+                    const ChurchNameSettings(),
+              },
+            ),
           );
         },
       ),

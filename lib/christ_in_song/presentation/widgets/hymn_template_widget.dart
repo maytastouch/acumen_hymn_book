@@ -57,7 +57,7 @@ class _HymnTemplateState extends State<HymnTemplate> {
         }
       }
     }
-  }
+  } 
 
   void _loadDefaultFontSize() async {
     final defaultFontSize = await FontBloc
