@@ -24,7 +24,7 @@ class HymnTemplate extends StatefulWidget {
 
 class _HymnTemplateState extends State<HymnTemplate> {
   late ScrollController _controller;
-  late double _sliderFontSize;
+  late double _sliderFontSize = 20;
 
   @override
   void initState() {

@@ -7,6 +7,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../theme_bloc/theme_bloc.dart';
 import '../../data/datasource/local_data_source_methods.dart';
 import '../../data/models/hymn_model.dart';
 import '../../domain/entity/hymn_entity.dart';
@@ -59,41 +60,49 @@ class _CISHomeScreenState extends State<CISHomeScreen> {
             //margin: const EdgeInsets.only(top: 10),
             padding: const EdgeInsets.only(left: 10, right: 10, top: 10),
             child: Center(
-              child: TextField(
-                //controller: _searchController,
-                onChanged: (value) {
-                  if (value.isEmpty) {
-                    // Handle empty search query
-                    context
-                        .read<SearchBloc>()
-                        .add(LoadAllHymnsEvent()); // or your equivalent event
-                  } else {
-                    context
-                        .read<SearchBloc>()
-                        .add(SearchHymnsEvent(query: value));
-                  }
-                },
+              child: BlocBuilder<ThemeBloc, ThemeState>(
+                builder: (context, themeState) {
+                  var dynamicColor =
+                      themeState.themeData.brightness == Brightness.dark;
+                  return TextField(
+                    //controller: _searchController,
+                    onChanged: (value) {
+                      if (value.isEmpty) {
+                        // Handle empty search query
+                        context.read<SearchBloc>().add(
+                            LoadAllHymnsEvent()); // or your equivalent event
+                      } else {
+                        context
+                            .read<SearchBloc>()
+                            .add(SearchHymnsEvent(query: value));
+                      }
+                    },
 
-                decoration: const InputDecoration(
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: AppColors.mainColor),
-                    // borderRadius: BorderRadius.circular(30),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide:
-                        BorderSide(color: AppColors.mainColor, width: 2),
-                    // borderRadius: BorderRadius.circular(30),
-                  ),
-                  hintText: "Search",
-                  hintStyle: TextStyle(
-                    fontSize: 16,
-                  ),
-                  prefixIcon: Icon(
-                    Icons.search,
-                    color: AppColors.secondaryColor,
-                  ),
-                  contentPadding: EdgeInsets.all(10),
-                ),
+                    decoration: InputDecoration(
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                            color: dynamicColor
+                                ? Colors.white
+                                : AppColors.mainColor),
+                        // borderRadius: BorderRadius.circular(30),
+                      ),
+                      focusedBorder: const OutlineInputBorder(
+                        borderSide:
+                            BorderSide(color: AppColors.mainColor, width: 2),
+                        // borderRadius: BorderRadius.circular(30),
+                      ),
+                      hintText: "Search",
+                      hintStyle: const TextStyle(
+                        fontSize: 16,
+                      ),
+                      prefixIcon: const Icon(
+                        Icons.search,
+                        color: AppColors.secondaryColor,
+                      ),
+                      contentPadding: const EdgeInsets.all(10),
+                    ),
+                  );
+                },
               ),
             ),
           ),
