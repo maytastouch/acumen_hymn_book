@@ -59,8 +59,8 @@ class _ChristInSongBottomBarScreenState
                 onTap: _selectedPage,
                 currentIndex: _selectedIndex,
                 unselectedItemColor:
-                    dynamicColor ? Colors.white : Colors.black12,
-                selectedItemColor: const Color.fromARGB(255, 176, 41, 8),
+                    dynamicColor ? Colors.grey : Colors.black12,
+                selectedItemColor: AppColors.mainColor,
                 items: <BottomNavigationBarItem>[
                   BottomNavigationBarItem(
                     icon: Icon(_selectedIndex == 0
