@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:acumen_hymn_book/christ_in_song/data/models/hymn_model.dart';
 import 'package:acumen_hymn_book/christ_in_song/presentation/bloc/font_bloc/font_bloc.dart';
 
 import 'package:acumen_hymn_book/christ_in_song/presentation/widgets/text_widget.dart';
 import 'package:acumen_hymn_book/core/constants/app_colors.dart';
-
 
 import '../../../general_bloc/theme_bloc/theme_bloc.dart';
 import '../bloc/favorite_bloc/favorite_bloc.dart';
@@ -32,6 +32,31 @@ class _HymnTemplateState extends State<HymnTemplate> {
     super.initState();
     _controller = ScrollController();
     _loadDefaultFontSize();
+    // Listen for the up and down key events
+    _controller = ScrollController();
+    RawKeyboard.instance.addListener(_handleKeyDownEvent);
+  }
+
+  void _handleKeyDownEvent(RawKeyEvent keyEvent) {
+    if (keyEvent is RawKeyDownEvent) {
+      if (keyEvent.logicalKey == LogicalKeyboardKey.arrowDown) {
+        if (_controller.offset < _controller.position.maxScrollExtent) {
+          _controller.animateTo(
+            _controller.offset + 200.0,
+            duration: const Duration(milliseconds: 100),
+            curve: Curves.linear,
+          );
+        }
+      } else if (keyEvent.logicalKey == LogicalKeyboardKey.arrowUp) {
+        if (_controller.offset > 0.0) {
+          _controller.animateTo(
+            _controller.offset - 200.0,
+            duration: const Duration(milliseconds: 100),
+            curve: Curves.linear,
+          );
+        }
+      }
+    }
   }
 
   void _loadDefaultFontSize() async {

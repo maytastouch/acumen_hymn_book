@@ -6,3 +6,12 @@ sealed class ChurchNameEvent extends Equatable {
   @override
   List<Object> get props => [];
 }
+
+class NamedChangedEvent extends ChurchNameEvent {
+  final String churchName;
+
+  const NamedChangedEvent({required this.churchName});
+
+  @override
+  List<Object> get props => [churchName];
+}

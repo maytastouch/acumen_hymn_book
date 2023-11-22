@@ -1,3 +1,4 @@
+import 'package:acumen_hymn_book/christ_in_song/presentation/pages/settings/church_name.dart';
 import 'package:acumen_hymn_book/christ_in_song/presentation/pages/settings/font_settings.dart';
 import 'package:acumen_hymn_book/core/constants/global_methods.dart';
 import 'package:flutter/material.dart';
@@ -51,7 +52,10 @@ class CISSettings extends StatelessWidget {
               _listTiles(
                 title: 'Name of the church',
                 icon: IconlyLight.filter,
-                onPressed: () {},
+                onPressed: () {
+                  GlobalMethods.navigateTo(
+                      ctx: context, routeName: ChurchNameSettings.routeName);
+                },
               ),
             ],
           ),

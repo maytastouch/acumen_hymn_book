@@ -10,7 +10,7 @@ import 'package:acumen_hymn_book/christ_in_song/domain/entity/hymn_entity.dart';
 import 'christ_in_song/presentation/bloc/favorite_bloc/favorite_bloc.dart';
 import 'christ_in_song/presentation/bloc/font_bloc/font_bloc.dart';
 import 'christ_in_song/presentation/bloc/search_bloc/search_bloc.dart';
-
+import 'christ_in_song/presentation/pages/settings/church_name.dart';
 
 void main() {
   runApp(const MyApp());
@@ -66,6 +66,7 @@ class _MyAppState extends State<MyApp> {
             home: const ChristInSongBottomBarScreen(),
             routes: {
               FontSettings.routeName: (ctx) => const FontSettings(),
+              ChurchNameSettings.routeName: (ctx) => const ChurchNameSettings(),
             },
           );
         },
