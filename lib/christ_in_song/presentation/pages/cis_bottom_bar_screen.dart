@@ -36,56 +36,61 @@ class _ChristInSongBottomBarScreenState
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: _pages[_selectedIndex],
-      bottomNavigationBar: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 200.0, vertical: 10),
-        child: Container(
-          constraints: const BoxConstraints(
-            minWidth: 500.0,
+    return BlocBuilder<ThemeBloc, ThemeState>(
+      builder: (context, themeState) {
+        var dynamicColor = themeState.themeData.brightness == Brightness.dark;
+        return Scaffold(
+          backgroundColor: dynamicColor ? Colors.black : Colors.white,
+          body: _pages[_selectedIndex],
+          bottomNavigationBar: Container(
+            margin: const EdgeInsets.symmetric(horizontal: 200.0, vertical: 10),
+            child: Container(
+              constraints: const BoxConstraints(
+                minWidth: 500.0,
+              ),
+              child: BlocBuilder<ThemeBloc, ThemeState>(
+                builder: (context, themeState) {
+                  var dynamicColor =
+                      themeState.themeData.brightness == Brightness.dark;
+
+                  return BottomNavigationBar(
+                    backgroundColor:
+                        dynamicColor ? AppColors.secondaryColor : Colors.white,
+                    type: BottomNavigationBarType.fixed,
+                    showSelectedLabels: false,
+                    showUnselectedLabels: false,
+                    onTap: _selectedPage,
+                    currentIndex: _selectedIndex,
+                    unselectedItemColor:
+                        dynamicColor ? Colors.white : Colors.black12,
+                    selectedItemColor: AppColors.mainColor,
+                    items: <BottomNavigationBarItem>[
+                      BottomNavigationBarItem(
+                        icon: Icon(_selectedIndex == 0
+                            ? IconlyBold.home
+                            : IconlyLight.home),
+                        label: "Home",
+                      ),
+                      BottomNavigationBarItem(
+                        icon: Icon(_selectedIndex == 1
+                            ? IconlyBold.heart
+                            : IconlyLight.heart),
+                        label: "Favorite",
+                      ),
+                      BottomNavigationBarItem(
+                        icon: Icon(_selectedIndex == 2
+                            ? IconlyBold.setting
+                            : IconlyLight.setting),
+                        label: "User",
+                      ),
+                    ],
+                  );
+                },
+              ),
+            ),
           ),
-          child: BlocBuilder<ThemeBloc, ThemeState>(
-            builder: (context, themeState) {
-              var dynamicColor =
-                  themeState.themeData.brightness == Brightness.dark;
-              var barColor = themeState.themeData.brightness == Brightness.dark
-                  ? Colors.black
-                  : Colors.white;
-              return BottomNavigationBar(
-                backgroundColor: barColor,
-                type: BottomNavigationBarType.fixed,
-                showSelectedLabels: false,
-                showUnselectedLabels: false,
-                onTap: _selectedPage,
-                currentIndex: _selectedIndex,
-                unselectedItemColor:
-                    dynamicColor ? Colors.grey : Colors.black12,
-                selectedItemColor: AppColors.mainColor,
-                items: <BottomNavigationBarItem>[
-                  BottomNavigationBarItem(
-                    icon: Icon(_selectedIndex == 0
-                        ? IconlyBold.home
-                        : IconlyLight.home),
-                    label: "Home",
-                  ),
-                  BottomNavigationBarItem(
-                    icon: Icon(_selectedIndex == 1
-                        ? IconlyBold.heart
-                        : IconlyLight.heart),
-                    label: "Favorite",
-                  ),
-                  BottomNavigationBarItem(
-                    icon: Icon(_selectedIndex == 2
-                        ? IconlyBold.setting
-                        : IconlyLight.setting),
-                    label: "User",
-                  ),
-                ],
-              );
-            },
-          ),
-        ),
-      ),
+        );
+      },
     );
   }
 }

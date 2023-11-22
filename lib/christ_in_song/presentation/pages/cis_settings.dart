@@ -27,7 +27,7 @@ class CISSettings extends StatelessWidget {
         elevation: 0,
       ),
       body: SingleChildScrollView(
-        child: Padding(
+        child: Container(
           padding: const EdgeInsets.all(8.0),
           child: Column(
             children: [
