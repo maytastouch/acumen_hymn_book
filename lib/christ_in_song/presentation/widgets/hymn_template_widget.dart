@@ -29,7 +29,7 @@ class _HymnTemplateState extends State<HymnTemplate> {
   late ScrollController _controller;
   //double _sliderFontSize; // No initial value here
 
-  late double _sliderFontSize; // No initial value here
+  late double _sliderFontSize = 20; // No initial value here
 
   @override
   void initState() {
