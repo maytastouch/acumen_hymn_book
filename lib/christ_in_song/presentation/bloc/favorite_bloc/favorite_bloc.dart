@@ -36,12 +36,15 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
     emit(FavoriteLoaded(hymnModel: favoriteHymns));
   }
 
-  void _toggleFavorite(HymnModel hymn) {
-    if (favoriteHymns.contains(hymn)) {
-      favoriteHymns.remove(hymn);
+  _toggleFavorite(HymnModel hymn) {
+    List<HymnModel> updatedFavorites = List.from(favoriteHymns);
+    if (updatedFavorites.contains(hymn)) {
+      updatedFavorites.remove(hymn);
     } else {
-      favoriteHymns.add(hymn);
+      updatedFavorites.add(hymn);
     }
+    favoriteHymns = updatedFavorites;
+    // Emit state here
   }
 
   Future<void> _loadFavorites() async {
@@ -60,9 +63,6 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
   }
 
   Future<List<HymnModel>> _getHymnsByNumbers(List<String> hymnNumbers) async {
-    // Implement the logic to fetch hymns by their hymn numbers.
-    // This could involve querying a local database, reading from a file, etc.
-    // For demonstration purposes, let's return an empty list.
     return [];
   }
 }
