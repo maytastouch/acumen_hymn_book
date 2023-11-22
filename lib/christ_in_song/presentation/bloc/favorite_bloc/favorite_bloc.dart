@@ -59,9 +59,22 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
     final favoriteHymnNumbers =
         favoriteHymns.map((hymn) => hymn.hymnNumber.toString()).toList();
     await prefs.setStringList(_favoritesKey, favoriteHymnNumbers);
+    // Debugging line:
+    print("Saved favorites: ${prefs.getStringList(_favoritesKey)}");
   }
 
   Future<List<HymnModel>> _getHymnsByNumbers(List<String> hymnNumbers) async {
-    return [];
+    List<HymnModel> hymns = [];
+    for (String number in hymnNumbers) {
+      // Construct the file path for each hymn
+      String filePath =
+          'assets/hymns/en/${number.padLeft(3, '0')}.md'; // Adjust the path format as needed
+      HymnModel? hymn = await HymnModel.fromMarkdownFile(filePath);
+      if (hymn != null) {
+        hymns.add(hymn);
+      }
+    }
+    return hymns;
   }
 }
+//assets/hymns/en
