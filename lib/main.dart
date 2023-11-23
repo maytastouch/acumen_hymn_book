@@ -1,3 +1,4 @@
+import 'package:acumen_hymn_book/Keresete%20Mo%20Kopelong/presentation/bloc/tn_favorite_bloc/tn_favorite_bloc.dart';
 import 'package:acumen_hymn_book/general_bloc/theme_bloc/theme_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -52,8 +53,12 @@ class _MyAppState extends State<MyApp> {
           create: (context) => FontBloc(20),
         ),
         BlocProvider(
-          //for adding favorites
+          //for adding favorites in cis
           create: (context) => FavoriteBloc(),
+        ),
+        BlocProvider(
+          //for adding favorites in tn
+          create: (context) => TnFavoriteBloc(),
         ),
         BlocProvider(
           //for changing themes

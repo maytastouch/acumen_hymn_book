@@ -3,7 +3,6 @@
 import 'package:acumen_hymn_book/christ_in_song/data/datasource/local_data_source_methods.dart';
 import 'package:acumen_hymn_book/christ_in_song/data/models/hymn_model.dart';
 import 'package:acumen_hymn_book/christ_in_song/domain/entity/hymn_entity.dart';
-import 'package:acumen_hymn_book/christ_in_song/presentation/widgets/hymn_template_widget.dart';
 import 'package:acumen_hymn_book/christ_in_song/presentation/widgets/text_widget.dart';
 import 'package:acumen_hymn_book/core/constants/app_colors.dart';
 import 'package:acumen_hymn_book/side_bar_widget.dart';
@@ -15,6 +14,7 @@ import '../../../christ_in_song/presentation/bloc/search_bloc/search_bloc.dart';
 import '../../../christ_in_song/presentation/widgets/hover_widget.dart';
 import '../../../general_bloc/theme_bloc/theme_bloc.dart';
 import '../bloc/tn_search_bloc/tn_search_bloc.dart';
+import '../widgets/tn_hymn_template_widget.dart';
 
 class TnHomeScreen extends StatefulWidget {
   const TnHomeScreen({super.key});
@@ -203,7 +203,7 @@ class _TnHomeScreenState extends State<TnHomeScreen> {
     if (hymnModel != null) {
       Navigator.of(context).push(
         MaterialPageRoute(
-          builder: (context) => HymnTemplate(hymnModel: hymnModel),
+          builder: (context) => TnHymnTemplate(hymnModel: hymnModel),
         ),
       );
     } else {

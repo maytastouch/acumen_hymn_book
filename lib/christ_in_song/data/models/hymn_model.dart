@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart' show rootBundle;
 
 class HymnModel extends Equatable {
@@ -97,13 +98,15 @@ class HymnModel extends Equatable {
       return HymnModel(
           hymnNumber: hymnNumber, hymnTitle: hymnTitle, verses: verses);
     } catch (e) {
-      print('Error loading hymn from file: $e');
+      if (kDebugMode) {
+        print('Error loading hymn from file: $e');
+      }
       return null;
     }
   }
 
   @override
-  List<Object> get props => [hymnNumber];
+  List<Object> get props => [hymnTitle];
 
   @override
   bool get stringify => true;

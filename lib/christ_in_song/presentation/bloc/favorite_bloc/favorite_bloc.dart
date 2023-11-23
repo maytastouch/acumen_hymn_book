@@ -59,8 +59,6 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
     final favoriteHymnNumbers =
         favoriteHymns.map((hymn) => hymn.hymnNumber.toString()).toList();
     await prefs.setStringList(_favoritesKey, favoriteHymnNumbers);
-    // Debugging line:
-    // print("Saved favorites: ${prefs.getStringList(_favoritesKey)}");
   }
 
   Future<List<HymnModel>> _getHymnsByNumbers(List<String> hymnNumbers) async {

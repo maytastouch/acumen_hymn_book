@@ -7,23 +7,23 @@ import 'package:acumen_hymn_book/christ_in_song/presentation/bloc/font_bloc/font
 import 'package:acumen_hymn_book/christ_in_song/presentation/widgets/text_widget.dart';
 import 'package:acumen_hymn_book/core/constants/app_colors.dart';
 
+import '../../../christ_in_song/presentation/widgets/back_widget.dart';
 import '../../../general_bloc/theme_bloc/theme_bloc.dart';
-import '../bloc/favorite_bloc/favorite_bloc.dart';
-import 'back_widget.dart';
+import '../bloc/tn_favorite_bloc/tn_favorite_bloc.dart';
 
-class HymnTemplate extends StatefulWidget {
+class TnHymnTemplate extends StatefulWidget {
   final HymnModel? hymnModel;
 
-  const HymnTemplate({
+  const TnHymnTemplate({
     Key? key,
     required this.hymnModel,
   }) : super(key: key);
 
   @override
-  State<HymnTemplate> createState() => _HymnTemplateState();
+  State<TnHymnTemplate> createState() => _TnHymnTemplateState();
 }
 
-class _HymnTemplateState extends State<HymnTemplate> {
+class _TnHymnTemplateState extends State<TnHymnTemplate> {
   late ScrollController _controller;
   late double _sliderFontSize = 20;
 
@@ -100,9 +100,9 @@ class _HymnTemplateState extends State<HymnTemplate> {
             ),
             // Other AppBar properties...
             actions: [
-              BlocBuilder<FavoriteBloc, FavoriteState>(
+              BlocBuilder<TnFavoriteBloc, TnFavoriteState>(
                 builder: (context, state) {
-                  if (state is FavoriteLoaded) {
+                  if (state is TnFavoriteLoaded) {
                     bool isFavorite = state.hymnModel.any((hymn) =>
                         hymn.hymnTitle == widget.hymnModel!.hymnTitle);
 
@@ -112,8 +112,8 @@ class _HymnTemplateState extends State<HymnTemplate> {
                         color: isFavorite ? Colors.red : Colors.grey,
                       ),
                       onPressed: () {
-                        BlocProvider.of<FavoriteBloc>(context).add(
-                          SetFavoriteEvent(hymnModel: widget.hymnModel!),
+                        BlocProvider.of<TnFavoriteBloc>(context).add(
+                          TnSetFavoriteEvent(hymnModel: widget.hymnModel!),
                         );
                       },
                     );
@@ -123,8 +123,8 @@ class _HymnTemplateState extends State<HymnTemplate> {
                       icon:
                           const Icon(Icons.favorite_border, color: Colors.grey),
                       onPressed: () {
-                        BlocProvider.of<FavoriteBloc>(context).add(
-                          SetFavoriteEvent(hymnModel: widget.hymnModel!),
+                        BlocProvider.of<TnFavoriteBloc>(context).add(
+                          TnSetFavoriteEvent(hymnModel: widget.hymnModel!),
                         );
                       },
                     );
