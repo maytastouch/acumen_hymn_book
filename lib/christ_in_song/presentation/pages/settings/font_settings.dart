@@ -20,7 +20,6 @@ class FontSettings extends StatefulWidget {
 
 class _FontSettingsState extends State<FontSettings> {
   late double _sliderFontSize = 20; // No initial value here
-  
 
   @override
   void initState() {
@@ -115,7 +114,7 @@ class _FontSettingsState extends State<FontSettings> {
                             _sliderFontSize = state.fontSize.toDouble();
                           }
                           return Slider(
-                            divisions: 5,
+                            //divisions: 100,
                             value: _sliderFontSize,
                             min: 20,
                             max: 100,
