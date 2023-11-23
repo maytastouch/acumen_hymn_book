@@ -12,22 +12,24 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../christ_in_song/presentation/widgets/hover_widget.dart';
 import '../../../general_bloc/theme_bloc/theme_bloc.dart';
-import '../bloc/tn_search_bloc/tn_search_bloc.dart';
-import '../widgets/tn_hymn_template_widget.dart';
 
-class TnHomeScreen extends StatefulWidget {
-  const TnHomeScreen({super.key});
+import '../bloc/xh_search_bloc/xh_search_bloc.dart';
+
+import '../widgets/xh_hymn_template_widget.dart';
+
+class XhHomeScreen extends StatefulWidget {
+  const XhHomeScreen({super.key});
 
   @override
-  State<TnHomeScreen> createState() => _TnHomeScreenState();
+  State<XhHomeScreen> createState() => _XhHomeScreenState();
 }
 
-class _TnHomeScreenState extends State<TnHomeScreen> {
+class _XhHomeScreenState extends State<XhHomeScreen> {
   final Future<List<HymnEntity>> christInSongMap =
-      LocalMethods.readHymnsFromFile('assets/hymns/tn/meta.json');
+      LocalMethods.readHymnsFromFile('assets/hymns/xh/meta.json');
 
   final Future<List<HymnModel>> mdHymnList =
-      LocalMethods.fromDirectory('assets/hymns/tn');
+      LocalMethods.fromDirectory('assets/hymns/xh');
 
   //final TextEditingController _searchController = TextEditingController();
 
@@ -43,7 +45,7 @@ class _TnHomeScreenState extends State<TnHomeScreen> {
       drawer: const SideBar(),
       appBar: AppBar(
         title: TextWidget(
-          text: 'Keresete Mo Kopelong',
+          text: 'U-Kristu Engomeni',
           color: Colors.white,
           textSize: 20,
           isTitle: true,
@@ -73,12 +75,12 @@ class _TnHomeScreenState extends State<TnHomeScreen> {
                         onChanged: (value) {
                           if (value.trim().isEmpty) {
                             // Handle empty search query
-                            context.read<TnSearchBloc>().add(
-                                TnLoadAllHymnsEvent()); // or your equivalent event
+                            context.read<XhSearchBloc>().add(
+                                XhLoadAllHymnsEvent()); // or your equivalent event
                           } else {
                             context
-                                .read<TnSearchBloc>()
-                                .add(TnSearchHymnsEvent(query: value));
+                                .read<XhSearchBloc>()
+                                .add(XhSearchHymnsEvent(query: value));
                           }
                         },
 
@@ -111,9 +113,9 @@ class _TnHomeScreenState extends State<TnHomeScreen> {
                 ),
               ),
               Expanded(
-                child: BlocBuilder<TnSearchBloc, TnSearchState>(
+                child: BlocBuilder<XhSearchBloc, XhSearchState>(
                   builder: (context, state) {
-                    if (state is TnSearchLoaded) {
+                    if (state is XhSearchLoaded) {
                       return Container(
                         color: dynamicColor ? Colors.black : Colors.white,
                         margin: const EdgeInsets.symmetric(
@@ -184,7 +186,7 @@ class _TnHomeScreenState extends State<TnHomeScreen> {
   Future<HymnModel?> _fetchHymnModel(HymnEntity hymnEntity) async {
     try {
       String formattedHymnNumber = hymnEntity.number.padLeft(3, '0');
-      String filePath = 'assets/hymns/tn/$formattedHymnNumber.md';
+      String filePath = 'assets/hymns/xh/$formattedHymnNumber.md';
       // Adjust the path format as needed
       HymnModel? hymnModel = await HymnModel.fromMarkdownFile(filePath);
       return hymnModel;
@@ -202,7 +204,7 @@ class _TnHomeScreenState extends State<TnHomeScreen> {
     if (hymnModel != null) {
       Navigator.of(context).push(
         MaterialPageRoute(
-          builder: (context) => TnHymnTemplate(hymnModel: hymnModel),
+          builder: (context) => XhHymnTemplate(hymnModel: hymnModel),
         ),
       );
     } else {

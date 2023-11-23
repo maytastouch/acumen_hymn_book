@@ -66,8 +66,10 @@ flutter:
   assets:
     - assets/hymns/en/meta.json
     - assets/hymns/tn/meta.json
+    - assets/hymns/xh/meta.json
     - assets/hymns/en/
     - assets/hymns/tn/
+    - assets/hymns/xh/
     - assets/images/
   #   - images/a_dot_ham.jpeg
   # An image asset can refer to one or more resolution-specific "variants", see

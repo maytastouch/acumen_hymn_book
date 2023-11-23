@@ -15,6 +15,9 @@ import 'christ_in_song/presentation/bloc/font_bloc/font_bloc.dart';
 import 'christ_in_song/presentation/bloc/search_bloc/search_bloc.dart';
 import 'christ_in_song/presentation/pages/settings/church_name.dart';
 import 'general_bloc/church_name_bloc/church_name_bloc.dart';
+import 'u-Kristu Engomeni/presentation/bloc/xh_favorite_bloc/xh_favorite_bloc.dart';
+import 'u-Kristu Engomeni/presentation/bloc/xh_search_bloc/xh_search_bloc.dart';
+import 'u-Kristu Engomeni/presentation/pages/xh_bottom_bar_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -49,6 +52,10 @@ class _MyAppState extends State<MyApp> {
           create: (context) => TnSearchBloc(),
         ),
         BlocProvider(
+          //for searching xh  hymns
+          create: (context) => XhSearchBloc(),
+        ),
+        BlocProvider(
           //for changing font size
           create: (context) => FontBloc(20),
         ),
@@ -59,6 +66,10 @@ class _MyAppState extends State<MyApp> {
         BlocProvider(
           //for adding favorites in tn
           create: (context) => TnFavoriteBloc(),
+        ),
+        BlocProvider(
+          //for adding favorites in xh
+          create: (context) => XhFavoriteBloc(),
         ),
         BlocProvider(
           //for changing themes
@@ -84,6 +95,7 @@ class _MyAppState extends State<MyApp> {
                 ChristInSongBottomBarScreen.routeName: (ctx) =>
                     const ChristInSongBottomBarScreen(),
                 TnBottomBarScreen.routeName: (ctx) => const TnBottomBarScreen(),
+                XhBottomBarScreen.routeName: (ctx) => const XhBottomBarScreen(),
               },
             ),
           );

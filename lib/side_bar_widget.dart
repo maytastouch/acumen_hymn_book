@@ -9,6 +9,7 @@ import 'Keresete Mo Kopelong/presentation/pages/tn_bottom_bar_screen.dart';
 import 'christ_in_song/presentation/widgets/text_widget.dart';
 import 'core/app_themes.dart';
 import 'general_bloc/church_name_bloc/church_name_bloc.dart';
+import 'u-Kristu Engomeni/presentation/pages/xh_bottom_bar_screen.dart';
 
 class SideBar extends StatefulWidget {
   const SideBar({super.key});
@@ -86,6 +87,16 @@ class _SideBarState extends State<SideBar> {
               GlobalMethods.navigateTo(
                   ctx: context,
                   routeName: ChristInSongBottomBarScreen.routeName);
+            },
+            context: context,
+          ),
+          const Divider(),
+          _listTiles(
+            title: 'U-Kristu Engomeni',
+            icon: IconlyLight.arrowUpCircle,
+            onPressed: () {
+              GlobalMethods.navigateTo(
+                  ctx: context, routeName: XhBottomBarScreen.routeName);
             },
             context: context,
           ),
