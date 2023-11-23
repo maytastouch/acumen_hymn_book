@@ -94,7 +94,7 @@ class _ChurchNameSettingsState extends State<ChurchNameSettings> {
                                 : AppColors.mainColor,
                           ), // Set the focused border color to white when isDark is true, otherwise set to yellow
                         ),
-                        labelText: 'Church Name',
+                        labelText: 'Enter Church Name',
                         border: const OutlineInputBorder(
                           borderSide: BorderSide(),
                         ),
@@ -107,15 +107,27 @@ class _ChurchNameSettingsState extends State<ChurchNameSettings> {
                       },
 
                       onSubmitted: (value) {
-                        showToast(
-                          "Name Changed",
-                          duration: const Duration(seconds: 2),
-                          position: ToastPosition.bottom,
-                          backgroundColor: Colors.grey[800],
-                          radius: 13.0,
-                          textStyle: const TextStyle(
-                              fontSize: 16.0, color: Colors.white),
-                        );
+                        if (value.isEmpty) {
+                          showToast(
+                            "Cannot be Empty",
+                            duration: const Duration(seconds: 2),
+                            position: ToastPosition.bottom,
+                            backgroundColor: Colors.grey[800],
+                            radius: 13.0,
+                            textStyle: const TextStyle(
+                                fontSize: 16.0, color: Colors.white),
+                          );
+                        } else {
+                          showToast(
+                            "Name Changed",
+                            duration: const Duration(seconds: 2),
+                            position: ToastPosition.bottom,
+                            backgroundColor: Colors.grey[800],
+                            radius: 13.0,
+                            textStyle: const TextStyle(
+                                fontSize: 16.0, color: Colors.white),
+                          );
+                        }
                       },
                     ),
                   ),

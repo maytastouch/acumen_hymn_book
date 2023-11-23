@@ -38,7 +38,8 @@ class _SideBarState extends State<SideBar> {
                     return TextWidget(
                       text: displayName,
                       color: Colors.white,
-                      textSize: 20,
+                      textSize: 15,
+                      maxLines: 1,
                     );
                   },
                 ),
