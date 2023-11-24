@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:equatable/equatable.dart';
+import 'package:html/dom.dart';
 import 'package:html/parser.dart' as html;
 import 'package:path/path.dart' as path; // Import the 'path' package
 
@@ -43,37 +44,44 @@ class LoziHymnModel extends Equatable {
     // Extract verses and choruses
     // Extract verses and choruses
     //TODO: BREAD AND BUTTER
-    final elements = document.querySelectorAll('.ListParagraph');
-    final List<Verse> verses = [];
-    String currentVerseText = '';
-    bool isChorus = false;
+// Extract verses and choruses
+// Extract verses and choruses
+    List<Verse> verses = [];
+    int verseNumber = 1;
 
-    for (var element in elements) {
-      if (element.text.trim() == 'MAKUTELO:') {
-        // Add the previous verse to the list if it's not empty
-        if (currentVerseText.isNotEmpty) {
-          verses.add(Verse(
-            text: currentVerseText.trim(),
-            isChorus: isChorus,
-          ));
-        }
-        // Reset for the next verse/chorus
-        currentVerseText = '';
-        isChorus = true; // Next verse is a chorus
-        continue;
+// Find and store the chorus
+    String chorus = "";
+    var makuteloElement = document
+        .querySelector('MAKUTELO:'); // Locate the element with "MAKUTELO:"
+    if (makuteloElement != null) {
+      Element? nextElement = makuteloElement.nextElementSibling;
+      while (nextElement != null && nextElement.localName != 'li') {
+        chorus += "${nextElement.text.trim()}\n";
+        nextElement = nextElement.nextElementSibling;
       }
-
-      // Concatenate the lines of the verse/chorus
-      currentVerseText +=
-          (currentVerseText.isNotEmpty ? '\n' : '') + element.text.trim();
     }
 
-    // Add the last verse/chorus if it's not empty
-    if (currentVerseText.isNotEmpty) {
-      verses.add(Verse(
-        text: currentVerseText.trim(),
-        isChorus: isChorus,
-      ));
+    var verseElements = document.querySelectorAll('ol > li');
+    for (var i = 0; i < verseElements.length; i++) {
+      String verseText = verseElements[i].text.trim();
+      Element? nextElement = verseElements[i].nextElementSibling;
+
+      while (nextElement != null && nextElement.localName == 'p') {
+        verseText += "\n${nextElement.text.trim()}";
+        nextElement = nextElement.nextElementSibling;
+        if (nextElement?.localName == 'li') break;
+      }
+
+      if (verseText.isNotEmpty) {
+        verses
+            .add(Verse(number: verseNumber, text: verseText, isChorus: false));
+        verseNumber++;
+      }
+
+      // Add chorus after each verse
+      if (chorus.isNotEmpty) {
+        verses.add(Verse(text: chorus, isChorus: true));
+      }
     }
 
     return LoziHymnModel(
