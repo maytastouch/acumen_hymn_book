@@ -6,11 +6,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 
+import 'Keresete Mo Kopelong/presentation/bloc/tn_search_bloc/tn_search_bloc.dart';
 import 'Keresete Mo Kopelong/presentation/pages/tn_bottom_bar_screen.dart';
+import 'christ_in_song/presentation/bloc/search_bloc/search_bloc.dart';
 import 'christ_in_song/presentation/widgets/text_widget.dart';
 import 'core/app_themes.dart';
 import 'general_bloc/church_name_bloc/church_name_bloc.dart';
+import 'lozi/presentation/bloc/lz_search_bloc/lz_search_bloc.dart';
 import 'lozi/presentation/pages/lozi_bottom_bar_screen.dart';
+import 'u-Kristu Engomeni/presentation/bloc/xh_search_bloc/xh_search_bloc.dart';
 import 'u-Kristu Engomeni/presentation/pages/xh_bottom_bar_screen.dart';
 
 class SideBar extends StatefulWidget {
@@ -80,42 +84,46 @@ class _SideBarState extends State<SideBar> {
                 },
               ),
               _listTiles(
-                title: 'Keresete Mo Kopelong',
+                title: 'Tswana',
                 icon: IconlyLight.arrowUpCircle,
                 onPressed: () {
                   GlobalMethods.navigateTo(
                       ctx: context, routeName: TnBottomBarScreen.routeName);
+                  context.read<TnSearchBloc>().add(TnLoadAllHymnsEvent()); //
                 },
                 context: context,
               ),
               const Divider(),
               _listTiles(
-                title: 'Christ In Song',
+                title: 'English',
                 icon: IconlyLight.arrowUpCircle,
                 onPressed: () {
                   GlobalMethods.navigateTo(
                       ctx: context,
                       routeName: ChristInSongBottomBarScreen.routeName);
+                  context.read<SearchBloc>().add(LoadAllHymnsEvent()); //
                 },
                 context: context,
               ),
               const Divider(),
               _listTiles(
-                title: 'U-Kristu Engomeni',
+                title: 'Xhosa',
                 icon: IconlyLight.arrowUpCircle,
                 onPressed: () {
                   GlobalMethods.navigateTo(
                       ctx: context, routeName: XhBottomBarScreen.routeName);
+                  context.read<XhSearchBloc>().add(XhLoadAllHymnsEvent()); //
                 },
                 context: context,
               ),
               const Divider(),
               _listTiles(
-                title: 'Lozi Hymnal',
+                title: 'Lozi',
                 icon: IconlyLight.arrowUpCircle,
                 onPressed: () {
                   GlobalMethods.navigateTo(
                       ctx: context, routeName: LoziBottomBarScreen.routeName);
+                  context.read<LzSearchBloc>().add(LzLoadAllHymnsEvent()); //
                 },
                 context: context,
               ),
