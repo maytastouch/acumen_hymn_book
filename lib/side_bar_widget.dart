@@ -1,4 +1,5 @@
 import 'package:acumen_hymn_book/christ_in_song/presentation/pages/cis_bottom_bar_screen.dart';
+import 'package:acumen_hymn_book/core/constants/app_colors.dart';
 import 'package:acumen_hymn_book/core/constants/global_methods.dart';
 import 'package:acumen_hymn_book/general_bloc/theme_bloc/theme_bloc.dart';
 import 'package:flutter/material.dart';
@@ -22,123 +23,132 @@ class SideBar extends StatefulWidget {
 class _SideBarState extends State<SideBar> {
   @override
   Widget build(BuildContext context) {
-    return Drawer(
-      child: ListView(
-        padding: EdgeInsets.zero,
-        children: [
-          BlocBuilder<ThemeBloc, ThemeState>(
-            builder: (context, themeState) {
-              var dynamicColor =
-                  themeState.themeData.brightness == Brightness.dark;
-              return UserAccountsDrawerHeader(
-                accountName: BlocBuilder<ChurchNameBloc, ChurchNameState>(
-                  builder: (context, state) {
-                    String displayName = "Enter Church Name";
-                    if (state is NameChanged && state.churchName.isNotEmpty) {
-                      displayName = state.churchName;
-                    }
-                    return TextWidget(
-                      text: displayName,
-                      color: Colors.white,
-                      textSize: 15,
-                      maxLines: 1,
-                    );
-                  },
-                ),
-                accountEmail: TextWidget(
-                    text: 'Praising the lord in song',
-                    color: Colors.white,
-                    textSize: 10),
-                currentAccountPicture: CircleAvatar(
-                  backgroundColor: dynamicColor ? Colors.black : Colors.white,
-                  child: ClipOval(
-                    child: Image.asset(
-                      'assets/images/sda.png',
-                      width: 70,
-                      height: 40,
-                      fit: BoxFit.cover,
-                      filterQuality: FilterQuality.high,
+    return BlocBuilder<ThemeBloc, ThemeState>(
+      builder: (context, themeState) {
+        var dynamicColor = themeState.themeData.brightness == Brightness.dark;
+        return Drawer(
+          backgroundColor:
+              dynamicColor ? AppColors.secondaryColor : Colors.white,
+          child: ListView(
+            padding: EdgeInsets.zero,
+            children: [
+              BlocBuilder<ThemeBloc, ThemeState>(
+                builder: (context, themeState) {
+                  var dynamicColor =
+                      themeState.themeData.brightness == Brightness.dark;
+                  return UserAccountsDrawerHeader(
+                    accountName: BlocBuilder<ChurchNameBloc, ChurchNameState>(
+                      builder: (context, state) {
+                        String displayName = "Enter Church Name";
+                        if (state is NameChanged &&
+                            state.churchName.isNotEmpty) {
+                          displayName = state.churchName;
+                        }
+                        return TextWidget(
+                          text: displayName,
+                          color: Colors.white,
+                          textSize: 15,
+                          maxLines: 1,
+                        );
+                      },
                     ),
-                  ),
-                ),
-                decoration: const BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage('assets/images/beautiful.jpeg'),
-                    fit: BoxFit.cover,
-                    filterQuality: FilterQuality.high,
-                  ),
-                ),
-              );
-            },
-          ),
-          _listTiles(
-            title: 'Keresete Mo Kopelong',
-            icon: IconlyLight.arrowUpCircle,
-            onPressed: () {
-              GlobalMethods.navigateTo(
-                  ctx: context, routeName: TnBottomBarScreen.routeName);
-            },
-            context: context,
-          ),
-          const Divider(),
-          _listTiles(
-            title: 'Christ In Song',
-            icon: IconlyLight.arrowUpCircle,
-            onPressed: () {
-              GlobalMethods.navigateTo(
-                  ctx: context,
-                  routeName: ChristInSongBottomBarScreen.routeName);
-            },
-            context: context,
-          ),
-          const Divider(),
-          _listTiles(
-            title: 'U-Kristu Engomeni',
-            icon: IconlyLight.arrowUpCircle,
-            onPressed: () {
-              GlobalMethods.navigateTo(
-                  ctx: context, routeName: XhBottomBarScreen.routeName);
-            },
-            context: context,
-          ),
-          const Divider(),
-          _listTiles(
-            title: 'Lozi Hymnal',
-            icon: IconlyLight.arrowUpCircle,
-            onPressed: () {
-              GlobalMethods.navigateTo(
-                  ctx: context, routeName: LoziBottomBarScreen.routeName);
-            },
-            context: context,
-          ),
-          const Divider(),
-          BlocBuilder<ThemeBloc, ThemeState>(
-            builder: (context, state) {
-              bool isDarkMode =
-                  state.themeData == appThemeData[AppTheme.DarkTheme];
-              return SwitchListTile(
-                title: TextWidget(
-                  text: isDarkMode ? 'Dark Mode' : 'Light Mode',
-                  color: state.themeData.brightness == Brightness.dark
-                      ? Colors.white
-                      : Colors.black,
-                  textSize: 15,
-                ),
-                secondary: Icon(isDarkMode
-                    ? Icons.dark_mode_outlined
-                    : Icons.light_mode_outlined),
-                onChanged: (bool value) {
-                  final appTheme =
-                      value ? AppTheme.DarkTheme : AppTheme.LightTheme;
-                  BlocProvider.of<ThemeBloc>(context)
-                      .add(ThemeChanged(theme: appTheme));
+                    accountEmail: TextWidget(
+                        text: 'Praising the lord in song',
+                        color: Colors.white,
+                        textSize: 10),
+                    currentAccountPicture: CircleAvatar(
+                      backgroundColor:
+                          dynamicColor ? Colors.black : Colors.white,
+                      child: ClipOval(
+                        child: Image.asset(
+                          'assets/images/sda.png',
+                          width: 70,
+                          height: 40,
+                          fit: BoxFit.cover,
+                          filterQuality: FilterQuality.high,
+                        ),
+                      ),
+                    ),
+                    decoration: const BoxDecoration(
+                      image: DecorationImage(
+                        image: AssetImage('assets/images/beautiful.jpeg'),
+                        fit: BoxFit.cover,
+                        filterQuality: FilterQuality.high,
+                      ),
+                    ),
+                  );
                 },
-                value: isDarkMode,
-              );
-            },
-          )
-        ],
-      ),
+              ),
+              _listTiles(
+                title: 'Keresete Mo Kopelong',
+                icon: IconlyLight.arrowUpCircle,
+                onPressed: () {
+                  GlobalMethods.navigateTo(
+                      ctx: context, routeName: TnBottomBarScreen.routeName);
+                },
+                context: context,
+              ),
+              const Divider(),
+              _listTiles(
+                title: 'Christ In Song',
+                icon: IconlyLight.arrowUpCircle,
+                onPressed: () {
+                  GlobalMethods.navigateTo(
+                      ctx: context,
+                      routeName: ChristInSongBottomBarScreen.routeName);
+                },
+                context: context,
+              ),
+              const Divider(),
+              _listTiles(
+                title: 'U-Kristu Engomeni',
+                icon: IconlyLight.arrowUpCircle,
+                onPressed: () {
+                  GlobalMethods.navigateTo(
+                      ctx: context, routeName: XhBottomBarScreen.routeName);
+                },
+                context: context,
+              ),
+              const Divider(),
+              _listTiles(
+                title: 'Lozi Hymnal',
+                icon: IconlyLight.arrowUpCircle,
+                onPressed: () {
+                  GlobalMethods.navigateTo(
+                      ctx: context, routeName: LoziBottomBarScreen.routeName);
+                },
+                context: context,
+              ),
+              const Divider(),
+              BlocBuilder<ThemeBloc, ThemeState>(
+                builder: (context, state) {
+                  bool isDarkMode =
+                      state.themeData == appThemeData[AppTheme.DarkTheme];
+                  return SwitchListTile(
+                    title: TextWidget(
+                      text: isDarkMode ? 'Dark Mode' : 'Light Mode',
+                      color: state.themeData.brightness == Brightness.dark
+                          ? Colors.white
+                          : Colors.black,
+                      textSize: 15,
+                    ),
+                    secondary: Icon(isDarkMode
+                        ? Icons.dark_mode_outlined
+                        : Icons.light_mode_outlined),
+                    onChanged: (bool value) {
+                      final appTheme =
+                          value ? AppTheme.DarkTheme : AppTheme.LightTheme;
+                      BlocProvider.of<ThemeBloc>(context)
+                          .add(ThemeChanged(theme: appTheme));
+                    },
+                    value: isDarkMode,
+                  );
+                },
+              )
+            ],
+          ),
+        );
+      },
     );
   }
 }
