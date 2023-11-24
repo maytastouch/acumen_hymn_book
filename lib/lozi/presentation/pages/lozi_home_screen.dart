@@ -45,7 +45,7 @@ class _LzHomeScreenState extends State<LzHomeScreen> {
       drawer: const SideBar(),
       appBar: AppBar(
         title: TextWidget(
-          text: 'Lozi',
+          text: 'Kelesite Mwa Lipina',
           color: Colors.white,
           textSize: 20,
           isTitle: true,
