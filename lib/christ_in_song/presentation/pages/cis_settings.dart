@@ -38,7 +38,7 @@ class CISSettings extends StatelessWidget {
                 onPressed: () async {},
               ),
               _listTiles(
-                title: 'About this this app',
+                title: 'About this app',
                 icon: IconlyLight.bookmark,
                 onPressed: () {},
               ),
@@ -72,8 +72,8 @@ class CISSettings extends StatelessWidget {
     required Function onPressed,
   }) {
     return ListTile(
-      title: Padding(
-        padding: const EdgeInsets.only(top: 14.0),
+      title: Container(
+        margin: const EdgeInsets.only(top: 26.0),
         //child: TextWidget(text: title, color: color, textSize: 20),
         child: Text(
           title,
