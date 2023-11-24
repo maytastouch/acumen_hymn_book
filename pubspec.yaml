@@ -39,6 +39,7 @@ dependencies:
   flutter_iconly: ^1.0.2
   fluttertoast: ^8.2.4
   get_it: ^7.6.4
+  html: ^0.15.4
   http: ^1.1.0
   oktoast: ^3.4.0
   rxdart: ^0.27.7
@@ -67,6 +68,7 @@ flutter:
     - assets/hymns/en/meta.json
     - assets/hymns/tn/meta.json
     - assets/hymns/xh/meta.json
+    - assets/hymns/lz/meta.json
     - assets/hymns/en/
     - assets/hymns/tn/
     - assets/hymns/xh/

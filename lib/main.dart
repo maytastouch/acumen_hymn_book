@@ -15,6 +15,7 @@ import 'christ_in_song/presentation/bloc/font_bloc/font_bloc.dart';
 import 'christ_in_song/presentation/bloc/search_bloc/search_bloc.dart';
 import 'christ_in_song/presentation/pages/settings/church_name.dart';
 import 'general_bloc/church_name_bloc/church_name_bloc.dart';
+import 'lozi/presentation/pages/lozi_bottom_bar_screen.dart';
 import 'u-Kristu Engomeni/presentation/bloc/xh_favorite_bloc/xh_favorite_bloc.dart';
 import 'u-Kristu Engomeni/presentation/bloc/xh_search_bloc/xh_search_bloc.dart';
 import 'u-Kristu Engomeni/presentation/pages/xh_bottom_bar_screen.dart';
@@ -96,6 +97,8 @@ class _MyAppState extends State<MyApp> {
                     const ChristInSongBottomBarScreen(),
                 TnBottomBarScreen.routeName: (ctx) => const TnBottomBarScreen(),
                 XhBottomBarScreen.routeName: (ctx) => const XhBottomBarScreen(),
+                LoziBottomBarScreen.routeName: (ctx) =>
+                    const LoziBottomBarScreen(),
               },
             ),
           );

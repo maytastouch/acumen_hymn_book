@@ -1,0 +1,14 @@
+body
+ {
+    background: #fff;
+	text-align:-webkit-center;
+}
+.Slide {
+    position: relative;
+    width: 90%;
+    height: 394px;
+    line-height: 1.28;
+}
+#Slide6_Title_1 {
+	text-align:center;
+}
