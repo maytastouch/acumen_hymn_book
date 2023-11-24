@@ -125,6 +125,7 @@ class _SideBarState extends State<SideBar> {
                   bool isDarkMode =
                       state.themeData == appThemeData[AppTheme.DarkTheme];
                   return SwitchListTile(
+                    activeColor: Colors.white,
                     title: TextWidget(
                       text: isDarkMode ? 'Dark Mode' : 'Light Mode',
                       color: state.themeData.brightness == Brightness.dark
