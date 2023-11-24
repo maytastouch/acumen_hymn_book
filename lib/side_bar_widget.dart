@@ -95,7 +95,7 @@ class _SideBarState extends State<SideBar> {
               ),
               const Divider(),
               _listTiles(
-                title: 'English',
+                title: 'English CIS',
                 icon: IconlyLight.arrowUpCircle,
                 onPressed: () {
                   GlobalMethods.navigateTo(
@@ -124,6 +124,17 @@ class _SideBarState extends State<SideBar> {
                   GlobalMethods.navigateTo(
                       ctx: context, routeName: LoziBottomBarScreen.routeName);
                   context.read<LzSearchBloc>().add(LzLoadAllHymnsEvent()); //
+                },
+                context: context,
+              ),
+              const Divider(),
+              _listTiles(
+                title: 'English SDA',
+                icon: IconlyLight.arrowUpCircle,
+                onPressed: () {
+                  GlobalMethods.navigateTo(
+                      ctx: context, routeName: LoziBottomBarScreen.routeName);
+                  // context.read<LzSearchBloc>().add(LzLoadAllHymnsEvent()); //
                 },
                 context: context,
               ),
@@ -175,13 +186,12 @@ Widget _listTiles({
           ? Colors.white
           : Colors.black;
       return ListTile(
-        title: Container(
-          margin: const EdgeInsets.only(top: 25.0),
-          child: TextWidget(text: title, color: textColor, textSize: 15),
-        ),
+        title: TextWidget(text: title, color: textColor, textSize: 15),
         subtitle:
             TextWidget(text: subtitle ?? "", color: textColor, textSize: 18),
-        leading: Icon(icon, color: textColor),
+        leading: Container(
+            margin: const EdgeInsets.only(bottom: 60),
+            child: Icon(icon, color: textColor)),
         onTap: () => onPressed(),
       );
     },
