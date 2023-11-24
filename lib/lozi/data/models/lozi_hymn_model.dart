@@ -42,6 +42,7 @@ class LoziHymnModel extends Equatable {
 
     // Extract verses and choruses
     // Extract verses and choruses
+    //TODO: BREAD AND BUTTER
     final elements = document.querySelectorAll('.ListParagraph');
     final List<Verse> verses = [];
     String currentVerseText = '';
