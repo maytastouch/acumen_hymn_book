@@ -39,7 +39,7 @@ class HymnModel extends Equatable {
       int verseNumber = 1;
 
       for (var line in lines.skip(1)) {
-        if (line.toLowerCase().startsWith('chorus')) {
+        if (line.toLowerCase().startsWith('MAKUTELO')) {
           if (verseBuffer.isNotEmpty) {
             // Add previous verse
             verses.add(Verse(
@@ -122,7 +122,7 @@ class Verse {
   @override
   String toString() {
     if (isChorus) {
-      return 'Chorus:\n$text';
+      return 'MAKUTELO:\n$text';
     } else {
       return 'Verse $number:\n$text';
     }

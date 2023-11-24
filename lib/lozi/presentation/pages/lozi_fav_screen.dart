@@ -1,15 +1,14 @@
-import 'package:acumen_hymn_book/Keresete%20Mo%20Kopelong/presentation/bloc/tn_favorite_bloc/tn_favorite_bloc.dart';
-import 'package:acumen_hymn_book/Keresete%20Mo%20Kopelong/presentation/widgets/tn_hymn_template_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../christ_in_song/data/models/hymn_model.dart';
-import '../../../christ_in_song/presentation/bloc/favorite_bloc/favorite_bloc.dart';
-import '../../../christ_in_song/presentation/widgets/fav_hover_widget.dart';
 import '../../../christ_in_song/presentation/widgets/text_widget.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../../general_bloc/theme_bloc/theme_bloc.dart';
 import '../../../side_bar_widget.dart';
+import '../../data/models/lozi_hymn_model.dart';
+import '../bloc/lz_favorite_bloc/lz_favorite_bloc.dart';
+import '../widgets/hover_widget.dart';
+import '../widgets/lz_hymn_template.dart';
 
 class LoziFavouriteScreen extends StatefulWidget {
   const LoziFavouriteScreen({super.key});
@@ -26,7 +25,7 @@ class _LoziFavouriteScreenState extends State<LoziFavouriteScreen> {
   }
 
   void _fetchFavorites() {
-    BlocProvider.of<TnFavoriteBloc>(context).add(const TnFetchFavoritesEvent());
+    BlocProvider.of<LzFavoriteBloc>(context).add(const LzFetchFavoritesEvent());
   }
 
   @override
@@ -43,18 +42,18 @@ class _LoziFavouriteScreenState extends State<LoziFavouriteScreen> {
         ),
         backgroundColor: AppColors.mainColor,
       ),
-      body: BlocListener<FavoriteBloc, FavoriteState>(
+      body: BlocListener<LzFavoriteBloc, LzFavoriteState>(
         listener: (context, state) {
-          if (state is TnFavoriteLoaded) {
+          if (state is LzFavoriteLoaded) {
             setState(() {});
           }
         },
-        child: BlocBuilder<TnFavoriteBloc, TnFavoriteState>(
+        child: BlocBuilder<LzFavoriteBloc, LzFavoriteState>(
           builder: (context, state) {
-            List<HymnModel> tnFavoriteHymnList = [];
+            List<LzHymnModel> lzFavoriteHymnList = [];
 
-            if (state is TnFavoriteLoaded) {
-              tnFavoriteHymnList = state.hymnModel;
+            if (state is LzFavoriteLoaded) {
+              lzFavoriteHymnList = state.hymnModel;
             }
 
             return Column(
@@ -70,10 +69,10 @@ class _LoziFavouriteScreenState extends State<LoziFavouriteScreen> {
                         margin: const EdgeInsets.symmetric(
                             horizontal: 0, vertical: 5),
                         child: ListView.builder(
-                          itemCount: tnFavoriteHymnList.length,
+                          itemCount: lzFavoriteHymnList.length,
                           itemBuilder: (context, index) {
-                            HymnModel hymn = tnFavoriteHymnList[index];
-                            return FavHoverableListItem(
+                            LzHymnModel hymn = lzFavoriteHymnList[index];
+                            return LzHoverableListItem(
                               hymn: hymn,
                               onTap: () => _onHymnTap(hymn),
                             );
@@ -91,11 +90,11 @@ class _LoziFavouriteScreenState extends State<LoziFavouriteScreen> {
     );
   }
 
-  void _onHymnTap(HymnModel hymn) {
+  void _onHymnTap(LzHymnModel hymn) {
     Navigator.of(context)
         .push(
           MaterialPageRoute(
-            builder: (context) => TnHymnTemplate(hymnModel: hymn),
+            builder: (context) => LzHymnTemplate(hymnModel: hymn),
           ),
         )
         .then(

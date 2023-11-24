@@ -3,36 +3,34 @@ import 'dart:io';
 
 import 'package:flutter/services.dart' show rootBundle;
 
-import '../../../christ_in_song/domain/entity/hymn_entity.dart';
+import '../../domain/lz_hymn_entity.dart';
 import '../models/lozi_hymn_model.dart';
 
-class LoziLocalMethods {
+class LzLocalMethods {
   // Method to read JSON file from assets and return a list of Hymns
-  static Future<List<HymnEntity>> readHymnsFromFile(String assetPath) async {
+  static Future<List<LzHymnEntity>> readHymnsFromFile(String assetPath) async {
     var contents = await rootBundle.loadString(assetPath);
     var jsonData = json.decode(contents);
 
-    List<HymnEntity> hymns = [];
+    List<LzHymnEntity> hymns = [];
     if (jsonData['songs'] != null) {
       jsonData['songs'].forEach((key, value) {
-        hymns.add(HymnEntity(number: key, title: value.toString()));
+        hymns.add(LzHymnEntity(number: key, title: value.toString()));
       });
     }
 
     return hymns;
   }
 
-  static Future<List<LoziHymnModel>> fromDirectory(String directoryPath) async {
+  static Future<List<LzHymnModel>> fromDirectory(String directoryPath) async {
     var dir = Directory(directoryPath);
-    List<LoziHymnModel> hymns = [];
+    List<LzHymnModel> hymns = [];
 
     if (await dir.exists()) {
       await for (var entity in dir.list()) {
-        if (entity is File && entity.path.endsWith('.htm')) {
-          var hymn = await LoziHymnModel.fromHtmlFile(entity.path);
-          if (hymn != null) {
-            hymns.add(hymn);
-          }
+        if (entity is File && entity.path.endsWith('.md')) {
+          var hymn = await LzHymnModel.fromMarkdownFile(entity.path);
+          hymns.add(hymn!);
         }
       }
     }

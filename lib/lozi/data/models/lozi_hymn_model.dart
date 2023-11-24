@@ -1,137 +1,101 @@
-import 'dart:io';
-
 import 'package:equatable/equatable.dart';
-import 'package:html/dom.dart';
-import 'package:html/parser.dart' as html;
-import 'package:path/path.dart' as path; // Import the 'path' package
+import 'package:flutter/services.dart' show rootBundle;
 
-class LoziHymnModel extends Equatable {
+class LzHymnModel extends Equatable {
   final int hymnNumber;
   final String hymnTitle;
   final List<Verse> verses;
 
-  const LoziHymnModel({
+  const LzHymnModel({
     required this.hymnNumber,
     required this.hymnTitle,
     required this.verses,
   });
 
-  factory LoziHymnModel.fromHtml(String htmlData, int fallbackHymnNumber) {
-    final document = html.parse(htmlData);
-
-    // Extract hymn title
-    final hymnTitleElement = document.querySelector('.c1');
-    if (hymnTitleElement == null) {
-      throw const FormatException('Hymn title not found in HTML data.');
-    }
-    final hymnTitleText = hymnTitleElement.text.trim();
-
-    // Attempt to extract hymn number from the title
-    int hymnNumber;
-    final hymnNumberMatch = RegExp(r'^(\d+)').firstMatch(hymnTitleText);
-    if (hymnNumberMatch != null) {
-      hymnNumber =
-          int.tryParse(hymnNumberMatch.group(1)!) ?? fallbackHymnNumber;
-    } else {
-      hymnNumber = fallbackHymnNumber;
-    }
-
-    // Extract the rest of the title after the hymn number, if present
-    final hymnTitle = hymnNumberMatch != null
-        ? hymnTitleText.substring(hymnNumberMatch.group(0)!.length).trim()
-        : hymnTitleText;
-
-    // Extract verses and choruses
-    // Extract verses and choruses
-    //TODO: BREAD AND BUTTER
-// Extract verses and choruses
-// Extract verses and choruses
-    List<Verse> verses = [];
-    int verseNumber = 1;
-
-// Find and store the chorus
-    String chorus = "";
-    var makuteloElement = document
-        .querySelector('MAKUTELO:'); // Locate the element with "MAKUTELO:"
-    if (makuteloElement != null) {
-      Element? nextElement = makuteloElement.nextElementSibling;
-      while (nextElement != null && nextElement.localName != 'li') {
-        chorus += "${nextElement.text.trim()}\n";
-        nextElement = nextElement.nextElementSibling;
-      }
-    }
-
-    var verseElements = document.querySelectorAll('ol > li');
-    for (var i = 0; i < verseElements.length; i++) {
-      String verseText = verseElements[i].text.trim();
-      Element? nextElement = verseElements[i].nextElementSibling;
-
-      while (nextElement != null && nextElement.localName == 'p') {
-        verseText += "\n${nextElement.text.trim()}";
-        nextElement = nextElement.nextElementSibling;
-        if (nextElement?.localName == 'li') break;
-      }
-
-      if (verseText.isNotEmpty) {
-        verses
-            .add(Verse(number: verseNumber, text: verseText, isChorus: false));
-        verseNumber++;
-      }
-
-      // Add chorus after each verse
-      if (chorus.isNotEmpty) {
-        verses.add(Verse(text: chorus, isChorus: true));
-      }
-    }
-
-    return LoziHymnModel(
-      hymnTitle: hymnTitle,
-      hymnNumber: hymnNumber,
-      verses: verses,
-    );
-  }
-
-  // Parse HTML file to create a LoziHymnModel object
-  static Future<LoziHymnModel?> fromHtmlFile(String filePath) async {
+  // Parse Markdown file to create a Hymn object
+  static Future<LzHymnModel?> fromMarkdownFile(String filePath) async {
     try {
-      final file = File(filePath);
-      final content = await file.readAsString();
+      String contents = await rootBundle.loadString(filePath);
 
-      final document = html.parse(content);
-
-      // Extract hymn number from the filename
-      final filename = path.basenameWithoutExtension(filePath);
-      final hymnNumber = int.tryParse(filename);
-
+      var filename = filePath.split('/').last;
+      var hymnNumberString = filename.split('.').first;
+      var hymnNumber = int.tryParse(hymnNumberString);
       if (hymnNumber == null) {
         throw FormatException(
             'Unable to parse hymn number from file name: $filename');
       }
 
-      // Extract hymn title from the HTML content (assuming it's in an <h1> element)
-      final titleElement = document.querySelector('h1');
-      final hymnTitle = titleElement?.text.trim() ?? '';
+      var lines = contents.split('\n');
+      var titleLine =
+          lines.firstWhere((line) => line.startsWith('##'), orElse: () => '');
+      var hymnTitle = titleLine.replaceFirst('##', '').trim();
 
-      // Extract chorus and verses from the HTML content
-      final chorusElement = document.querySelector('p:contains("MAKUTELO:")');
-      final chorusText = chorusElement?.text.trim() ?? '';
+      List<Verse> verses = [];
+      StringBuffer verseBuffer = StringBuffer();
+      String chorusText = '';
+      bool isChorus = false;
+      bool lastAddedWasChorus = false; // Track if last added verse was a chorus
+      int verseNumber = 1;
 
-      final verseElements =
-          document.querySelectorAll('p:not(:contains("MAKUTELO:"))');
-      final verses = verseElements
-          .map((element) => Verse(
-                number: null, // You can assign verse numbers if available
-                text: element.text.trim(),
-                isChorus: false,
-              ))
-          .toList();
+      for (var line in lines.skip(1)) {
+        if (line.toLowerCase().startsWith('makutelo')) {
+          if (verseBuffer.isNotEmpty) {
+            // Add previous verse
+            verses.add(Verse(
+                text: verseBuffer.toString().trim(),
+                number: verseNumber++,
+                isChorus: false));
+            verseBuffer.clear();
+            lastAddedWasChorus = false; // Reset flag as verse is added
+          }
+          isChorus = true;
+          continue;
+        }
 
-      // Create the LoziHymnModel object
-      return LoziHymnModel(
-        hymnNumber: hymnNumber,
-        hymnTitle: hymnTitle,
-        verses: verses,
-      );
+        if (line.trim().isEmpty) {
+          if (verseBuffer.isNotEmpty) {
+            if (isChorus) {
+              chorusText = verseBuffer.toString().trim();
+              isChorus = false;
+            } else {
+              verses.add(Verse(
+                  text: verseBuffer.toString().trim(),
+                  number: verseNumber++,
+                  isChorus: false));
+              lastAddedWasChorus = false; // Reset flag as verse is added
+            }
+            verseBuffer.clear();
+          }
+          // Add chorus after each verse if the last added was not a chorus
+          if (!lastAddedWasChorus && !isChorus && chorusText.isNotEmpty) {
+            verses.add(Verse(text: chorusText, isChorus: true));
+            lastAddedWasChorus = true; // Set flag as chorus is added
+          }
+        } else {
+          verseBuffer.writeln(line);
+        }
+      }
+
+      // Handle the final verse or chorus
+      if (verseBuffer.isNotEmpty) {
+        if (isChorus) {
+          chorusText = verseBuffer.toString().trim();
+        } else {
+          verses.add(Verse(
+              text: verseBuffer.toString().trim(),
+              number: verseNumber,
+              isChorus: false));
+          lastAddedWasChorus = false; // Reset flag as verse is added
+        }
+      }
+
+      // Add chorus at the end if it was not added and the last added was not a chorus
+      if (!lastAddedWasChorus && chorusText.isNotEmpty) {
+        verses.add(Verse(text: chorusText, isChorus: true));
+      }
+
+      return LzHymnModel(
+          hymnNumber: hymnNumber, hymnTitle: hymnTitle, verses: verses);
     } catch (e) {
       print('Error loading hymn from file: $e');
       return null;
@@ -139,7 +103,10 @@ class LoziHymnModel extends Equatable {
   }
 
   @override
-  List<Object?> get props => [hymnNumber, hymnTitle, verses];
+  List<Object> get props => [hymnNumber];
+
+  @override
+  bool get stringify => true;
 }
 
 class Verse {
@@ -152,7 +119,7 @@ class Verse {
   @override
   String toString() {
     if (isChorus) {
-      return 'Chorus:\n$text';
+      return 'MAKUTELO:\n$text';
     } else {
       return 'Verse $number:\n$text';
     }

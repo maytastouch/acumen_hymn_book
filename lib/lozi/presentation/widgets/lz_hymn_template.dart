@@ -9,9 +9,10 @@ import 'package:acumen_hymn_book/christ_in_song/presentation/widgets/back_widget
 import 'package:acumen_hymn_book/general_bloc/theme_bloc/theme_bloc.dart';
 
 import '../../data/models/lozi_hymn_model.dart';
+import '../bloc/lz_favorite_bloc/lz_favorite_bloc.dart';
 
 class LzHymnTemplate extends StatefulWidget {
-  final LoziHymnModel? hymnModel;
+  final LzHymnModel? hymnModel;
 
   const LzHymnTemplate({
     Key? key,
@@ -97,13 +98,37 @@ class _LzHymnTemplateState extends State<LzHymnTemplate> {
               textSize: 18,
             ),
             actions: [
-              IconButton(
-                icon: const Icon(
-                  Icons.favorite,
-                  color: Colors.red,
-                ),
-                onPressed: () {},
-              )
+              BlocBuilder<LzFavoriteBloc, LzFavoriteState>(
+                builder: (context, state) {
+                  if (state is LzFavoriteLoaded) {
+                    bool isFavorite = state.hymnModel.any((hymn) =>
+                        hymn.hymnTitle == widget.hymnModel!.hymnTitle);
+
+                    return IconButton(
+                      icon: Icon(
+                        isFavorite ? Icons.favorite : Icons.favorite_border,
+                        color: isFavorite ? Colors.red : Colors.grey,
+                      ),
+                      onPressed: () {
+                        BlocProvider.of<LzFavoriteBloc>(context).add(
+                          LzSetFavoriteEvent(hymnModel: widget.hymnModel!),
+                        );
+                      },
+                    );
+                  } else {
+                    // Default icon when state is not FavoriteLoaded
+                    return IconButton(
+                      icon: const Icon(Icons.favorite_border,
+                          color: Colors.white),
+                      onPressed: () {
+                        BlocProvider.of<LzFavoriteBloc>(context).add(
+                          LzSetFavoriteEvent(hymnModel: widget.hymnModel!),
+                        );
+                      },
+                    );
+                  }
+                },
+              ),
             ],
           ),
           body: ListView(

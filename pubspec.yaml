@@ -42,6 +42,7 @@ dependencies:
   html: ^0.15.4
   http: ^1.1.0
   oktoast: ^3.4.0
+  path_provider: ^2.1.1
   rxdart: ^0.27.7
   shared_preferences: ^2.2.2
 

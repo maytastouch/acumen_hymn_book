@@ -7,7 +7,8 @@ import 'package:flutter_iconly/flutter_iconly.dart';
 
 import '../../../core/constants/app_colors.dart';
 import '../../../general_bloc/theme_bloc/theme_bloc.dart';
-import '../../../u-Kristu Engomeni/presentation/bloc/xh_search_bloc/xh_search_bloc.dart';
+
+import '../bloc/lz_search_bloc/lz_search_bloc.dart';
 import 'lozi_home_screen.dart';
 
 class LoziBottomBarScreen extends StatefulWidget {
@@ -22,7 +23,7 @@ class _LoziBottomBarScreenState extends State<LoziBottomBarScreen> {
   int _selectedIndex = 0;
 
   final List _pages = [
-    const LoziHomeScreen(),
+    const LzHomeScreen(),
     const LoziFavouriteScreen(),
     const CISSettings(),
   ];
@@ -31,7 +32,7 @@ class _LoziBottomBarScreenState extends State<LoziBottomBarScreen> {
   void _selectedPage(int index) {
     setState(() {
       _selectedIndex = index;
-      context.read<XhSearchBloc>().add(XhLoadAllHymnsEvent()); //
+      context.read<LzSearchBloc>().add(LzLoadAllHymnsEvent()); //
     });
   }
 
