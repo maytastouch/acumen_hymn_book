@@ -103,7 +103,6 @@ class _XhHomeScreenState extends State<XhHomeScreen> {
                           ),
                           prefixIcon: const Icon(
                             Icons.search,
-                            color: AppColors.secondaryColor,
                           ),
                           contentPadding: const EdgeInsets.all(10),
                         ),

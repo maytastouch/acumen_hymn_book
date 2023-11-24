@@ -101,7 +101,6 @@ class _TnHomeScreenState extends State<TnHomeScreen> {
                           ),
                           prefixIcon: const Icon(
                             Icons.search,
-                            color: AppColors.secondaryColor,
                           ),
                           contentPadding: const EdgeInsets.all(10),
                         ),

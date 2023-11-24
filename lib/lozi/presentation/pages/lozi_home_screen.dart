@@ -103,7 +103,6 @@ class _LzHomeScreenState extends State<LzHomeScreen> {
                           ),
                           prefixIcon: const Icon(
                             Icons.search,
-                            color: AppColors.secondaryColor,
                           ),
                           contentPadding: const EdgeInsets.all(10),
                         ),

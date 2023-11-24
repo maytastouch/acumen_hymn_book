@@ -104,7 +104,6 @@ class _CISHomeScreenState extends State<CISHomeScreen> {
                           ),
                           prefixIcon: const Icon(
                             Icons.search,
-                            color: AppColors.secondaryColor,
                           ),
                           contentPadding: const EdgeInsets.all(10),
                         ),
