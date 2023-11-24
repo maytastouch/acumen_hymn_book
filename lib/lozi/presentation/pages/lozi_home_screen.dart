@@ -1,14 +1,14 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'package:acumen_hymn_book/Keresete%20Mo%20Kopelong/presentation/widgets/tn_hymn_template_widget.dart';
 import 'package:acumen_hymn_book/christ_in_song/data/datasource/local_data_source_methods.dart';
-import 'package:acumen_hymn_book/christ_in_song/data/models/hymn_model.dart';
+
 import 'package:acumen_hymn_book/christ_in_song/domain/entity/hymn_entity.dart';
 import 'package:acumen_hymn_book/christ_in_song/presentation/widgets/text_widget.dart';
 import 'package:acumen_hymn_book/core/constants/app_colors.dart';
 import 'package:acumen_hymn_book/side_bar_widget.dart';
-import 'package:flutter/foundation.dart';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../Keresete Mo Kopelong/presentation/bloc/tn_search_bloc/tn_search_bloc.dart';
@@ -16,6 +16,7 @@ import '../../../christ_in_song/presentation/widgets/hover_widget.dart';
 import '../../../general_bloc/theme_bloc/theme_bloc.dart';
 import '../../data/data_sources/lozi_data_source.dart';
 import '../../data/models/lozi_hymn_model.dart';
+import '../widgets/lz_hymn_template.dart';
 
 class LoziHomeScreen extends StatefulWidget {
   const LoziHomeScreen({super.key});
@@ -29,7 +30,7 @@ class _LoziHomeScreenState extends State<LoziHomeScreen> {
       LocalMethods.readHymnsFromFile('assets/hymns/lz/meta.json');
 
   final Future<List<LoziHymnModel>> mdHymnList =
-      LoziLocalMethods.fromDirectory('assets/hymns/lz');
+      LoziLocalMethods.fromDirectory('assets/hymns/lz/');
 
   //final TextEditingController _searchController = TextEditingController();
 
@@ -126,7 +127,7 @@ class _LoziHomeScreenState extends State<LoziHomeScreen> {
                             HymnEntity hymn = state.hymns[index];
                             return HoverableListItem(
                               hymn: hymn,
-                              onTap: () => _onHymnTap(hymn),
+                              onTap: () => _onHymnEntityTap(hymn),
                             );
                           },
                         ),
@@ -163,7 +164,7 @@ class _LoziHomeScreenState extends State<LoziHomeScreen> {
                       HymnEntity hymn = snapshot.data![index];
                       return HoverableListItem(
                         hymn: hymn,
-                        onTap: () => _onHymnTap(hymn),
+                        onTap: () => _onHymnEntityTap(hymn),
                       );
                     },
                   );
@@ -183,38 +184,58 @@ class _LoziHomeScreenState extends State<LoziHomeScreen> {
     );
   }
 
-  Future<HymnModel?> _fetchHymnModel(HymnEntity hymnEntity) async {
-    try {
-      String formattedHymnNumber = hymnEntity.number.padLeft(3, '0');
-      String filePath = 'assets/hymns/tn/$formattedHymnNumber.md';
-      // Adjust the path format as needed
-      HymnModel? hymnModel = await HymnModel.fromMarkdownFile(filePath);
-      return hymnModel;
-    } catch (e) {
-      // Handle the error, such as file not found or parsing error
-      if (kDebugMode) {
-        print('Error fetching HymnModel: $e');
-      }
-      return null;
-    }
-  }
-
-  void _onHymnTap(HymnEntity hymnEntity) async {
-    HymnModel? hymnModel = await _fetchHymnModel(hymnEntity);
-    if (hymnModel != null) {
+  void _onHymnEntityTap(HymnEntity hymnEntity) async {
+    // The logic to fetch LoziHymnModel based on HymnEntity
+    // This is a placeholder, adjust the logic as per your application's need
+    LoziHymnModel? loziHymn = await _fetchLoziHymnModel(hymnEntity);
+    if (loziHymn != null) {
       Navigator.of(context).push(
         MaterialPageRoute(
-          builder: (context) => TnHymnTemplate(hymnModel: hymnModel),
+          builder: (context) => LzHymnTemplate(hymnModel: loziHymn),
         ),
       );
     } else {
-      // Handle the null case, e.g., show an error message or navigate to an error page.
-
+      // Handle the null case, e.g., show an error message
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Error: Hymn not found or could not be loaded.'),
         ),
       );
+    }
+  }
+
+  Future<LoziHymnModel?> _fetchLoziHymnModel(HymnEntity hymnEntity) async {
+    String hymnNumberString = '';
+    try {
+      // Extracting hymn number as a string from hymnEntity (used only for file path)
+      String hymnNumberString = hymnEntity.number;
+
+      // Constructing the file path
+      String filePath = 'assets/hymns/lz/$hymnNumberString.htm';
+
+      // Use rootBundle to read the file
+      String hymnData = await rootBundle.loadString(filePath);
+
+      // Converting the hymn number string to an integer for fallback
+      int fallbackHymnNumber = int.parse(hymnNumberString);
+
+      // Creating LoziHymnModel using the HTML data and fallback hymn number
+      LoziHymnModel loziHymnModel =
+          LoziHymnModel.fromHtml(hymnData, fallbackHymnNumber);
+
+      // Printing out the verses
+      for (Verse verse in loziHymnModel.verses) {
+        print(
+            verse.text); // Or any other way you want to format the verse output
+      }
+
+      return loziHymnModel;
+    } catch (e, stackTrace) {
+      // Detailed logging
+      print('Error fetching LoziHymnModel: $e');
+      print('Stack Trace: $stackTrace');
+      print('Attempted file path: assets/hymns/lz/$hymnNumberString.htm');
+      return null;
     }
   }
 }

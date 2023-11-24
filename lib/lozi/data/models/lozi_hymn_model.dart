@@ -15,6 +15,73 @@ class LoziHymnModel extends Equatable {
     required this.verses,
   });
 
+  factory LoziHymnModel.fromHtml(String htmlData, int fallbackHymnNumber) {
+    final document = html.parse(htmlData);
+
+    // Extract hymn title
+    final hymnTitleElement = document.querySelector('.c1');
+    if (hymnTitleElement == null) {
+      throw const FormatException('Hymn title not found in HTML data.');
+    }
+    final hymnTitleText = hymnTitleElement.text.trim();
+
+    // Attempt to extract hymn number from the title
+    int hymnNumber;
+    final hymnNumberMatch = RegExp(r'^(\d+)').firstMatch(hymnTitleText);
+    if (hymnNumberMatch != null) {
+      hymnNumber =
+          int.tryParse(hymnNumberMatch.group(1)!) ?? fallbackHymnNumber;
+    } else {
+      hymnNumber = fallbackHymnNumber;
+    }
+
+    // Extract the rest of the title after the hymn number, if present
+    final hymnTitle = hymnNumberMatch != null
+        ? hymnTitleText.substring(hymnNumberMatch.group(0)!.length).trim()
+        : hymnTitleText;
+
+    // Extract verses and choruses
+    // Extract verses and choruses
+    final elements = document.querySelectorAll('.ListParagraph');
+    final List<Verse> verses = [];
+    String currentVerseText = '';
+    bool isChorus = false;
+
+    for (var element in elements) {
+      if (element.text.trim() == 'MAKUTELO:') {
+        // Add the previous verse to the list if it's not empty
+        if (currentVerseText.isNotEmpty) {
+          verses.add(Verse(
+            text: currentVerseText.trim(),
+            isChorus: isChorus,
+          ));
+        }
+        // Reset for the next verse/chorus
+        currentVerseText = '';
+        isChorus = true; // Next verse is a chorus
+        continue;
+      }
+
+      // Concatenate the lines of the verse/chorus
+      currentVerseText +=
+          (currentVerseText.isNotEmpty ? '\n' : '') + element.text.trim();
+    }
+
+    // Add the last verse/chorus if it's not empty
+    if (currentVerseText.isNotEmpty) {
+      verses.add(Verse(
+        text: currentVerseText.trim(),
+        isChorus: isChorus,
+      ));
+    }
+
+    return LoziHymnModel(
+      hymnTitle: hymnTitle,
+      hymnNumber: hymnNumber,
+      verses: verses,
+    );
+  }
+
   // Parse HTML file to create a LoziHymnModel object
   static Future<LoziHymnModel?> fromHtmlFile(String filePath) async {
     try {
