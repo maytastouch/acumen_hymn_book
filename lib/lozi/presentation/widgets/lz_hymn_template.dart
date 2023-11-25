@@ -167,7 +167,7 @@ class _LzHymnTemplateState extends State<LzHymnTemplate> {
                 child: Text(
                   verse.isChorus
                       ? "Makutelo:\n${verse.text}"
-                      : "Verse ${verse.number ?? ''}:\n${verse.text}",
+                      : "${verse.number ?? ''}.\n${verse.text}",
                   style: TextStyle(
                     color: textColor,
                     fontSize: _sliderFontSize,

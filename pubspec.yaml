@@ -70,6 +70,8 @@ flutter:
     - assets/hymns/tn/meta.json
     - assets/hymns/xh/meta.json
     - assets/hymns/lz/meta.json
+    - assets/hymns/sda/meta.json
+    - assets/hymns/sda/
     - assets/hymns/en/
     - assets/hymns/tn/
     - assets/hymns/xh/

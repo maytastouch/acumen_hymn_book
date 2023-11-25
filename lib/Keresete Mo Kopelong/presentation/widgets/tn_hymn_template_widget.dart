@@ -167,7 +167,7 @@ class _TnHymnTemplateState extends State<TnHymnTemplate> {
             child: Text(
               verse.isChorus
                   ? "Chorus:\n${verse.text}"
-                  : "Verse ${verse.number}:\n${verse.text}",
+                  : "${verse.number}.\n${verse.text}",
               style: TextStyle(
                 color: textColor,
                 fontSize: _sliderFontSize,

@@ -12,7 +12,6 @@ import '../../../christ_in_song/presentation/widgets/back_widget.dart';
 import '../../../general_bloc/theme_bloc/theme_bloc.dart';
 import '../bloc/xh_favorite_bloc/xh_favorite_bloc.dart';
 
-
 class XhHymnTemplate extends StatefulWidget {
   final HymnModel? hymnModel;
 
@@ -169,7 +168,7 @@ class _XhHymnTemplateState extends State<XhHymnTemplate> {
             child: Text(
               verse.isChorus
                   ? "Chorus:\n${verse.text}"
-                  : "Verse ${verse.number}:\n${verse.text}",
+                  : "${verse.number}.\n${verse.text}",
               style: TextStyle(
                 color: textColor,
                 fontSize: _sliderFontSize,

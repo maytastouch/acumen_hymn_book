@@ -14,6 +14,7 @@ import 'core/app_themes.dart';
 import 'general_bloc/church_name_bloc/church_name_bloc.dart';
 import 'lozi/presentation/bloc/lz_search_bloc/lz_search_bloc.dart';
 import 'lozi/presentation/pages/lozi_bottom_bar_screen.dart';
+import 'sda/presentation/pages/sda_bottom_bar_screen.dart';
 import 'u-Kristu Engomeni/presentation/bloc/xh_search_bloc/xh_search_bloc.dart';
 import 'u-Kristu Engomeni/presentation/pages/xh_bottom_bar_screen.dart';
 
@@ -133,7 +134,7 @@ class _SideBarState extends State<SideBar> {
                 icon: IconlyLight.arrowUpCircle,
                 onPressed: () {
                   GlobalMethods.navigateTo(
-                      ctx: context, routeName: LoziBottomBarScreen.routeName);
+                      ctx: context, routeName: SDABottomBarScreen.routeName);
                   // context.read<LzSearchBloc>().add(LzLoadAllHymnsEvent()); //
                 },
                 context: context,
@@ -186,7 +187,9 @@ Widget _listTiles({
           ? Colors.white
           : Colors.black;
       return ListTile(
-        title: TextWidget(text: title, color: textColor, textSize: 15),
+        title: Container(
+            margin: const EdgeInsets.only(top: 2),
+            child: TextWidget(text: title, color: textColor, textSize: 15)),
         subtitle:
             TextWidget(text: subtitle ?? "", color: textColor, textSize: 18),
         leading: Container(

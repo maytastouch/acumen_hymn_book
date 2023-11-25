@@ -18,6 +18,7 @@ import 'general_bloc/church_name_bloc/church_name_bloc.dart';
 import 'lozi/presentation/bloc/lz_favorite_bloc/lz_favorite_bloc.dart';
 import 'lozi/presentation/bloc/lz_search_bloc/lz_search_bloc.dart';
 import 'lozi/presentation/pages/lozi_bottom_bar_screen.dart';
+import 'sda/presentation/pages/sda_bottom_bar_screen.dart';
 import 'u-Kristu Engomeni/presentation/bloc/xh_favorite_bloc/xh_favorite_bloc.dart';
 import 'u-Kristu Engomeni/presentation/bloc/xh_search_bloc/xh_search_bloc.dart';
 import 'u-Kristu Engomeni/presentation/pages/xh_bottom_bar_screen.dart';
@@ -109,6 +110,8 @@ class _MyAppState extends State<MyApp> {
                 XhBottomBarScreen.routeName: (ctx) => const XhBottomBarScreen(),
                 LoziBottomBarScreen.routeName: (ctx) =>
                     const LoziBottomBarScreen(),
+                SDABottomBarScreen.routeName: (ctx) =>
+                    const SDABottomBarScreen(),
               },
             ),
           );

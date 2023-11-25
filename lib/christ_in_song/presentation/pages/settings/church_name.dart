@@ -68,7 +68,7 @@ class _ChurchNameSettingsState extends State<ChurchNameSettings> {
                       padding:
                           EdgeInsets.symmetric(vertical: 20.0, horizontal: 20),
                       child: Text(
-                        'Enter the name of your church',
+                        'Enter the name of your church and press "ENTER"',
                         style: TextStyle(fontSize: 15),
                       ),
                     ),
@@ -94,7 +94,7 @@ class _ChurchNameSettingsState extends State<ChurchNameSettings> {
                                 : AppColors.mainColor,
                           ), // Set the focused border color to white when isDark is true, otherwise set to yellow
                         ),
-                        labelText: 'Enter Church Name',
+                        labelText: 'Church Name',
                         border: const OutlineInputBorder(
                           borderSide: BorderSide(),
                         ),
