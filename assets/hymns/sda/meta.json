@@ -18,12 +18,12 @@
     "author": "Francis of Asisi",
     "key": "D",
     "stanzas": {
-    "1": "All creatures of our God and King, Lift up your voice with us and sing: Alleluia! Alleluia! O burning sun with golden beam And silver moon with softer gleam: Refrain Oh, praise Him! Oh, praise Him! Alleluia, alleluia, alleluia!",
+    "1": "All creatures of our God and King, Lift up your voice with us and sing: Alleluia! Alleluia! O burning sun with golden beam And silver moon with softer gleam:",
     "2": "O rushing wind and breezes soft, O clouds that ride the winds aloft: Oh, praise Him! Alleluia! O rising morn, in praise rejoice, O lights of evening, find a voice.",
     "3": "flowing waters, pure and clear, Make music for your Lord to hear. Oh praise Him! Alleluia! O fire so masterful and bright, Providing us with warmth and light.",
     "4": "Let all things their Creator bless, And worship him in humbleness, O praise him Alleluia! Oh, praise the Father, praise the Son, And praise the Spirit, three in One!"
     },
-    "choruses": {}
+    "choruses": {"1":"Oh, praise Him! Oh, praise Him! Alleluia, alleluia, alleluia!'"}
     },
     "2": {
     "id": 3,
@@ -330,13 +330,13 @@
     "author": "Edward H. Plumptre",
     "key": "F",
     "stanzas": {
-    "1": "Rejoice ye pure in heart! Rejoice, give thanks, and sing; Your festal banner wave on high, The cross of Christ your King. Refrain Rejoice, rejoice, rejoice, Give thanks and sing.",
+    "1": "Rejoice ye pure in heart! Rejoice, give thanks, and sing; Your festal banner wave on high, The cross of Christ your King.",
     "2": "With voice as full and strong As ocean`s surging praise, Send forth the sturdy hymns of old, The psalms of ancient days.",
     "3": "With all the angel choirs, With all the saints of earth, Pour out the strains of joy and bliss, True rapture, noblest mirth.",
     "4": "Yes, on through life`s long path, Still chanting as ye go; From youth to age, by night and day, In gladness and in woe.",
     "5": "Praise Him who reigns on high, The Lord whom we adore, The Father, Son and Holy Ghost, One God forever more. (Refrain)"
     },
-    "choruses": {}
+    "choruses": {"1":"Rejoice, rejoice, rejoice, Give thanks and sing."}
     },
     "27": {
     "id": 28,
@@ -420,11 +420,11 @@
     "author": "",
     "key": "",
     "stanzas": {
-    "1": "Wake the song of joy and gladness; Hither bring your noblest lays; Bannish every thought of sadness, Pouring forth your highest praise. Sing to Him whose care has brought us Once again with friends to meet, And whose loving voice has taught us Of the way to Jesus` feet. Refrain Wake the song, wake the song, The song of joy and gladness, Wake the song, wake the song, The song of Jubilee.",
+    "1": "Wake the song of joy and gladness; Hither bring your noblest lays; Bannish every thought of sadness, Pouring forth your highest praise. Sing to Him whose care has brought us Once again with friends to meet, And whose loving voice has taught us Of the way to Jesus` feet.",
     "2": "Joyfully with songs and banners, We will greet the festal day; Shout aloud our glad hosannas, And our grateful homage pay. We will chant our Savior`s glory while our thoughts we raise above, Telling still the old, old, story, Precious theme- redeeming love!",
     "3": "Thanks to Thee, O holy Father, For the mercies of the year; May each heart, as here we gather, Swell with gratitude sincere, Thanks to Thee, O loving Savior, For redemption through Thy blood. Breathe upon us, Holy Spirit, Sweetly draw us near to God."
     },
-    "choruses": {}
+    "choruses": {"1":"Wake the song, wake the song, The song of joy and gladness, Wake the song, wake the song, The song of Jubilee."}
     },
     "34": {
     "id": 35,
@@ -642,12 +642,12 @@
     "author": "",
     "key": "",
     "stanzas": {
-    "1": "Day is dying in the west; Heaven is touching earth with rest; Wait and worship while the night Sets the evening lamps alight Through all the sky. Refrain Holy, holy, holy, Lord God of Hosts! Heaven and earth are full of Thee! Heaven and earth are praising Thee, O Lord most high!",
+    "1": "Day is dying in the west; Heaven is touching earth with rest; Wait and worship while the night Sets the evening lamps alight Through all the sky.",
     "2": "Lord of life, beneath the dome Of the universe, Thy home, Gather us who seek Thy face To the fold of Thy embrace, For Thou art nigh.",
     "3": "While the deepening shadows fall, Heart of love enfolding all, Through the glory and the grace Of the stars that veil Thy face, Our hearts ascend.",
     "4": "When forever from our sight Pass the stars, the day, the night, Lord of angels, on our eyes Let eternal morning rise And shadows end."
     },
-    "choruses": {}
+    "choruses": {"1":"Holy, holy, holy, Lord God of Hosts! Heaven and earth are full of Thee! Heaven and earth are praising Thee, 0 Lord most high!"}
     },
     "51": {
     "id": 52,
@@ -816,12 +816,12 @@
     "author": "",
     "key": "",
     "stanzas": {
-    "1": "God be with you till we meet again; By His counsels guide, uphold you, With His sheep securely fold you; God be with you till we meet again. Refrain Till we meet, till we meet, Till we meet at Jesus` feet; Till we meet, till we meet, God be with you till we meet again.",
+    "1": "God be with you till we meet again; By His counsels guide, uphold you, With His sheep securely fold you; God be with you till we meet again.",
     "2": "God be with you till we meet again; `Neath His wings securely hide you; Daily manna still provide you; God be with you till we meet again.",
     "3": "God be with you till we meet again; When life`s perils thick confound you; Put His arms unfailing round you; God be with you till we meet again.",
     "4": "God be with you till we meet again; Keep love`s banner floating over you, Strike death`s threatening wave before you; God be with you till we meet again."
     },
-    "choruses": {}
+    "choruses": {"1":"Till we meet, till we meet, Till we meet at Jesus feet; Till we meet, till we meet, God be with you till we meet again."}
     },
     "65": {
     "id": 66,
@@ -929,11 +929,11 @@
     "author": "",
     "key": "",
     "stanzas": {
-    "1": "Like a river glorious, is God`s perfect peace, Over all victorious, in its bright increase; Perfect, yet it floweth, fuller every day, Perfect, yet it groweth, deeper all the way. Refrain Stayed upon Jehovah, hearts are fully blessed Finding, as He promised, perfect peace and rest.",
+    "1": "Like a river glorious, is God`s perfect peace, Over all victorious, in its bright increase; Perfect, yet it floweth, fuller every day, Perfect, yet it groweth, deeper all the way.",
     "2": "Hidden in the hollow of His blessed hand, Never foe can follow, never traitor stand; Not a surge of worry, not a shade of care, Not a blast of hurry touch the spirit there.",
     "3": "Every joy or trial falleth from above, Traced upon our dial by the Sun of Love; We may trust Him fully all for us to do. They who trust Him wholly find Him wholly true."
     },
-    "choruses": {}
+    "choruses": {"1":"Stayed upon Jehovah, hearts are fully blessed Finding, as He promised, perfect peace and rest."}
     },
     "74": {
     "id": 75,
@@ -1253,12 +1253,12 @@
     "author": "",
     "key": "",
     "stanzas": {
-    "1": "Be not dismayed whate`er betide, God will take care of you; beneath his wings of love abide, God will take care of you. Refrain God will take care of you, through every day, o`er all the way; he will take care of you, God will take care of you.",
+    "1": "Be not dismayed whate`er betide, God will take care of you; beneath his wings of love abide, God will take care of you.",
     "2": "Through days of toil when heart doth fail, God will take care of you; when dangers fierce your path assail, God will take care of you.",
     "3": "All you may need he will provide, God will take care of you; nothing you ask will be denied, God will take care of you.",
     "4": "No matter what may be the test, God will take care of you; lean, weary one, upon his breast, God will take care of you."
     },
-    "choruses": {}
+    "choruses": {"1":"God will take care of you, through every day, o'er all the way; he will take care of you, God will take care of you."}
     },
     "99": {
     "id": 100,
@@ -1266,11 +1266,11 @@
     "author": "",
     "key": "",
     "stanzas": {
-    "1": "Great is Thy faithfulness, O God my Father, There is no shadow of turning with Thee; Thou changest not, Thy compassions, they fail not; As Thou has been Thou forever will be. Refrain Great is Thy faithfulness! Great is Thy faithfulness! Morning by morning new mercies I see All I have needed Thy hand hath provided, Great is Thy faithfulness! Lord unto me!",
+    "1": "Great is Thy faithfulness, O God my Father, There is no shadow of turning with Thee; Thou changest not, Thy compassions, they fail not; As Thou has been Thou forever will be.",
     "2": "Summer and winter, and springtime and harvest, Sun, moon, and stars in their courses above, Join with all nature in manifold witness To Thy great faithfulness, mercy, and love.",
     "3": "Pardon for sin and a peace that endureth, Thy own dear presence to cheer and to guide; Strength for today and bright hope for tomorrow, Blessings all mine, with ten thousand beside."
     },
-    "choruses": {}
+    "choruses": {"1":"Great is Thy faithfulness! Great is Thy faithfulness! Morning by morning new mercies I see All I have needed Thy hand hath provided, Great is Thy faithfulness! Lord unto me!"}
     },
     "100": {
     "id": 101,
@@ -1384,11 +1384,11 @@
     "author": "",
     "key": "",
     "stanzas": {
-    "1": "Marvelous grace of our loving Lord. Grace that exceeds our sin and our guilt! Yonder on Calvary`s mount outpoured There where the blood of the Lamb was spilt. Refrain Grace, grace,God`s grace, Grace that will pardon and cleanse within Grace, grace, God`s grace, Grace that is greater than all our sin!",
+    "1": "Marvelous grace of our loving Lord. Grace that exceeds our sin and our guilt! Yonder on Calvary`s mount outpoured There where the blood of the Lamb was spilt.",
     "2": "Sin and despair, like the seawaves cold, Threaten the soul with infinite loss; Grace that is greater yes grace untold Points to the Refuge, the mighty Cross.",
     "3": "Marvelous, infinite, matchless grace, Freely bestowed on all who believe! You that are longing to see His face, Will you this moment His grace receive?"
     },
-    "choruses": {}
+    "choruses": {"1":"Grace, grace, God's grace, Grace that will pardon and cleanse within Grace, grace, God's grace, Grace that is greater than all our sin!'"}
     },
     "109": {
     "id": 110,
@@ -1462,11 +1462,11 @@
     "author": "",
     "key": "",
     "stanzas": {
-    "1": "O come, O come, Immanuel, And ransom captive Israel That mourns in lonely exile here Until the Son of God appear. Refrain Rejoice! Rejoice! Immanuel Shall come to thee, O Israel!",
+    "1": "O come, O come, Immanuel, And ransom captive Israel That mourns in lonely exile here Until the Son of God appear.",
     "2": "O come, Thou Wisdom from on high, And order all things, far and nigh; To us the path of knowledge show, And cause us in her ways to go.",
     "3": "O come, Desire of nations, bind All peoples in one heart and mind; Bid envy, strife, and quarrels cease; Fill the whole world with heaven`s peace."
     },
-    "choruses": {}
+    "choruses": {"1":"Rejoice! Rejoice! Immanuel Shall come to thee, 0 Israel!"}
     },
     "115": {
     "id": 116,
@@ -1499,13 +1499,13 @@
     "author": "",
     "key": "",
     "stanzas": {
-    "1": "The first noel the angel did say Was to certain poor shepherds in fields where they lay; In fields where they lay keeping their sheep, On a cold winter`s night that was so deep. Refrain Noel, Noel, Noel, Noel, Born is the King of Israel",
+    "1": "The first noel the angel did say Was to certain poor shepherds in fields where they lay; In fields where they lay keeping their sheep, On a cold winter`s night that was so deep.",
     "2": "They looked up and say a star Shining in the east, beyond them far, And to the earth it gave great light, And so it continued both day and night.",
     "3": "And by the light of that same star, Three wise men came from country far, And to the earth it gave great light, And to follow the star wherever it went.",
     "4": "This star drew nigh to the northwest, O`er Bethlehem it took its rest, And there it did both stop and stay, Right over the place where Jesus lay.",
     "5": "Then entered in those wise men three, Full reverently upon the knee, And offered there, in His presence, Their gold, and myrrh, and frankincense."
     },
-    "choruses": {}
+    "choruses": {"1":"Noel, Noel, Noel, Noel, Born is the King of Israel"}
     },
     "118": {
     "id": 119,
@@ -1736,13 +1736,13 @@
     "author": "",
     "key": "",
     "stanzas": {
-    "1": "We three kings of Orient are; Bearing gifts we traverse afar Field and fountain, moor and mountain, Following yonder star. Refrain O star of wonder, star of night, Star with royal beauty bright, Westward leading, still proceeding, Guide us to Thy perfect light.",
+    "1": "We three kings of Orient are; Bearing gifts we traverse afar Field and fountain, moor and mountain, Following yonder star.",
     "2": "Born a King on Bethlehem`s plain, Gold I bring to crown Him again, King forever, ceasing never Over us all to reign.",
     "3": "Frankincense to offer have I; Incense owns a Deity nigh; Prayer and praising all men raising, Worship Him, God on high.",
     "4": "Myrrh is mine; its bitter perfume Breathes a life of gathering gloom: Sorrowing, sighing, bleeding, dying, Sealed in the stonecold tomb.",
     "5": "Glorious now behold Him arise, King and God and sacrifice; Alleluia, Alleluia! Sounds through the earth and skies."
     },
-    "choruses": {}
+    "choruses": {"1":"star of wonder, star of night, Star with royal beauty bright, Westward leading, still proceeding, Guide us to Thy perfect light."}
     },
     "137": {
     "id": 138,
@@ -1750,10 +1750,10 @@
     "author": "",
     "key": "",
     "stanzas": {
-    "1": "There`s a star in the east on Christmas morn. Rise up shepherd, and follow. It will lead to the place where the Savior`s born, Rise up shepherd, and follow. Refrain Leave your sheep and leave your lambs, Rise up, shepherd, and follow. Leave your ewes and leave your rams, Rise up shepherd, and follow. Follow, follow, Rise up, shepherd and follow. Follow the star of Behlehem, Rise up, shepherd, and follow.",
+    "1": "There`s a star in the east on Christmas morn. Rise up shepherd, and follow. It will lead to the place where the Savior`s born, Rise up shepherd, and follow.",
     "2": "If you take good heed to the angel`s words, Rise up, shepherd, and follow. You`ll forget your flocks, you`ll forget your herds, Rise up, shepherd, and follow."
     },
-    "choruses": {}
+    "choruses": {"1":"Leave your sheep and leave your lambs, Rise up, shepherd, and follow. Leave your ewes and leave your rams, Rise up shepherd, and follow. Follow, follow, Rise up, shepherd and follow. Follow the star of Behlehem, Rise up, shepherd, and follow."}
     },
     "138": {
     "id": 139,
@@ -1793,11 +1793,11 @@
     "author": "",
     "key": "",
     "stanzas": {
-    "1": "What child is this, who, laid to rest, On Mary`s lap is sleeping? Whom angels greet with anthems sweet, While shepherds watch are keeping? Refrain This, this is Christ the King, Whom shepherds guard and angels sing: Haste, haste to bring Him laud, The babe, the son of Mary.",
+    "1": "What child is this, who, laid to rest, On Mary`s lap is sleeping? Whom angels greet with anthems sweet, While shepherds watch are keeping?",
     "2": "Why lies He in such mean estate Where ox and ass are feeding? Good Christian, fear: for sinners here The silent Word is pleading.",
     "3": "So bring Him incense, gold, and myrrh, Come, peasant, king, to own Him, The King of kings salvation brings, Let loving hearts enthrone Him."
     },
-    "choruses": {}
+    "choruses": {"1":"This, this is Christ the King, Whom shepherds guard and angels sing: Haste, haste to bring Him laud, The babe, the son of Mary."}
     },
     "141": {
     "id": 142,
@@ -1805,12 +1805,12 @@
     "author": "",
     "key": "",
     "stanzas": {
-    "1": "Angels we have heard on high, Singing sweetly through the night, And the mountains, in reply, Echoing their brave delight. Refrain Gloria, in excelsis Deo, Gloria in excelsis Deo.",
+    "1": "Angels we have heard on high, Singing sweetly through the night, And the mountains, in reply, Echoing their brave delight.",
     "2": "Shepherds, why this jubilee? Why this songs of happy cheer? What great brightness did you see? What glad tidings did you hear?",
     "3": "Come to Bethlehem and see Him whose birth the angels sing; Come adore, on bended knee, Christ the Lord, the newborn King.",
     "4": "See Him in a manger laid, Whom the angels praise above; Mary, Joseph, lend your aid, While we raise our hearts in love."
     },
-    "choruses": {}
+    "choruses": {"1":"Gloria, in excelsis Deo, Gloria in excelsis Deo."}
     },
     "142": {
     "id": 143,
@@ -1942,11 +1942,11 @@
     "author": "",
     "key": "",
     "stanzas": {
-    "1": "Tell me the story of Jesus, Write on my heart every word, Tell me the story most precious Sweetest that ever was heard; Tell how the angels, in chorus, Sang as they welcomed His birth, Glory to God in the highest, Peace and good tidings to earth. Refrain Tell me the story of Jesus, Write on my heart every word, Tell me the story most precious, Sweetest that ever was heard.",
+    "1": "Tell me the story of Jesus, Write on my heart every word, Tell me the story most precious Sweetest that ever was heard; Tell how the angels, in chorus, Sang as they welcomed His birth, Glory to God in the highest, Peace and good tidings to earth.",
     "2": "Fasting, alone in the desert, Tell of the days that He passed, How for our sins He was tempted, Yet was triumphant at last; Tell of the years of His labor, Tell of the sorrow He bore, He was despised and afflicted, Homeless, rejected, and poor.",
     "3": "Tell of the cross where they nailed Him, Writhing in anguish and pain; Tell of the grave where they laid Him, Tell how He liveth again; Love in that story so tender, Clearer than ever I see; Stay, let me weep while you whisper, Love paid the ransom for me."
     },
-    "choruses": {}
+    "choruses": {"1":"Tell me the story of Jesus, Write on my heart every word, Tell me the story most precious, Sweetest that ever was heard."}
     },
     "152": {
     "id": 153,
@@ -2030,11 +2030,11 @@
     "author": "",
     "key": "",
     "stanzas": {
-    "1": "On a hill far away stood an old rugged cross, the emblem of suffering and shame; and I love that old cross where the dearest and best for a world of lost sinners was slain. Refrain So I`ll cherish the old rugged cross, till my trophies at last I lay down; I will cling to the old rugged cross, and exchange it some day for a crown.",
+    "1": "On a hill far away stood an old rugged cross, the emblem of suffering and shame; and I love that old cross where the dearest and best for a world of lost sinners was slain.",
     "2": "O that old rugged cross, so despised by the world, has a wondrous attraction for me; for the dear Lamb of God left his glory above to bear it to dark Calvary.",
     "3": "To that old rugged cross I will ever be true, its shame and reproach gladly bear; then he`ll call me some day to my home far away, where his glory forever I`ll share."
     },
-    "choruses": {}
+    "choruses": {"1":"So I'll cherish the old rugged cross, till my trophies at last I lay down; I will cling to the old rugged cross, and exchange it some day for a crown."}
     },
     "159": {
     "id": 160,
@@ -2080,11 +2080,11 @@
     "author": "",
     "key": "",
     "stanzas": {
-    "1": "Alas! and did my Savior bleed, and did my Sovereign die? Would he devote that sacred head for sinners such as I? Refrain At the cross, at the cross, where I first saw the light, and the burden of my heart rolled away; it was there by faith I received my sight, and now I am happy all the day!",
+    "1": "Alas! and did my Savior bleed, and did my Sovereign die? Would he devote that sacred head for sinners such as I?",
     "2": "Was it for crimes that I have done, he groaned upon the tree? Amazing pity! Grace unknown! And love beyond degree!",
     "3": "But drops of grief can ne`er repay the debt of love I owe: Here, Lord, I give myself away; `tis all that I can do!"
     },
-    "choruses": {}
+    "choruses": {"1":"At the cross, at the cross, where I first saw the light, and the burden of my heart rolled away; it was there by faith I received my sight, and now I am happy all the day!"}
     },
     "163": {
     "id": 164,
@@ -2181,11 +2181,11 @@
     "author": "",
     "key": "",
     "stanzas": {
-    "1": "Thine is the glory, Risen, conquering Son; Endless is the victory Thou o`er death hast won. Angels in bright raiment Rolled the stone away, Kept the folded grave-clothes Where Thy body lay. Refrain Thine is the glory, Risen, conquering Son; Endless is the victory Thou o`er death hast won.",
+    "1": "Thine is the glory, Risen, conquering Son; Endless is the victory Thou o`er death hast won. Angels in bright raiment Rolled the stone away, Kept the folded grave-clothes Where Thy body lay.",
     "2": "Lo! Jesus meets us. Risen from the tomb, Lovingly He greets us, Scatters fear and gloom; Let His Church with gladness Hymns of triumph sing, For her Lord now liveth; Death has lost its sting.",
     "3": "No more we doubt Thee, Glorious Prince of life! Life is nought without Thee; Aid us in our strife; Make us more than conquerors, Through Thy deathless love; Bring us safe through Jordan To Thy home above."
     },
-    "choruses": {}
+    "choruses": {"1":"Thine is the glory, Risen, conquering Son; Endless is the victory Thou o'er death hast won.'"}
     },
     "171": {
     "id": 172,
@@ -2316,11 +2316,11 @@
     "author": "",
     "key": "",
     "stanzas": {
-    "1": "Does Jesus care when my heart is pained Too deeply for mirth and song; As the burdens press, and the cares distress, And the way grows weary and long? Refrain O yes, He cares- I know He cares! His heart is touched with my grief; When the days are weary, The long nights dreary, I know my Savior cares. (He cares.)",
+    "1": "Does Jesus care when my heart is pained Too deeply for mirth and song; As the burdens press, and the cares distress, And the way grows weary and long?",
     "2": "Does Jesus care when my way is dark With a nameless dread and fear? As the daylight fades into deep night shades, Does He care enough to be near?",
     "3": "Does Jesus care when I`ve said goodbye To the dearest on earth to me, And my sad heart aches till it nearly breaks - Is it aught to Him? Does He see?"
     },
-    "choruses": {}
+    "choruses": {"1":"yes, He cares- I know He cares! His heart is touched with my grief; When the days are weary, The long nights dreary, I know my Savior cares. (He cares.)"}
     },
     "181": {
     "id": 182,
@@ -2341,11 +2341,11 @@
     "author": "",
     "key": "",
     "stanzas": {
-    "1": "I Will sing of Jesus love, Sing of Him,who first loved me; for He left bright worlds above, And died on Calvary. Refrain I will sing of Jesus love Endless praise my heart shall give; He has died that I might live I will sing His love to me.",
+    "1": "I Will sing of Jesus love, Sing of Him,who first loved me; for He left bright worlds above, And died on Calvary.",
     "2": "O the depths of love divine! Earth or heaven can never know How that sin as dark as mine can be made as white as snow.",
     "3": "Nothing good for Him I`ve done; How could He such love bestow? Lord, I own my heart is won, help me now my love to show."
     },
-    "choruses": {}
+    "choruses": {"1":"I will sing of Jesus love Endless praise my heart shall give; He has died that I might live I will sing His love to me."}
     },
     "183": {
     "id": 184,
@@ -2353,12 +2353,12 @@
     "author": "",
     "key": "",
     "stanzas": {
-    "1": "I hear the Savior say, \"Thy strength indeed is small; Child of weakness, watch and pray, Find in Me thine all in all.\" Refrain Jesus paid it all, All to Him I owe; Sin had left a crimson stain; He washed it white as snow.",
+    "1": "I hear the Savior say, \"Thy strength indeed is small; Child of weakness, watch and pray, Find in Me thine all in all.\"",
     "2": "Lord, now indeed I find Thy power, and Thine alone, Can change the leper`s spots, And melt the heart of stone.",
     "3": "Since nothing good have I Whereby Thy grace to claim, I`ll wash my garment white In the blood of Calvary`s Lamb.",
     "4": "And when before the throne I stand in Him complete, I`ll lay my trophies down, All down at Jesus` feet."
     },
-    "choruses": {}
+    "choruses": {"1":"Jesus paid it all, All to Him I owe; Sin had left a crimson stain; He washed it white as snow."}
     },
     "184": {
     "id": 185,
@@ -2437,11 +2437,11 @@
     "author": "",
     "key": "",
     "stanzas": {
-    "1": "Jesus loves me! this I know, For the Bible tells me so; Little ones to Him belong They are weak but He is strong Refrain Yes, Jesus loves me! Yes, Jesus loves me! Yes, Jesus loves me! The Bible tells me so.",
+    "1": "Jesus loves me! this I know, For the Bible tells me so; Little ones to Him belong They are weak but He is strong",
     "2": "Jesus loves me! He wo died Heaven`s gate to open wide: He will wash away my sin, Let His little child come in.",
     "3": "Jesus, take this heart of mine, Make it pure and wholly thine; On the coross You died for me, I will love and live for Thee."
     },
-    "choruses": {}
+    "choruses": {"1":"Yes, Jesus loves me! Yes, Jesus loves me! Yes, Jesus loves me! The Bible tells me so."}
     },
     "190": {
     "id": 191,
@@ -2503,12 +2503,12 @@
     "author": "",
     "key": "",
     "stanzas": {
-    "1": "\"There shall be showers of blessing;\" This is the promise of love; There shall be seasons refreshing, Sent from the Savior above. Refrain Showers of blessing, Showers of blessing we need; Mercy drops round us are falling, But for the showers we plead.",
+    "1": "\"There shall be showers of blessing;\" This is the promise of love; There shall be seasons refreshing, Sent from the Savior above.",
     "2": "\"There shall be showers of blessing;\" Precious reviving again; Over the hills and the valleys, Sound of abundance of rain.",
     "3": "\"There shall be showers of blessing;\" Send them upon us, O Lord; Grant to us now a refreshing; Come, and now honor Thy word.",
     "4": "\"There shall be showers of blessing;\" O that today they might fall, Now as to God were confessing, Now as on Jesus we call!"
     },
-    "choruses": {}
+    "choruses": {"1":"Showers of blessing, Showers of blessing we need; Mercy drops round us are falling, But for the showers we plead."}
     },
     "195": {
     "id": 196,
@@ -2541,12 +2541,12 @@
     "author": "",
     "key": "",
     "stanzas": {
-    "1": "And can it be that I should gain an interest in the Savior`s blood! Died he for me? who caused his pain! For me? who him to death pursued? Amazing love! How can it be that thou, my God, shouldst die for me? Refrain Amazing love! How can it be that thou, my God, shouldst die for me?",
+    "1": "And can it be that I should gain an interest in the Savior`s blood! Died he for me? who caused his pain! For me? who him to death pursued? Amazing love! How can it be that thou, my God, shouldst die for me?",
     "2": "He left his Father`s throne above so free, so infinite his grace!; emptied himself of all but love, and bled for Adam`s helpless race. `Tis mercy all, immense and free, for O my God, it found out me!",
     "3": "Long my imprisoned sprit lay, fast bound in sin and nature`s night; thine eye diffused a quickening ray; I woke, the dungeon flamed with light; my chains fell off, my heart was free, I rose, went forth, and followed thee.",
     "4": "No condemnation now I dread; Jesus, and all in him, is mine; alive in him, my living Head, and clothed in righteousnes divine, bold I approach th` eternal throne, and claim the crown, through Christ my own."
     },
-    "choruses": {}
+    "choruses": {"1":"Amazing love! How can it be that thou, my God, shouldst die for me?"}
     },
     "198": {
     "id": 199,

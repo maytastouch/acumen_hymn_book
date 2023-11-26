@@ -8,13 +8,14 @@ import '../../../christ_in_song/presentation/widgets/text_widget.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../../general_bloc/theme_bloc/theme_bloc.dart';
 
-import '../../../lozi/data/data_sources/lozi_data_source.dart';
-import '../../../lozi/data/models/lozi_hymn_model.dart';
-import '../../../lozi/domain/lz_hymn_entity.dart';
 import '../../../lozi/presentation/bloc/lz_search_bloc/lz_search_bloc.dart';
-import '../../../lozi/presentation/widgets/home_hover_widget.dart';
-import '../../../lozi/presentation/widgets/lz_hymn_template.dart';
+
 import '../../../side_bar_widget.dart';
+import '../../data/datasource/sda_data_source.dart';
+import '../../data/models/sda_hymn_model.dart';
+import '../bloc/sda_bloc/sda_search_bloc.dart';
+import '../widgets/sda_hover_item.dart';
+import '../widgets/sda_hymn_template.dart';
 
 class SDAHomeScreen extends StatefulWidget {
   const SDAHomeScreen({super.key});
@@ -24,11 +25,8 @@ class SDAHomeScreen extends StatefulWidget {
 }
 
 class _SDAHomeScreenState extends State<SDAHomeScreen> {
-  final Future<List<LzHymnEntity>> christInSongMap =
-      LzLocalMethods.readHymnsFromFile('assets/hymns/lz/meta.json');
-
-  final Future<List<LzHymnModel>> mdHymnList =
-      LzLocalMethods.fromDirectory('assets/hymns/lz');
+  final Future<List<SDAHymnModel>> sdaHymnList =
+      SDALocalMethods.fromJsonFile('assets/hymns/sda/meta.json');
 
   //final TextEditingController _searchController = TextEditingController();
 
@@ -74,12 +72,12 @@ class _SDAHomeScreenState extends State<SDAHomeScreen> {
                         onChanged: (value) {
                           if (value.trim().isEmpty) {
                             // Handle empty search query
-                            context.read<LzSearchBloc>().add(
-                                LzLoadAllHymnsEvent()); // or your equivalent event
+                            context.read<SDASearchBloc>().add(
+                                SDALoadAllHymnsEvent()); // or your equivalent event
                           } else {
                             context
-                                .read<LzSearchBloc>()
-                                .add(LzSearchHymnsEvent(query: value));
+                                .read<SDASearchBloc>()
+                                .add(SDASearchHymnsEvent(query: value));
                           }
                         },
 
@@ -111,9 +109,9 @@ class _SDAHomeScreenState extends State<SDAHomeScreen> {
                 ),
               ),
               Expanded(
-                child: BlocBuilder<LzSearchBloc, LzSearchState>(
+                child: BlocBuilder<SDASearchBloc, SDASearchState>(
                   builder: (context, state) {
-                    if (state is LzSearchLoaded) {
+                    if (state is SDASearchLoaded) {
                       return Container(
                         color: dynamicColor ? Colors.black : Colors.white,
                         margin: const EdgeInsets.symmetric(
@@ -121,8 +119,8 @@ class _SDAHomeScreenState extends State<SDAHomeScreen> {
                         child: ListView.builder(
                           itemCount: state.hymns.length,
                           itemBuilder: (context, index) {
-                            LzHymnEntity hymn = state.hymns[index];
-                            return LzHomeHoverableListItem(
+                            SDAHymnModel hymn = state.hymns[index];
+                            return SDAHomeHoverableListItem(
                               hymn: hymn,
                               onTap: () => _onHymnTap(hymn),
                             );
@@ -149,8 +147,8 @@ class _SDAHomeScreenState extends State<SDAHomeScreen> {
         return Container(
           color: dynamicColor ? Colors.black : Colors.white,
           margin: const EdgeInsets.symmetric(horizontal: 0, vertical: 5),
-          child: FutureBuilder<List<LzHymnEntity>>(
-            future: christInSongMap,
+          child: FutureBuilder<List<SDAHymnModel>>(
+            future: sdaHymnList,
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.done) {
                 if (snapshot.hasData) {
@@ -158,8 +156,8 @@ class _SDAHomeScreenState extends State<SDAHomeScreen> {
                   return ListView.builder(
                     itemCount: snapshot.data!.length,
                     itemBuilder: (context, index) {
-                      LzHymnEntity hymn = snapshot.data![index];
-                      return LzHomeHoverableListItem(
+                      SDAHymnModel hymn = snapshot.data![index];
+                      return SDAHomeHoverableListItem(
                         hymn: hymn,
                         onTap: () => _onHymnTap(hymn),
                       );
@@ -181,15 +179,23 @@ class _SDAHomeScreenState extends State<SDAHomeScreen> {
     );
   }
 
-  Future<LzHymnModel?> _fetchHymnModel(LzHymnEntity hymnEntity) async {
+  Future<SDAHymnModel?> _fetchHymnModel(SDAHymnModel hymnModel) async {
     try {
-      //String formattedHymnNumber = hymnEntity.number.padLeft(3, '0');
-      String filePath = 'assets/hymns/lz/${hymnEntity.number}.md';
-      // Adjust the path format as needed
-      LzHymnModel? hymnModel = await LzHymnModel.fromMarkdownFile(filePath);
-      return hymnModel;
+      // Await the resolution of the sdaHymnList Future
+      List<SDAHymnModel> hymns = await sdaHymnList;
+
+      // Now you can use firstWhere on the list
+      return hymns.firstWhere(
+        (h) => h.number == hymnModel.number,
+        orElse: () =>
+            // ignore: cast_from_null_always_fails
+            const SDAHymnModel(
+          number: '0',
+          title: 'nothing',
+          verses: [],
+        ), // Explicitly casting null to SDAHymnModel?
+      );
     } catch (e) {
-      // Handle the error, such as file not found or parsing error
       if (kDebugMode) {
         print('Error fetching HymnModel: $e');
       }
@@ -197,17 +203,15 @@ class _SDAHomeScreenState extends State<SDAHomeScreen> {
     }
   }
 
-  void _onHymnTap(LzHymnEntity hymnEntity) async {
-    LzHymnModel? hymnModel = await _fetchHymnModel(hymnEntity);
-    if (hymnModel != null) {
+  void _onHymnTap(SDAHymnModel tappedHymnModel) async {
+    SDAHymnModel? fetchedHymnModel = await _fetchHymnModel(tappedHymnModel);
+    if (fetchedHymnModel != null) {
       Navigator.of(context).push(
         MaterialPageRoute(
-          builder: (context) => LzHymnTemplate(hymnModel: hymnModel),
+          builder: (context) => SDAHymnTemplate(hymnModel: fetchedHymnModel),
         ),
       );
     } else {
-      // Handle the null case, e.g., show an error message or navigate to an error page.
-
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Error: Hymn not found or could not be loaded.'),

@@ -18,6 +18,8 @@ import 'general_bloc/church_name_bloc/church_name_bloc.dart';
 import 'lozi/presentation/bloc/lz_favorite_bloc/lz_favorite_bloc.dart';
 import 'lozi/presentation/bloc/lz_search_bloc/lz_search_bloc.dart';
 import 'lozi/presentation/pages/lozi_bottom_bar_screen.dart';
+import 'sda/presentation/bloc/favorite_bloc/sda_favorite_bloc.dart';
+import 'sda/presentation/bloc/sda_bloc/sda_search_bloc.dart';
 import 'sda/presentation/pages/sda_bottom_bar_screen.dart';
 import 'u-Kristu Engomeni/presentation/bloc/xh_favorite_bloc/xh_favorite_bloc.dart';
 import 'u-Kristu Engomeni/presentation/bloc/xh_search_bloc/xh_search_bloc.dart';
@@ -52,6 +54,10 @@ class _MyAppState extends State<MyApp> {
           create: (context) => SearchBloc(),
         ),
         BlocProvider(
+          //for searching sda  hymns
+          create: (context) => SDASearchBloc(),
+        ),
+        BlocProvider(
           //for searching tn  hymns
           create: (context) => TnSearchBloc(),
         ),
@@ -82,6 +88,10 @@ class _MyAppState extends State<MyApp> {
         BlocProvider(
           //for adding favorites in lz
           create: (context) => LzFavoriteBloc(),
+        ),
+        BlocProvider(
+          //for adding favorites in sda
+          create: (context) => SDAFavoriteBloc(),
         ),
         BlocProvider(
           //for changing themes

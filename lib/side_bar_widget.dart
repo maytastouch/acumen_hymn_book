@@ -14,6 +14,7 @@ import 'core/app_themes.dart';
 import 'general_bloc/church_name_bloc/church_name_bloc.dart';
 import 'lozi/presentation/bloc/lz_search_bloc/lz_search_bloc.dart';
 import 'lozi/presentation/pages/lozi_bottom_bar_screen.dart';
+import 'sda/presentation/bloc/sda_bloc/sda_search_bloc.dart';
 import 'sda/presentation/pages/sda_bottom_bar_screen.dart';
 import 'u-Kristu Engomeni/presentation/bloc/xh_search_bloc/xh_search_bloc.dart';
 import 'u-Kristu Engomeni/presentation/pages/xh_bottom_bar_screen.dart';
@@ -136,6 +137,7 @@ class _SideBarState extends State<SideBar> {
                   GlobalMethods.navigateTo(
                       ctx: context, routeName: SDABottomBarScreen.routeName);
                   // context.read<LzSearchBloc>().add(LzLoadAllHymnsEvent()); //
+                  context.read<SDASearchBloc>().add(SDALoadAllHymnsEvent());
                 },
                 context: context,
               ),

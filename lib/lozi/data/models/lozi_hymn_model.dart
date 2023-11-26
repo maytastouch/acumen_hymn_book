@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart' show rootBundle;
 
 class LzHymnModel extends Equatable {
@@ -97,7 +98,9 @@ class LzHymnModel extends Equatable {
       return LzHymnModel(
           hymnNumber: hymnNumber, hymnTitle: hymnTitle, verses: verses);
     } catch (e) {
-      print('Error loading hymn from file: $e');
+      if (kDebugMode) {
+        print('Error loading hymn from file: $e');
+      }
       return null;
     }
   }

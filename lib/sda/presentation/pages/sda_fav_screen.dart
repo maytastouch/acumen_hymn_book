@@ -4,11 +4,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../christ_in_song/presentation/widgets/text_widget.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../../general_bloc/theme_bloc/theme_bloc.dart';
-import '../../../lozi/data/models/lozi_hymn_model.dart';
-import '../../../lozi/presentation/bloc/lz_favorite_bloc/lz_favorite_bloc.dart';
-import '../../../lozi/presentation/widgets/hover_widget.dart';
-import '../../../lozi/presentation/widgets/lz_hymn_template.dart';
 import '../../../side_bar_widget.dart';
+import '../../data/models/sda_hymn_model.dart';
+import '../bloc/favorite_bloc/sda_favorite_bloc.dart';
+import '../widgets/sda_hover_item.dart';
+import '../widgets/sda_hymn_template.dart';
 
 class SDAFavouriteScreen extends StatefulWidget {
   const SDAFavouriteScreen({super.key});
@@ -25,7 +25,8 @@ class _SDAFavouriteScreenState extends State<SDAFavouriteScreen> {
   }
 
   void _fetchFavorites() {
-    BlocProvider.of<LzFavoriteBloc>(context).add(const LzFetchFavoritesEvent());
+    BlocProvider.of<SDAFavoriteBloc>(context, listen: false)
+        .add(const SDAFetchFavoritesEvent());
   }
 
   @override
@@ -42,18 +43,18 @@ class _SDAFavouriteScreenState extends State<SDAFavouriteScreen> {
         ),
         backgroundColor: AppColors.mainColor,
       ),
-      body: BlocListener<LzFavoriteBloc, LzFavoriteState>(
+      body: BlocListener<SDAFavoriteBloc, SDAFavoriteState>(
         listener: (context, state) {
-          if (state is LzFavoriteLoaded) {
+          if (state is SDAFavoriteLoaded) {
             setState(() {});
           }
         },
-        child: BlocBuilder<LzFavoriteBloc, LzFavoriteState>(
+        child: BlocBuilder<SDAFavoriteBloc, SDAFavoriteState>(
           builder: (context, state) {
-            List<LzHymnModel> lzFavoriteHymnList = [];
+            List<SDAHymnModel> sdaFavoriteHymnList = [];
 
-            if (state is LzFavoriteLoaded) {
-              lzFavoriteHymnList = state.hymnModel;
+            if (state is SDAFavoriteLoaded) {
+              sdaFavoriteHymnList = state.hymnModel;
             }
 
             return Column(
@@ -69,10 +70,10 @@ class _SDAFavouriteScreenState extends State<SDAFavouriteScreen> {
                         margin: const EdgeInsets.symmetric(
                             horizontal: 0, vertical: 5),
                         child: ListView.builder(
-                          itemCount: lzFavoriteHymnList.length,
+                          itemCount: sdaFavoriteHymnList.length,
                           itemBuilder: (context, index) {
-                            LzHymnModel hymn = lzFavoriteHymnList[index];
-                            return LzHoverableListItem(
+                            SDAHymnModel hymn = sdaFavoriteHymnList[index];
+                            return SDAHomeHoverableListItem(
                               hymn: hymn,
                               onTap: () => _onHymnTap(hymn),
                             );
@@ -90,11 +91,11 @@ class _SDAFavouriteScreenState extends State<SDAFavouriteScreen> {
     );
   }
 
-  void _onHymnTap(LzHymnModel hymn) {
+  void _onHymnTap(SDAHymnModel hymn) {
     Navigator.of(context)
         .push(
           MaterialPageRoute(
-            builder: (context) => LzHymnTemplate(hymnModel: hymn),
+            builder: (context) => SDAHymnTemplate(hymnModel: hymn),
           ),
         )
         .then(

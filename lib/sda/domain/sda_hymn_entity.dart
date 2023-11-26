@@ -1,6 +1,18 @@
-class SDAHymnEntity {
-  String number;
-  String title;
+import 'package:equatable/equatable.dart';
 
-  SDAHymnEntity({required this.number, required this.title});
+class SDAHymnEntity extends Equatable {
+  final String number;
+  final String title;
+  final List verses;
+  final String? chorus;
+
+  const SDAHymnEntity(
+    this.chorus, {
+    required this.number,
+    required this.title,
+    required this.verses,
+  });
+
+  @override
+  List<Object?> get props => [number, title, verses, chorus];
 }
