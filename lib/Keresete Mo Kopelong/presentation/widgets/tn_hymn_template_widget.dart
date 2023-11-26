@@ -109,7 +109,7 @@ class _TnHymnTemplateState extends State<TnHymnTemplate> {
                     return IconButton(
                       icon: Icon(
                         isFavorite ? Icons.favorite : Icons.favorite_border,
-                        color: isFavorite ? Colors.red : Colors.grey,
+                        color: isFavorite ? Colors.red : Colors.white,
                       ),
                       onPressed: () {
                         BlocProvider.of<TnFavoriteBloc>(context).add(
@@ -120,8 +120,8 @@ class _TnHymnTemplateState extends State<TnHymnTemplate> {
                   } else {
                     // Default icon when state is not FavoriteLoaded
                     return IconButton(
-                      icon:
-                          const Icon(Icons.favorite_border, color: Colors.grey),
+                      icon: const Icon(Icons.favorite_border,
+                          color: Colors.white),
                       onPressed: () {
                         BlocProvider.of<TnFavoriteBloc>(context).add(
                           TnSetFavoriteEvent(hymnModel: widget.hymnModel!),

@@ -110,7 +110,7 @@ class _XhHymnTemplateState extends State<XhHymnTemplate> {
                     return IconButton(
                       icon: Icon(
                         isFavorite ? Icons.favorite : Icons.favorite_border,
-                        color: isFavorite ? Colors.red : Colors.grey,
+                        color: isFavorite ? Colors.red : Colors.white,
                       ),
                       onPressed: () {
                         BlocProvider.of<XhFavoriteBloc>(context).add(
@@ -121,8 +121,8 @@ class _XhHymnTemplateState extends State<XhHymnTemplate> {
                   } else {
                     // Default icon when state is not FavoriteLoaded
                     return IconButton(
-                      icon:
-                          const Icon(Icons.favorite_border, color: Colors.grey),
+                      icon: const Icon(Icons.favorite_border,
+                          color: Colors.white),
                       onPressed: () {
                         BlocProvider.of<XhFavoriteBloc>(context).add(
                           XhSetFavoriteEvent(hymnModel: widget.hymnModel!),

@@ -110,7 +110,7 @@ class _SDAHymnTemplateState extends State<SDAHymnTemplate> {
                     return IconButton(
                       icon: Icon(
                         isFavorite ? Icons.favorite : Icons.favorite_border,
-                        color: isFavorite ? Colors.red : Colors.grey,
+                        color: isFavorite ? Colors.red : Colors.white,
                       ),
                       onPressed: () {
                         // Toggle favorite state for the hymn

@@ -107,7 +107,7 @@ class _LzHymnTemplateState extends State<LzHymnTemplate> {
                     return IconButton(
                       icon: Icon(
                         isFavorite ? Icons.favorite : Icons.favorite_border,
-                        color: isFavorite ? Colors.red : Colors.grey,
+                        color: isFavorite ? Colors.red : Colors.white,
                       ),
                       onPressed: () {
                         BlocProvider.of<LzFavoriteBloc>(context).add(
