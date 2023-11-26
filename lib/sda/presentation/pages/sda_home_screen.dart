@@ -8,8 +8,6 @@ import '../../../christ_in_song/presentation/widgets/text_widget.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../../general_bloc/theme_bloc/theme_bloc.dart';
 
-import '../../../lozi/presentation/bloc/lz_search_bloc/lz_search_bloc.dart';
-
 import '../../../side_bar_widget.dart';
 import '../../data/datasource/sda_data_source.dart';
 import '../../data/models/sda_hymn_model.dart';
@@ -38,105 +36,115 @@ class _SDAHomeScreenState extends State<SDAHomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      drawer: const SideBar(),
-      appBar: AppBar(
-        title: TextWidget(
-          text: 'Seventh Day Adventist Hymnal',
-          color: Colors.white,
-          textSize: 20,
-          isTitle: true,
-        ),
-        backgroundColor: AppColors.mainColor,
-        iconTheme: const IconThemeData(color: Colors.white),
-      ),
-      body: BlocBuilder<ThemeBloc, ThemeState>(
-        builder: (context, themeState) {
-          var dynamicColor = themeState.themeData.brightness == Brightness.dark;
-          return Column(
-            children: [
-              Container(
-                color: dynamicColor ? Colors.black : Colors.white,
-                constraints: const BoxConstraints(
-                  minWidth: 500.0,
-                ),
-                //margin: const EdgeInsets.only(top: 10),
-                padding: const EdgeInsets.only(left: 10, right: 10, top: 10),
-                child: Center(
-                  child: BlocBuilder<ThemeBloc, ThemeState>(
-                    builder: (context, themeState) {
-                      var dynamicColor =
-                          themeState.themeData.brightness == Brightness.dark;
-                      return TextField(
-                        //controller: _searchController,
-                        onChanged: (value) {
-                          if (value.trim().isEmpty) {
-                            // Handle empty search query
-                            context.read<SDASearchBloc>().add(
-                                SDALoadAllHymnsEvent()); // or your equivalent event
-                          } else {
-                            context
-                                .read<SDASearchBloc>()
-                                .add(SDASearchHymnsEvent(query: value));
-                          }
-                        },
+    return BlocBuilder<ThemeBloc, ThemeState>(
+      builder: (context, themeState) {
+        var dynamicColor = themeState.themeData.brightness == Brightness.dark;
+        return Scaffold(
+          backgroundColor: dynamicColor
+              ? themeState.themeData.scaffoldBackgroundColor
+              : Colors.white, // Set scaffold background color based on theme
+          drawer: const SideBar(),
+          appBar: AppBar(
+            title: TextWidget(
+              text: 'Seventh Day Adventist Hymnal',
+              color: Colors.white,
+              textSize: 20,
+              isTitle: true,
+            ),
+            backgroundColor: AppColors.mainColor,
+            iconTheme: const IconThemeData(color: Colors.white),
+          ),
+          body: BlocBuilder<ThemeBloc, ThemeState>(
+            builder: (context, themeState) {
+              var dynamicColor =
+                  themeState.themeData.brightness == Brightness.dark;
+              return Column(
+                children: [
+                  Container(
+                    color: dynamicColor ? Colors.black : Colors.white,
+                    constraints: const BoxConstraints(
+                      minWidth: 500.0,
+                    ),
+                    //margin: const EdgeInsets.only(top: 10),
+                    padding:
+                        const EdgeInsets.only(left: 10, right: 10, top: 10),
+                    child: Center(
+                      child: BlocBuilder<ThemeBloc, ThemeState>(
+                        builder: (context, themeState) {
+                          var dynamicColor = themeState.themeData.brightness ==
+                              Brightness.dark;
+                          return TextField(
+                            //controller: _searchController,
+                            onChanged: (value) {
+                              if (value.trim().isEmpty) {
+                                // Handle empty search query
+                                context.read<SDASearchBloc>().add(
+                                    SDALoadAllHymnsEvent()); // or your equivalent event
+                              } else {
+                                context
+                                    .read<SDASearchBloc>()
+                                    .add(SDASearchHymnsEvent(query: value));
+                              }
+                            },
 
-                        decoration: InputDecoration(
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                                color: dynamicColor
-                                    ? Colors.white
-                                    : AppColors.mainColor),
-                            // borderRadius: BorderRadius.circular(30),
-                          ),
-                          focusedBorder: const OutlineInputBorder(
-                            borderSide: BorderSide(
-                                color: AppColors.mainColor, width: 2),
-                            // borderRadius: BorderRadius.circular(30),
-                          ),
-                          hintText: "Search",
-                          hintStyle: const TextStyle(
-                            fontSize: 16,
-                          ),
-                          prefixIcon: const Icon(
-                            Icons.search,
-                          ),
-                          contentPadding: const EdgeInsets.all(10),
-                        ),
-                      );
-                    },
+                            decoration: InputDecoration(
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: dynamicColor
+                                        ? Colors.white
+                                        : AppColors.mainColor),
+                                // borderRadius: BorderRadius.circular(30),
+                              ),
+                              focusedBorder: const OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: AppColors.mainColor, width: 2),
+                                // borderRadius: BorderRadius.circular(30),
+                              ),
+                              hintText: "Search",
+                              hintStyle: const TextStyle(
+                                fontSize: 16,
+                              ),
+                              prefixIcon: const Icon(
+                                Icons.search,
+                              ),
+                              contentPadding: const EdgeInsets.all(10),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
                   ),
-                ),
-              ),
-              Expanded(
-                child: BlocBuilder<SDASearchBloc, SDASearchState>(
-                  builder: (context, state) {
-                    if (state is SDASearchLoaded) {
-                      return Container(
-                        color: dynamicColor ? Colors.black : Colors.white,
-                        margin: const EdgeInsets.symmetric(
-                            horizontal: 0, vertical: 5),
-                        child: ListView.builder(
-                          itemCount: state.hymns.length,
-                          itemBuilder: (context, index) {
-                            SDAHymnModel hymn = state.hymns[index];
-                            return SDAHomeHoverableListItem(
-                              hymn: hymn,
-                              onTap: () => _onHymnTap(hymn),
-                            );
-                          },
-                        ),
-                      );
-                    }
-                    // Return initial or other states
-                    return _initialBodyWidget();
-                  },
-                ),
-              ),
-            ],
-          );
-        },
-      ),
+                  Expanded(
+                    child: BlocBuilder<SDASearchBloc, SDASearchState>(
+                      builder: (context, state) {
+                        if (state is SDASearchLoaded) {
+                          return Container(
+                            color: dynamicColor ? Colors.black : Colors.white,
+                            margin: const EdgeInsets.symmetric(
+                                horizontal: 0, vertical: 5),
+                            child: ListView.builder(
+                              itemCount: state.hymns.length,
+                              itemBuilder: (context, index) {
+                                SDAHymnModel hymn = state.hymns[index];
+                                return SDAHomeHoverableListItem(
+                                  hymn: hymn,
+                                  onTap: () => _onHymnTap(hymn),
+                                );
+                              },
+                            ),
+                          );
+                        }
+                        // Return initial or other states
+                        return _initialBodyWidget();
+                      },
+                    ),
+                  ),
+                ],
+              );
+            },
+          ),
+        );
+      },
     );
   }
 

@@ -31,63 +31,71 @@ class _SDAFavouriteScreenState extends State<SDAFavouriteScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      drawer: const SideBar(),
-      appBar: AppBar(
-        iconTheme: const IconThemeData(color: Colors.white),
-        title: TextWidget(
-          text: 'SDA Favorites',
-          color: Colors.white,
-          textSize: 20,
-          isTitle: true,
-        ),
-        backgroundColor: AppColors.mainColor,
-      ),
-      body: BlocListener<SDAFavoriteBloc, SDAFavoriteState>(
-        listener: (context, state) {
-          if (state is SDAFavoriteLoaded) {
-            setState(() {});
-          }
-        },
-        child: BlocBuilder<SDAFavoriteBloc, SDAFavoriteState>(
-          builder: (context, state) {
-            List<SDAHymnModel> sdaFavoriteHymnList = [];
+    return BlocBuilder<ThemeBloc, ThemeState>(
+      builder: (context, themeState) {
+        var dynamicColor = themeState.themeData.brightness == Brightness.dark;
+        return Scaffold(
+          backgroundColor: dynamicColor
+              ? themeState.themeData.scaffoldBackgroundColor
+              : Colors.white,
+          drawer: const SideBar(),
+          appBar: AppBar(
+            iconTheme: const IconThemeData(color: Colors.white),
+            title: TextWidget(
+              text: 'SDA Favorites',
+              color: Colors.white,
+              textSize: 20,
+              isTitle: true,
+            ),
+            backgroundColor: AppColors.mainColor,
+          ),
+          body: BlocListener<SDAFavoriteBloc, SDAFavoriteState>(
+            listener: (context, state) {
+              if (state is SDAFavoriteLoaded) {
+                setState(() {});
+              }
+            },
+            child: BlocBuilder<SDAFavoriteBloc, SDAFavoriteState>(
+              builder: (context, state) {
+                List<SDAHymnModel> sdaFavoriteHymnList = [];
 
-            if (state is SDAFavoriteLoaded) {
-              sdaFavoriteHymnList = state.hymnModel;
-            }
+                if (state is SDAFavoriteLoaded) {
+                  sdaFavoriteHymnList = state.hymnModel;
+                }
 
-            return Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Expanded(
-                  child: BlocBuilder<ThemeBloc, ThemeState>(
-                    builder: (context, themeState) {
-                      var dynamicColor =
-                          themeState.themeData.brightness == Brightness.dark;
-                      return Container(
-                        color: dynamicColor ? Colors.black : Colors.white,
-                        margin: const EdgeInsets.symmetric(
-                            horizontal: 0, vertical: 5),
-                        child: ListView.builder(
-                          itemCount: sdaFavoriteHymnList.length,
-                          itemBuilder: (context, index) {
-                            SDAHymnModel hymn = sdaFavoriteHymnList[index];
-                            return SDAHomeHoverableListItem(
-                              hymn: hymn,
-                              onTap: () => _onHymnTap(hymn),
-                            );
-                          },
-                        ),
-                      );
-                    },
-                  ),
-                ),
-              ],
-            );
-          },
-        ),
-      ),
+                return Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Expanded(
+                      child: BlocBuilder<ThemeBloc, ThemeState>(
+                        builder: (context, themeState) {
+                          var dynamicColor = themeState.themeData.brightness ==
+                              Brightness.dark;
+                          return Container(
+                            color: dynamicColor ? Colors.black : Colors.white,
+                            margin: const EdgeInsets.symmetric(
+                                horizontal: 0, vertical: 5),
+                            child: ListView.builder(
+                              itemCount: sdaFavoriteHymnList.length,
+                              itemBuilder: (context, index) {
+                                SDAHymnModel hymn = sdaFavoriteHymnList[index];
+                                return SDAHomeHoverableListItem(
+                                  hymn: hymn,
+                                  onTap: () => _onHymnTap(hymn),
+                                );
+                              },
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  ],
+                );
+              },
+            ),
+          ),
+        );
+      },
     );
   }
 

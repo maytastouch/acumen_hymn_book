@@ -31,63 +31,71 @@ class _TnFavouriteScreenState extends State<TnFavouriteScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      drawer: const SideBar(),
-      appBar: AppBar(
-        iconTheme: const IconThemeData(color: Colors.white),
-        title: TextWidget(
-          text: 'Keresete Mo Kopelong Favorites',
-          color: Colors.white,
-          textSize: 20,
-          isTitle: true,
-        ),
-        backgroundColor: AppColors.mainColor,
-      ),
-      body: BlocListener<FavoriteBloc, FavoriteState>(
-        listener: (context, state) {
-          if (state is TnFavoriteLoaded) {
-            setState(() {});
-          }
-        },
-        child: BlocBuilder<TnFavoriteBloc, TnFavoriteState>(
-          builder: (context, state) {
-            List<HymnModel> tnFavoriteHymnList = [];
+    return BlocBuilder<ThemeBloc, ThemeState>(
+      builder: (context, themeState) {
+        var dynamicColor = themeState.themeData.brightness == Brightness.dark;
+        return Scaffold(
+          backgroundColor: dynamicColor
+              ? themeState.themeData.scaffoldBackgroundColor
+              : Colors.white,
+          drawer: const SideBar(),
+          appBar: AppBar(
+            iconTheme: const IconThemeData(color: Colors.white),
+            title: TextWidget(
+              text: 'Keresete Mo Kopelong Favorites',
+              color: Colors.white,
+              textSize: 20,
+              isTitle: true,
+            ),
+            backgroundColor: AppColors.mainColor,
+          ),
+          body: BlocListener<FavoriteBloc, FavoriteState>(
+            listener: (context, state) {
+              if (state is TnFavoriteLoaded) {
+                setState(() {});
+              }
+            },
+            child: BlocBuilder<TnFavoriteBloc, TnFavoriteState>(
+              builder: (context, state) {
+                List<HymnModel> tnFavoriteHymnList = [];
 
-            if (state is TnFavoriteLoaded) {
-              tnFavoriteHymnList = state.hymnModel;
-            }
+                if (state is TnFavoriteLoaded) {
+                  tnFavoriteHymnList = state.hymnModel;
+                }
 
-            return Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Expanded(
-                  child: BlocBuilder<ThemeBloc, ThemeState>(
-                    builder: (context, themeState) {
-                      var dynamicColor =
-                          themeState.themeData.brightness == Brightness.dark;
-                      return Container(
-                        color: dynamicColor ? Colors.black : Colors.white,
-                        margin: const EdgeInsets.symmetric(
-                            horizontal: 0, vertical: 5),
-                        child: ListView.builder(
-                          itemCount: tnFavoriteHymnList.length,
-                          itemBuilder: (context, index) {
-                            HymnModel hymn = tnFavoriteHymnList[index];
-                            return FavHoverableListItem(
-                              hymn: hymn,
-                              onTap: () => _onHymnTap(hymn),
-                            );
-                          },
-                        ),
-                      );
-                    },
-                  ),
-                ),
-              ],
-            );
-          },
-        ),
-      ),
+                return Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Expanded(
+                      child: BlocBuilder<ThemeBloc, ThemeState>(
+                        builder: (context, themeState) {
+                          var dynamicColor = themeState.themeData.brightness ==
+                              Brightness.dark;
+                          return Container(
+                            color: dynamicColor ? Colors.black : Colors.white,
+                            margin: const EdgeInsets.symmetric(
+                                horizontal: 0, vertical: 5),
+                            child: ListView.builder(
+                              itemCount: tnFavoriteHymnList.length,
+                              itemBuilder: (context, index) {
+                                HymnModel hymn = tnFavoriteHymnList[index];
+                                return FavHoverableListItem(
+                                  hymn: hymn,
+                                  onTap: () => _onHymnTap(hymn),
+                                );
+                              },
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  ],
+                );
+              },
+            ),
+          ),
+        );
+      },
     );
   }
 

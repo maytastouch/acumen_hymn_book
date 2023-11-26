@@ -39,105 +39,115 @@ class _TnHomeScreenState extends State<TnHomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      drawer: const SideBar(),
-      appBar: AppBar(
-        title: TextWidget(
-          text: 'Keresete Mo Kopelong',
-          color: Colors.white,
-          textSize: 20,
-          isTitle: true,
-        ),
-        backgroundColor: AppColors.mainColor,
-        iconTheme: const IconThemeData(color: Colors.white),
-      ),
-      body: BlocBuilder<ThemeBloc, ThemeState>(
-        builder: (context, themeState) {
-          var dynamicColor = themeState.themeData.brightness == Brightness.dark;
-          return Column(
-            children: [
-              Container(
-                color: dynamicColor ? Colors.black : Colors.white,
-                constraints: const BoxConstraints(
-                  minWidth: 500.0,
-                ),
-                //margin: const EdgeInsets.only(top: 10),
-                padding: const EdgeInsets.only(left: 10, right: 10, top: 10),
-                child: Center(
-                  child: BlocBuilder<ThemeBloc, ThemeState>(
-                    builder: (context, themeState) {
-                      var dynamicColor =
-                          themeState.themeData.brightness == Brightness.dark;
-                      return TextField(
-                        //controller: _searchController,
-                        onChanged: (value) {
-                          if (value.trim().isEmpty) {
-                            // Handle empty search query
-                            context.read<TnSearchBloc>().add(
-                                TnLoadAllHymnsEvent()); // or your equivalent event
-                          } else {
-                            context
-                                .read<TnSearchBloc>()
-                                .add(TnSearchHymnsEvent(query: value));
-                          }
-                        },
+    return BlocBuilder<ThemeBloc, ThemeState>(
+      builder: (context, themeState) {
+        var dynamicColor = themeState.themeData.brightness == Brightness.dark;
+        return Scaffold(
+          backgroundColor: dynamicColor
+              ? themeState.themeData.scaffoldBackgroundColor
+              : Colors.white, // Set scaffold background color based on theme
+          drawer: const SideBar(),
+          appBar: AppBar(
+            title: TextWidget(
+              text: 'Keresete Mo Kopelong',
+              color: Colors.white,
+              textSize: 20,
+              isTitle: true,
+            ),
+            backgroundColor: AppColors.mainColor,
+            iconTheme: const IconThemeData(color: Colors.white),
+          ),
+          body: BlocBuilder<ThemeBloc, ThemeState>(
+            builder: (context, themeState) {
+              var dynamicColor =
+                  themeState.themeData.brightness == Brightness.dark;
+              return Column(
+                children: [
+                  Container(
+                    color: dynamicColor ? Colors.black : Colors.white,
+                    constraints: const BoxConstraints(
+                      minWidth: 500.0,
+                    ),
+                    //margin: const EdgeInsets.only(top: 10),
+                    padding:
+                        const EdgeInsets.only(left: 10, right: 10, top: 10),
+                    child: Center(
+                      child: BlocBuilder<ThemeBloc, ThemeState>(
+                        builder: (context, themeState) {
+                          var dynamicColor = themeState.themeData.brightness ==
+                              Brightness.dark;
+                          return TextField(
+                            //controller: _searchController,
+                            onChanged: (value) {
+                              if (value.trim().isEmpty) {
+                                // Handle empty search query
+                                context.read<TnSearchBloc>().add(
+                                    TnLoadAllHymnsEvent()); // or your equivalent event
+                              } else {
+                                context
+                                    .read<TnSearchBloc>()
+                                    .add(TnSearchHymnsEvent(query: value));
+                              }
+                            },
 
-                        decoration: InputDecoration(
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                                color: dynamicColor
-                                    ? Colors.white
-                                    : AppColors.mainColor),
-                            // borderRadius: BorderRadius.circular(30),
-                          ),
-                          focusedBorder: const OutlineInputBorder(
-                            borderSide: BorderSide(
-                                color: AppColors.mainColor, width: 2),
-                            // borderRadius: BorderRadius.circular(30),
-                          ),
-                          hintText: "Search",
-                          hintStyle: const TextStyle(
-                            fontSize: 16,
-                          ),
-                          prefixIcon: const Icon(
-                            Icons.search,
-                          ),
-                          contentPadding: const EdgeInsets.all(10),
-                        ),
-                      );
-                    },
+                            decoration: InputDecoration(
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: dynamicColor
+                                        ? Colors.white
+                                        : AppColors.mainColor),
+                                // borderRadius: BorderRadius.circular(30),
+                              ),
+                              focusedBorder: const OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: AppColors.mainColor, width: 2),
+                                // borderRadius: BorderRadius.circular(30),
+                              ),
+                              hintText: "Search",
+                              hintStyle: const TextStyle(
+                                fontSize: 16,
+                              ),
+                              prefixIcon: const Icon(
+                                Icons.search,
+                              ),
+                              contentPadding: const EdgeInsets.all(10),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
                   ),
-                ),
-              ),
-              Expanded(
-                child: BlocBuilder<TnSearchBloc, TnSearchState>(
-                  builder: (context, state) {
-                    if (state is TnSearchLoaded) {
-                      return Container(
-                        color: dynamicColor ? Colors.black : Colors.white,
-                        margin: const EdgeInsets.symmetric(
-                            horizontal: 0, vertical: 5),
-                        child: ListView.builder(
-                          itemCount: state.hymns.length,
-                          itemBuilder: (context, index) {
-                            HymnEntity hymn = state.hymns[index];
-                            return HoverableListItem(
-                              hymn: hymn,
-                              onTap: () => _onHymnTap(hymn),
-                            );
-                          },
-                        ),
-                      );
-                    }
-                    // Return initial or other states
-                    return _initialBodyWidget();
-                  },
-                ),
-              ),
-            ],
-          );
-        },
-      ),
+                  Expanded(
+                    child: BlocBuilder<TnSearchBloc, TnSearchState>(
+                      builder: (context, state) {
+                        if (state is TnSearchLoaded) {
+                          return Container(
+                            color: dynamicColor ? Colors.black : Colors.white,
+                            margin: const EdgeInsets.symmetric(
+                                horizontal: 0, vertical: 5),
+                            child: ListView.builder(
+                              itemCount: state.hymns.length,
+                              itemBuilder: (context, index) {
+                                HymnEntity hymn = state.hymns[index];
+                                return HoverableListItem(
+                                  hymn: hymn,
+                                  onTap: () => _onHymnTap(hymn),
+                                );
+                              },
+                            ),
+                          );
+                        }
+                        // Return initial or other states
+                        return _initialBodyWidget();
+                      },
+                    ),
+                  ),
+                ],
+              );
+            },
+          ),
+        );
+      },
     );
   }
 

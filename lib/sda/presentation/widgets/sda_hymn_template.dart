@@ -179,6 +179,7 @@ class _SDAHymnTemplateState extends State<SDAHymnTemplate> {
 
             return Container(
               color: dynamicColor ? Colors.black : AppColors.pageColor,
+              // Set height based on the number of verses
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -189,8 +190,12 @@ class _SDAHymnTemplateState extends State<SDAHymnTemplate> {
                       return Container(
                         color:
                             dynamicColor ? Colors.black : AppColors.pageColor,
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 70.0, horizontal: 20),
+                        padding: const EdgeInsets.only(
+                          top: 70,
+                          bottom: 70,
+                          left: 20,
+                          right: 100,
+                        ),
                         child: Text(
                           "$verseNumber:\n$verse",
                           style: TextStyle(
@@ -211,8 +216,12 @@ class _SDAHymnTemplateState extends State<SDAHymnTemplate> {
                         return Container(
                           color:
                               dynamicColor ? Colors.black : AppColors.pageColor,
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 70.0, horizontal: 20),
+                          padding: const EdgeInsets.only(
+                            top: 70,
+                            bottom: 70,
+                            left: 20,
+                            right: 700,
+                          ),
                           child: Text(
                             "Chorus:\n${widget.hymnModel!.chorus}",
                             style: TextStyle(

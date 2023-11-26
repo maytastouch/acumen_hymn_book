@@ -27,9 +27,6 @@ import 'u-Kristu Engomeni/presentation/bloc/xh_favorite_bloc/xh_favorite_bloc.da
 import 'u-Kristu Engomeni/presentation/bloc/xh_search_bloc/xh_search_bloc.dart';
 import 'u-Kristu Engomeni/presentation/pages/xh_bottom_bar_screen.dart';
 
-// Import your BLoC files and other necessary files
-// Ensure that all the imported files are correctly referenced
-
 void main() {
   runApp(const MyApp());
 }
