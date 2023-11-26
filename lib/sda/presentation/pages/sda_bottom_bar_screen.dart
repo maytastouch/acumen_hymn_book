@@ -7,6 +7,7 @@ import 'package:flutter_iconly/flutter_iconly.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../../general_bloc/theme_bloc/theme_bloc.dart';
 import '../../../lozi/presentation/bloc/lz_search_bloc/lz_search_bloc.dart';
+import '../bloc/sda_bloc/sda_search_bloc.dart';
 import 'sda_fav_screen.dart';
 import 'sda_home_screen.dart';
 
@@ -31,7 +32,7 @@ class _SDABottomBarScreenState extends State<SDABottomBarScreen> {
   void _selectedPage(int index) {
     setState(() {
       _selectedIndex = index;
-      context.read<LzSearchBloc>().add(LzLoadAllHymnsEvent()); //
+      context.read<SDASearchBloc>().add(SDALoadAllHymnsEvent()); //
     });
   }
 

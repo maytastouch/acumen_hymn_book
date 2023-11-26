@@ -69,7 +69,7 @@ class LzFavoriteBloc extends Bloc<LzFavoriteEvent, LzFavoriteState> {
     for (String number in hymnNumbers) {
       // Construct the file path for each hymn
       String filePath =
-          'assets/hymns/tn/$number.md'; // Adjust the path format as needed
+          'assets/hymns/lz/$number.md'; // Adjust the path format as needed
       LzHymnModel? hymn = await LzHymnModel.fromMarkdownFile(filePath);
       if (hymn != null) {
         hymns.add(hymn);

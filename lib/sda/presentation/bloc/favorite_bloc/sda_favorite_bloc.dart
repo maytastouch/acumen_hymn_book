@@ -46,6 +46,7 @@ class SDAFavoriteBloc extends Bloc<SDAFavoriteEvent, SDAFavoriteState> {
   Future<void> _sdaLoadFavorites() async {
     final prefs = await SharedPreferences.getInstance();
     final favoriteHymnNumbers = prefs.getStringList(_sdaFavoritesKey) ?? [];
+    print('Loaded favorites from SharedPreferences: $favoriteHymnNumbers');
     sdaFavoriteHymns = await _getHymnsByNumbers(favoriteHymnNumbers);
     add(const SDAFetchFavoritesEvent());
   }
@@ -53,7 +54,8 @@ class SDAFavoriteBloc extends Bloc<SDAFavoriteEvent, SDAFavoriteState> {
   Future<void> _sdaSaveFavorites() async {
     final prefs = await SharedPreferences.getInstance();
     final favoriteHymnNumbers =
-        sdaFavoriteHymns.map((hymn) => hymn.number).toList();
+        sdaFavoriteHymns.map((hymn) => hymn.number.toString()).toList();
+    print('Saving favorites to SharedPreferences: $favoriteHymnNumbers');
     await prefs.setStringList(_sdaFavoritesKey, favoriteHymnNumbers);
   }
 
@@ -61,7 +63,9 @@ class SDAFavoriteBloc extends Bloc<SDAFavoriteEvent, SDAFavoriteState> {
   Future<List<SDAHymnModel>> _getHymnsByNumbers(
       List<String> hymnNumbers) async {
     List<SDAHymnModel> allHymns =
-        await SDALocalMethods.fromJsonFile('assets/hymns/sda/hymns.json');
-    return allHymns.where((hymn) => hymnNumbers.contains(hymn.number)).toList();
+        await SDALocalMethods.fromJsonFile('assets/hymns/sda/meta.json');
+    return allHymns
+        .where((hymn) => hymnNumbers.contains(hymn.number.toString()))
+        .toList();
   }
 }
