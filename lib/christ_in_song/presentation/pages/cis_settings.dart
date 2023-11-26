@@ -1,5 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'package:acumen_hymn_book/christ_in_song/presentation/pages/settings/about_app.dart';
 import 'package:acumen_hymn_book/christ_in_song/presentation/pages/settings/church_name.dart';
 import 'package:acumen_hymn_book/christ_in_song/presentation/pages/settings/font_settings.dart';
 import 'package:acumen_hymn_book/core/constants/global_methods.dart';
@@ -46,7 +47,10 @@ class CISSettings extends StatelessWidget {
                   _listTiles(
                     title: 'About this app',
                     icon: IconlyLight.graph,
-                    onPressed: () async {},
+                    onPressed: () async {
+                      GlobalMethods.navigateTo(
+                          ctx: context, routeName: About.routeName);
+                    },
                   ),
                   _listTiles(
                     title: 'Help and Feedback',
