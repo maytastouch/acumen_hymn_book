@@ -14,7 +14,9 @@ import 'christ_in_song/presentation/bloc/favorite_bloc/favorite_bloc.dart';
 import 'christ_in_song/presentation/bloc/font_bloc/font_bloc.dart';
 import 'christ_in_song/presentation/bloc/search_bloc/search_bloc.dart';
 import 'christ_in_song/presentation/pages/settings/church_name.dart';
+
 import 'general_bloc/church_name_bloc/church_name_bloc.dart';
+import 'general_bloc/route_bloc/route_bloc.dart';
 import 'lozi/presentation/bloc/lz_favorite_bloc/lz_favorite_bloc.dart';
 import 'lozi/presentation/bloc/lz_search_bloc/lz_search_bloc.dart';
 import 'lozi/presentation/pages/lozi_bottom_bar_screen.dart';
@@ -24,6 +26,9 @@ import 'sda/presentation/pages/sda_bottom_bar_screen.dart';
 import 'u-Kristu Engomeni/presentation/bloc/xh_favorite_bloc/xh_favorite_bloc.dart';
 import 'u-Kristu Engomeni/presentation/bloc/xh_search_bloc/xh_search_bloc.dart';
 import 'u-Kristu Engomeni/presentation/pages/xh_bottom_bar_screen.dart';
+
+// Import your BLoC files and other necessary files
+// Ensure that all the imported files are correctly referenced
 
 void main() {
   runApp(const MyApp());
@@ -40,9 +45,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    DesktopWindow.setMinWindowSize(
-      const Size(717, 600),
-    );
+    DesktopWindow.setMinWindowSize(const Size(717, 600));
   }
 
   @override
@@ -101,32 +104,64 @@ class _MyAppState extends State<MyApp> {
           //bloc for changing church name
           create: (context) => ChurchNameBloc(),
         ),
+        BlocProvider(
+          //bloc for setting default hymn
+          create: (context) => RouteBloc()..add(GetLastRoute()),
+        ),
       ],
       child: BlocBuilder<ThemeBloc, ThemeState>(
-        builder: (context, state) {
+        builder: (context, themeState) {
           return OKToast(
-            child: MaterialApp(
-              theme: state.themeData,
-              debugShowCheckedModeBanner: false,
-              home: const ChristInSongBottomBarScreen(),
-              routes: {
-                FontSettings.routeName: (ctx) => const FontSettings(),
-                ChurchNameSettings.routeName: (ctx) =>
-                    const ChurchNameSettings(),
-                // ignore: equal_keys_in_map
-                ChristInSongBottomBarScreen.routeName: (ctx) =>
-                    const ChristInSongBottomBarScreen(),
-                TnBottomBarScreen.routeName: (ctx) => const TnBottomBarScreen(),
-                XhBottomBarScreen.routeName: (ctx) => const XhBottomBarScreen(),
-                LoziBottomBarScreen.routeName: (ctx) =>
-                    const LoziBottomBarScreen(),
-                SDABottomBarScreen.routeName: (ctx) =>
-                    const SDABottomBarScreen(),
+            child: BlocBuilder<RouteBloc, RouteState>(
+              builder: (context, routeState) {
+                if (routeState is RouteLoaded) {
+                  return MaterialApp(
+                    theme: themeState.themeData,
+                    debugShowCheckedModeBanner: false,
+                    home: _getRouteWidget(routeState.routeName),
+                    routes: {
+                      FontSettings.routeName: (ctx) => const FontSettings(),
+                      ChurchNameSettings.routeName: (ctx) =>
+                          const ChurchNameSettings(),
+                      ChristInSongBottomBarScreen.routeName: (ctx) =>
+                          const ChristInSongBottomBarScreen(),
+                      TnBottomBarScreen.routeName: (ctx) =>
+                          const TnBottomBarScreen(),
+                      XhBottomBarScreen.routeName: (ctx) =>
+                          const XhBottomBarScreen(),
+                      LoziBottomBarScreen.routeName: (ctx) =>
+                          const LoziBottomBarScreen(),
+                      SDABottomBarScreen.routeName: (ctx) =>
+                          const SDABottomBarScreen(),
+                      // Add other routes here as needed
+                    },
+                  );
+                }
+                return const CircularProgressIndicator();
               },
             ),
           );
         },
       ),
     );
+  }
+
+  Widget _getRouteWidget(String routeName) {
+    // Handle only the routes that need to be remembered
+    switch (routeName) {
+      case ChristInSongBottomBarScreen.routeName:
+        return const ChristInSongBottomBarScreen();
+      case TnBottomBarScreen.routeName:
+        return const TnBottomBarScreen();
+      case XhBottomBarScreen.routeName:
+        return const XhBottomBarScreen();
+      case LoziBottomBarScreen.routeName:
+        return const LoziBottomBarScreen();
+      case SDABottomBarScreen.routeName:
+        return const SDABottomBarScreen();
+      default:
+        // Default route if none is found or remembered
+        return const ChristInSongBottomBarScreen();
+    }
   }
 }
