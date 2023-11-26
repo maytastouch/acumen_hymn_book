@@ -12,6 +12,7 @@ import 'christ_in_song/presentation/bloc/search_bloc/search_bloc.dart';
 import 'christ_in_song/presentation/widgets/text_widget.dart';
 import 'core/app_themes.dart';
 import 'general_bloc/church_name_bloc/church_name_bloc.dart';
+import 'general_bloc/route_bloc/route_bloc.dart';
 import 'lozi/presentation/bloc/lz_search_bloc/lz_search_bloc.dart';
 import 'lozi/presentation/pages/lozi_bottom_bar_screen.dart';
 import 'sda/presentation/bloc/sda_bloc/sda_search_bloc.dart';
@@ -92,6 +93,8 @@ class _SideBarState extends State<SideBar> {
                   GlobalMethods.navigateTo(
                       ctx: context, routeName: TnBottomBarScreen.routeName);
                   context.read<TnSearchBloc>().add(TnLoadAllHymnsEvent()); //
+                  BlocProvider.of<RouteBloc>(context)
+                      .add(SetNewRoute('/TnBottomBarScreen'));
                 },
                 context: context,
               ),
@@ -104,6 +107,8 @@ class _SideBarState extends State<SideBar> {
                       ctx: context,
                       routeName: ChristInSongBottomBarScreen.routeName);
                   context.read<SearchBloc>().add(LoadAllHymnsEvent()); //
+                  BlocProvider.of<RouteBloc>(context)
+                      .add(SetNewRoute('/ChristInSongBottomBarScreen'));
                 },
                 context: context,
               ),
@@ -115,6 +120,8 @@ class _SideBarState extends State<SideBar> {
                   GlobalMethods.navigateTo(
                       ctx: context, routeName: XhBottomBarScreen.routeName);
                   context.read<XhSearchBloc>().add(XhLoadAllHymnsEvent()); //
+                  BlocProvider.of<RouteBloc>(context)
+                      .add(SetNewRoute('/XhBottomBarScreen'));
                 },
                 context: context,
               ),
@@ -126,6 +133,8 @@ class _SideBarState extends State<SideBar> {
                   GlobalMethods.navigateTo(
                       ctx: context, routeName: LoziBottomBarScreen.routeName);
                   context.read<LzSearchBloc>().add(LzLoadAllHymnsEvent()); //
+                  BlocProvider.of<RouteBloc>(context)
+                      .add(SetNewRoute('/LoziBottomBarScreen'));
                 },
                 context: context,
               ),
@@ -138,6 +147,8 @@ class _SideBarState extends State<SideBar> {
                       ctx: context, routeName: SDABottomBarScreen.routeName);
                   // context.read<LzSearchBloc>().add(LzLoadAllHymnsEvent()); //
                   context.read<SDASearchBloc>().add(SDALoadAllHymnsEvent());
+                  BlocProvider.of<RouteBloc>(context)
+                      .add(SetNewRoute('/SDABottomBarScreen'));
                 },
                 context: context,
               ),

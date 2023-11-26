@@ -45,13 +45,12 @@ class RouteBloc extends Bloc<RouteEvent, RouteState> {
   Future<void> _saveRoute(String routeName) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString('last_route', routeName);
-    print('Saved route: $routeName'); // Debugging
   }
 
   Future<String> _getLastSavedRoute() async {
     final prefs = await SharedPreferences.getInstance();
     final routeName = prefs.getString('last_route') ?? 'default_route';
-    print('Loaded route: $routeName'); // Debugging
+
     return routeName;
   }
 }
