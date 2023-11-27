@@ -40,6 +40,7 @@ class _SDAFavouriteScreenState extends State<SDAFavouriteScreen> {
               : Colors.white,
           drawer: const SideBar(),
           appBar: AppBar(
+            centerTitle: true,
             iconTheme: const IconThemeData(color: Colors.white),
             title: TextWidget(
               text: 'SDA Favorites',

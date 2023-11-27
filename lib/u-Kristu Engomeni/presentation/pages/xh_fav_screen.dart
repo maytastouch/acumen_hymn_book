@@ -41,6 +41,7 @@ class _XhFavouriteScreenState extends State<XhFavouriteScreen> {
               : Colors.white,
           drawer: const SideBar(),
           appBar: AppBar(
+            centerTitle: true,
             iconTheme: const IconThemeData(color: Colors.white),
             title: TextWidget(
               text: 'U-Kristu Engomeni Favorites',

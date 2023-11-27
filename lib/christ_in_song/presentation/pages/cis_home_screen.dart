@@ -51,6 +51,7 @@ class _CISHomeScreenState extends State<CISHomeScreen> {
               : Colors.white, // Set scaffold background color based on theme
           drawer: const SideBar(),
           appBar: AppBar(
+            centerTitle: true,
             title: TextWidget(
               text: 'Christ In Song',
               color: Colors.white,

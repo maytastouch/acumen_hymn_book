@@ -40,6 +40,7 @@ class _TnFavouriteScreenState extends State<TnFavouriteScreen> {
               : Colors.white,
           drawer: const SideBar(),
           appBar: AppBar(
+            centerTitle: true,
             iconTheme: const IconThemeData(color: Colors.white),
             title: TextWidget(
               text: 'Keresete Mo Kopelong Favorites',

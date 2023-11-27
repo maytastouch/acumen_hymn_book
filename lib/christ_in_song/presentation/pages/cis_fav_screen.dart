@@ -40,6 +40,7 @@ class _CISFavouriteScreenState extends State<CISFavouriteScreen> {
               : Colors.white,
           drawer: const SideBar(),
           appBar: AppBar(
+            centerTitle: true,
             iconTheme: const IconThemeData(color: Colors.white),
             title: TextWidget(
               text: 'Christ In Song Favorites',

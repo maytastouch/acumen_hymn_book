@@ -39,6 +39,7 @@ class _LoziFavouriteScreenState extends State<LoziFavouriteScreen> {
               : Colors.white,
           drawer: const SideBar(),
           appBar: AppBar(
+            centerTitle: true,
             iconTheme: const IconThemeData(color: Colors.white),
             title: TextWidget(
               text: 'Lozi Favorites',

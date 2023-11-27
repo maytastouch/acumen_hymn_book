@@ -50,6 +50,7 @@ class _LzHomeScreenState extends State<LzHomeScreen> {
               : Colors.white, // Set scaffold background color based on theme
           drawer: const SideBar(),
           appBar: AppBar(
+            centerTitle: true,
             title: TextWidget(
               text: 'Kelesite Mwa Lipina',
               color: Colors.white,

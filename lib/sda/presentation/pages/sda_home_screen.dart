@@ -45,6 +45,7 @@ class _SDAHomeScreenState extends State<SDAHomeScreen> {
               : Colors.white, // Set scaffold background color based on theme
           drawer: const SideBar(),
           appBar: AppBar(
+            centerTitle: true,
             title: TextWidget(
               text: 'Seventh Day Adventist Hymnal',
               color: Colors.white,

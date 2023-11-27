@@ -28,6 +28,7 @@ class CISSettings extends StatelessWidget {
               : Colors.white,
           drawer: const SideBar(),
           appBar: AppBar(
+            centerTitle: true,
             iconTheme: const IconThemeData(color: Colors.white),
             //backgroundColor: Theme.of(context).scaffoldBackgroundColor,
             backgroundColor: AppColors.mainColor,

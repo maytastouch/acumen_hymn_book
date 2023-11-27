@@ -48,6 +48,7 @@ class _TnHomeScreenState extends State<TnHomeScreen> {
               : Colors.white, // Set scaffold background color based on theme
           drawer: const SideBar(),
           appBar: AppBar(
+            centerTitle: true,
             title: TextWidget(
               text: 'Keresete Mo Kopelong',
               color: Colors.white,
