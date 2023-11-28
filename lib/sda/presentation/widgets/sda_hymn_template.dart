@@ -194,7 +194,7 @@ class _SDAHymnTemplateState extends State<SDAHymnTemplate> {
                           top: 70,
                           bottom: 70,
                           left: 20,
-                          right: 100,
+                          right: 380,
                         ),
                         child: Text(
                           "$verseNumber:\n$verse",
