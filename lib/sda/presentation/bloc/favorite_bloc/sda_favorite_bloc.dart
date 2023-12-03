@@ -46,7 +46,7 @@ class SDAFavoriteBloc extends Bloc<SDAFavoriteEvent, SDAFavoriteState> {
   Future<void> _sdaLoadFavorites() async {
     final prefs = await SharedPreferences.getInstance();
     final favoriteHymnNumbers = prefs.getStringList(_sdaFavoritesKey) ?? [];
-    print('Loaded favorites from SharedPreferences: $favoriteHymnNumbers');
+
     sdaFavoriteHymns = await _getHymnsByNumbers(favoriteHymnNumbers);
     add(const SDAFetchFavoritesEvent());
   }
@@ -55,7 +55,7 @@ class SDAFavoriteBloc extends Bloc<SDAFavoriteEvent, SDAFavoriteState> {
     final prefs = await SharedPreferences.getInstance();
     final favoriteHymnNumbers =
         sdaFavoriteHymns.map((hymn) => hymn.number.toString()).toList();
-    print('Saving favorites to SharedPreferences: $favoriteHymnNumbers');
+
     await prefs.setStringList(_sdaFavoritesKey, favoriteHymnNumbers);
   }
 
