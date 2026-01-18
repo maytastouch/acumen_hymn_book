@@ -1,5 +1,4 @@
 import 'package:acumen_hymn_book/christ_in_song/presentation/pages/settings/about_app.dart';
-import 'package:acumen_hymn_book/christ_in_song/presentation/pages/settings/church_name.dart';
 import 'package:acumen_hymn_book/christ_in_song/presentation/pages/settings/font_settings.dart';
 import 'package:acumen_hymn_book/core/constants/global_methods.dart';
 import 'package:flutter/material.dart';
@@ -98,14 +97,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         GlobalMethods.navigateTo(
                             ctx: ctx, routeName: FontSettings.routeName);
                       }),
-                  _listTiles(
-                    title: 'Name of the church',
-                    icon: IconlyLight.filter,
-                    onPressed: (ctx) {
-                      GlobalMethods.navigateTo(
-                          ctx: ctx, routeName: ChurchNameSettings.routeName);
-                    },
-                  ),
                 ],
               ),
             ),

@@ -12,9 +12,7 @@ import 'christ_in_song/presentation/bloc/favorite_bloc/favorite_bloc.dart';
 import 'christ_in_song/presentation/bloc/font_bloc/font_bloc.dart';
 import 'christ_in_song/presentation/bloc/search_bloc/search_bloc.dart';
 import 'christ_in_song/presentation/pages/settings/about_app.dart';
-import 'christ_in_song/presentation/pages/settings/church_name.dart';
 
-import 'general_bloc/church_name_bloc/church_name_bloc.dart';
 import 'lozi/presentation/bloc/lz_favorite_bloc/lz_favorite_bloc.dart';
 import 'lozi/presentation/bloc/lz_search_bloc/lz_search_bloc.dart';
 import 'sda/presentation/bloc/favorite_bloc/sda_favorite_bloc.dart';
@@ -81,9 +79,6 @@ class _MyAppState extends State<MyApp> {
         BlocProvider(
           create: (context) => ThemeBloc(),
         ),
-        BlocProvider(
-          create: (context) => ChurchNameBloc(),
-        ),
       ],
       child: BlocBuilder<ThemeBloc, ThemeState>(
         builder: (context, themeState) {
@@ -94,8 +89,6 @@ class _MyAppState extends State<MyApp> {
               home: const MainScreen(),
               routes: {
                 FontSettings.routeName: (ctx) => const FontSettings(),
-                ChurchNameSettings.routeName: (ctx) =>
-                    const ChurchNameSettings(),
                 About.routeName: (ctx) => const About(),
               },
             ),
