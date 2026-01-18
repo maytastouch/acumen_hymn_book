@@ -10,38 +10,37 @@ part 'search_event.dart';
 part 'search_state.dart';
 
 class SearchBloc extends Bloc<SearchEvent, SearchState> {
+  List<HymnEntity>? _allHymns;
+
   SearchBloc() : super(SearchInitial()) {
-    on<SearchEvent>(searchStarted);
+    on<SearchHymnsEvent>(_onSearchHymns);
+    on<LoadAllHymnsEvent>(_onLoadAllHymns);
   }
 
   Future<List<HymnEntity>> _fetchHymnList() async {
-    // Replace with your actual logic to fetch hymn list
-    return LocalMethods.readHymnsFromFile('assets/hymns/en/meta.json');
+    if (_allHymns != null) return _allHymns!;
+    _allHymns = await LocalMethods.readHymnsFromFile('assets/hymns/en/meta.json');
+    return _allHymns!;
   }
 
-  FutureOr<void> searchStarted(
-      SearchEvent event, Emitter<SearchState> emit) async {
-    if (event is SearchHymnsEvent) {
-      emit(SearchLoading());
-      try {
-        List<HymnEntity> allHymns = await _fetchHymnList();
-        List<HymnEntity> filteredHymns = allHymns
-            .where((hymn) =>
-                hymn.title.toLowerCase().contains(event.query.toLowerCase()) ||
-                hymn.number.contains(event.query))
-            .toList();
-        emit(SearchLoaded(hymns: filteredHymns));
-      } catch (e) {
-        emit(SearchError(errorMessage: e.toString()));
-      }
-    } else if (event is LoadAllHymnsEvent) {
-      emit(SearchLoading());
-      try {
-        List<HymnEntity> allHymns = await _fetchHymnList();
-        emit(SearchLoaded(hymns: allHymns));
-      } catch (e) {
-        emit(SearchError(errorMessage: e.toString()));
-      }
+  Future<void> _onSearchHymns(
+      SearchHymnsEvent event, Emitter<SearchState> emit) async {
+    emit(SearchLoading());
+    try {
+      List<HymnEntity> allHymns = await _fetchHymnList();
+      List<HymnEntity> filteredHymns = allHymns
+          .where((hymn) =>
+              hymn.title.toLowerCase().contains(event.query.toLowerCase()) ||
+              hymn.number.contains(event.query))
+          .toList();
+      emit(SearchLoaded(hymns: filteredHymns));
+    } catch (e) {
+      emit(SearchError(errorMessage: e.toString()));
     }
+  }
+
+  Future<void> _onLoadAllHymns(
+      LoadAllHymnsEvent event, Emitter<SearchState> emit) async {
+    emit(SearchInitial());
   }
 }

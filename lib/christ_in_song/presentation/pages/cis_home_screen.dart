@@ -18,11 +18,11 @@ class CISHomeScreen extends StatefulWidget {
 }
 
 class _CISHomeScreenState extends State<CISHomeScreen> {
-  final textController = TextEditingController();
+  final TextEditingController _searchController = TextEditingController();
 
   @override
   void dispose() {
-    textController.dispose();
+    _searchController.dispose();
     super.dispose();
   }
 
@@ -41,7 +41,15 @@ class _CISHomeScreenState extends State<CISHomeScreen> {
               padding: const EdgeInsets.only(left: 10, right: 10, top: 10),
               child: Center(
                 child: TextField(
-                  controller: textController,
+                  controller: _searchController,
+                  onTap: () {
+                    if (_searchController.text.isNotEmpty) {
+                      _searchController.selection = TextSelection(
+                        baseOffset: 0,
+                        extentOffset: _searchController.text.length,
+                      );
+                    }
+                  },
                   onChanged: (value) {
                     if (value.trim().isEmpty) {
                       context.read<SearchBloc>().add(LoadAllHymnsEvent());
@@ -68,6 +76,22 @@ class _CISHomeScreenState extends State<CISHomeScreen> {
                     ),
                     prefixIcon: const Icon(
                       Icons.search,
+                    ),
+                    suffixIcon: ValueListenableBuilder<TextEditingValue>(
+                      valueListenable: _searchController,
+                      builder: (context, value, child) {
+                        return value.text.isNotEmpty
+                            ? IconButton(
+                                icon: const Icon(Icons.clear),
+                                onPressed: () {
+                                  _searchController.clear();
+                                  context
+                                      .read<SearchBloc>()
+                                      .add(LoadAllHymnsEvent());
+                                },
+                              )
+                            : const SizedBox.shrink();
+                      },
                     ),
                     contentPadding: const EdgeInsets.all(10),
                   ),
@@ -98,8 +122,10 @@ class _CISHomeScreenState extends State<CISHomeScreen> {
                               if (hymnModel != null) {
                                 Navigator.of(context).push(
                                   MaterialPageRoute(
-                                    builder: (context) =>
-                                        HymnTemplate(hymnModel: hymnModel),
+                                    builder: (context) => HymnTemplate(
+                                      hymnModel: hymnModel,
+                                      filePath: filePath,
+                                    ),
                                   ),
                                 );
                               } else {
@@ -115,6 +141,10 @@ class _CISHomeScreenState extends State<CISHomeScreen> {
                         },
                       ),
                     );
+                  } else if (state is SearchLoading) {
+                    return const Center(child: CircularProgressIndicator());
+                  } else if (state is SearchError) {
+                    return Center(child: Text(state.errorMessage));
                   }
                   return const HymnListWidget();
                 },

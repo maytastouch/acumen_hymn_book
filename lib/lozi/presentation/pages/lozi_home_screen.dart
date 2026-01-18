@@ -18,6 +18,14 @@ class LzHomeScreen extends StatefulWidget {
 }
 
 class _LzHomeScreenState extends State<LzHomeScreen> {
+  final TextEditingController _searchController = TextEditingController();
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ThemeBloc, ThemeState>(
@@ -33,6 +41,15 @@ class _LzHomeScreenState extends State<LzHomeScreen> {
               padding: const EdgeInsets.only(left: 10, right: 10, top: 10),
               child: Center(
                 child: TextField(
+                  controller: _searchController,
+                  onTap: () {
+                    if (_searchController.text.isNotEmpty) {
+                      _searchController.selection = TextSelection(
+                        baseOffset: 0,
+                        extentOffset: _searchController.text.length,
+                      );
+                    }
+                  },
                   onChanged: (value) {
                     if (value.trim().isEmpty) {
                       context.read<LzSearchBloc>().add(LzLoadAllHymnsEvent());
@@ -60,6 +77,22 @@ class _LzHomeScreenState extends State<LzHomeScreen> {
                     prefixIcon: const Icon(
                       Icons.search,
                     ),
+                    suffixIcon: ValueListenableBuilder<TextEditingValue>(
+                      valueListenable: _searchController,
+                      builder: (context, value, child) {
+                        return value.text.isNotEmpty
+                            ? IconButton(
+                                icon: const Icon(Icons.clear),
+                                onPressed: () {
+                                  _searchController.clear();
+                                  context
+                                      .read<LzSearchBloc>()
+                                      .add(LzLoadAllHymnsEvent());
+                                },
+                              )
+                            : const SizedBox.shrink();
+                      },
+                    ),
                     contentPadding: const EdgeInsets.all(10),
                   ),
                 ),
@@ -83,6 +116,10 @@ class _LzHomeScreenState extends State<LzHomeScreen> {
                         },
                       ),
                     );
+                  } else if (state is LzSearchLoading) {
+                    return const Center(child: CircularProgressIndicator());
+                  } else if (state is LzSearchError) {
+                    return Center(child: Text(state.errorMessage));
                   }
                   return const LzHymnListWidget();
                 },

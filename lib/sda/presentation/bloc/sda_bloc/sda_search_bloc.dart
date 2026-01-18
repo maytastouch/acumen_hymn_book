@@ -10,18 +10,20 @@ part 'sda_search_event.dart';
 part 'sda_search_state.dart';
 
 class SDASearchBloc extends Bloc<SDASearchEvent, SDASearchState> {
+  List<SDAHymnModel>? _allHymns;
+
   SDASearchBloc() : super(SDASearchInitial()) {
     on<SDASearchHymnsEvent>(_onSearchHymns);
     on<SDALoadAllHymnsEvent>(_onLoadAllHymns);
   }
 
   Future<List<SDAHymnModel>> fetchHymnList() async {
-    // Replace with your actual logic to fetch hymn list
-    // For example:
-    return SDALocalMethods.fromJsonFile('assets/hymns/sda/meta.json');
+    if (_allHymns != null) return _allHymns!;
+    _allHymns = await SDALocalMethods.fromJsonFile('assets/hymns/sda/meta.json');
+    return _allHymns!;
   }
 
-  FutureOr<void> _onSearchHymns(
+  Future<void> _onSearchHymns(
       SDASearchHymnsEvent event, Emitter<SDASearchState> emit) async {
     emit(SDASearchLoading());
     try {
@@ -37,14 +39,8 @@ class SDASearchBloc extends Bloc<SDASearchEvent, SDASearchState> {
     }
   }
 
-  FutureOr<void> _onLoadAllHymns(
+  Future<void> _onLoadAllHymns(
       SDALoadAllHymnsEvent event, Emitter<SDASearchState> emit) async {
-    emit(SDASearchLoading());
-    try {
-      List<SDAHymnModel> allHymns = await fetchHymnList();
-      emit(SDASearchLoaded(hymns: allHymns));
-    } catch (e) {
-      emit(SDASearchError(errorMessage: e.toString()));
-    }
+    emit(SDASearchInitial());
   }
 }

@@ -47,6 +47,7 @@ class SDALocalMethods {
         number: number,
         title: title,
         verses: verses,
+        filePath: assetPath,
       ));
     });
 

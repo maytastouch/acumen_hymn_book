@@ -20,8 +20,15 @@ class SDAHomeScreen extends StatefulWidget {
 }
 
 class _SDAHomeScreenState extends State<SDAHomeScreen> {
+  final TextEditingController _searchController = TextEditingController();
   final Future<List<SDAHymnModel>> sdaHymnList =
       SDALocalMethods.fromJsonFile('assets/hymns/sda/meta.json');
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,6 +45,15 @@ class _SDAHomeScreenState extends State<SDAHomeScreen> {
               padding: const EdgeInsets.only(left: 10, right: 10, top: 10),
               child: Center(
                 child: TextField(
+                  controller: _searchController,
+                  onTap: () {
+                    if (_searchController.text.isNotEmpty) {
+                      _searchController.selection = TextSelection(
+                        baseOffset: 0,
+                        extentOffset: _searchController.text.length,
+                      );
+                    }
+                  },
                   onChanged: (value) {
                     if (value.trim().isEmpty) {
                       context.read<SDASearchBloc>().add(SDALoadAllHymnsEvent());
@@ -65,6 +81,22 @@ class _SDAHomeScreenState extends State<SDAHomeScreen> {
                     prefixIcon: const Icon(
                       Icons.search,
                     ),
+                    suffixIcon: ValueListenableBuilder<TextEditingValue>(
+                      valueListenable: _searchController,
+                      builder: (context, value, child) {
+                        return value.text.isNotEmpty
+                            ? IconButton(
+                                icon: const Icon(Icons.clear),
+                                onPressed: () {
+                                  _searchController.clear();
+                                  context
+                                      .read<SDASearchBloc>()
+                                      .add(SDALoadAllHymnsEvent());
+                                },
+                              )
+                            : const SizedBox.shrink();
+                      },
+                    ),
                     contentPadding: const EdgeInsets.all(10),
                   ),
                 ),
@@ -88,6 +120,10 @@ class _SDAHomeScreenState extends State<SDAHomeScreen> {
                         },
                       ),
                     );
+                  } else if (state is SDASearchLoading) {
+                    return const Center(child: CircularProgressIndicator());
+                  } else if (state is SDASearchError) {
+                    return Center(child: Text(state.errorMessage));
                   }
                   return const SDAHymnListWidget();
                 },

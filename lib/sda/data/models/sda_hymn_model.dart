@@ -6,9 +6,10 @@ class SDAHymnModel extends SDAHymnEntity {
     required String number,
     required String title,
     required List verses,
-  }) : super(chorus, number: number, title: title, verses: verses);
+    String? filePath,
+  }) : super(chorus, number: number, title: title, verses: verses, filePath: filePath);
 
-  factory SDAHymnModel.fromJson(Map<String, dynamic> json) {
+  factory SDAHymnModel.fromJson(Map<String, dynamic> json, {String? filePath}) {
     var songData = json['songs']['0']; // Assuming parsing the song with key '0'
 
     String number = songData['id'].toString();
@@ -30,6 +31,7 @@ class SDAHymnModel extends SDAHymnEntity {
       number: number,
       title: title,
       verses: verses,
+      filePath: filePath,
     );
   }
 
@@ -39,6 +41,7 @@ class SDAHymnModel extends SDAHymnEntity {
       number: number,
       title: title,
       verses: verses,
+      filePath: filePath,
     );
   }
 }

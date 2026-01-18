@@ -20,6 +20,14 @@ class XhHomeScreen extends StatefulWidget {
 }
 
 class _XhHomeScreenState extends State<XhHomeScreen> {
+  final TextEditingController _searchController = TextEditingController();
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ThemeBloc, ThemeState>(
@@ -35,6 +43,15 @@ class _XhHomeScreenState extends State<XhHomeScreen> {
               padding: const EdgeInsets.only(left: 10, right: 10, top: 10),
               child: Center(
                 child: TextField(
+                  controller: _searchController,
+                  onTap: () {
+                    if (_searchController.text.isNotEmpty) {
+                      _searchController.selection = TextSelection(
+                        baseOffset: 0,
+                        extentOffset: _searchController.text.length,
+                      );
+                    }
+                  },
                   onChanged: (value) {
                     if (value.trim().isEmpty) {
                       context.read<XhSearchBloc>().add(XhLoadAllHymnsEvent());
@@ -62,6 +79,22 @@ class _XhHomeScreenState extends State<XhHomeScreen> {
                     prefixIcon: const Icon(
                       Icons.search,
                     ),
+                    suffixIcon: ValueListenableBuilder<TextEditingValue>(
+                      valueListenable: _searchController,
+                      builder: (context, value, child) {
+                        return value.text.isNotEmpty
+                            ? IconButton(
+                                icon: const Icon(Icons.clear),
+                                onPressed: () {
+                                  _searchController.clear();
+                                  context
+                                      .read<XhSearchBloc>()
+                                      .add(XhLoadAllHymnsEvent());
+                                },
+                              )
+                            : const SizedBox.shrink();
+                      },
+                    ),
                     contentPadding: const EdgeInsets.all(10),
                   ),
                 ),
@@ -85,6 +118,10 @@ class _XhHomeScreenState extends State<XhHomeScreen> {
                         },
                       ),
                     );
+                  } else if (state is XhSearchLoading) {
+                    return const Center(child: CircularProgressIndicator());
+                  } else if (state is XhSearchError) {
+                    return Center(child: Text(state.errorMessage));
                   }
                   return const XhHymnListWidget();
                 },
@@ -97,12 +134,17 @@ class _XhHomeScreenState extends State<XhHomeScreen> {
   }
 
   void _onHymnTap(HymnEntity hymnEntity) async {
+    String formattedHymnNumber = hymnEntity.number.padLeft(3, '0');
+    String filePath = 'assets/hymns/xh/$formattedHymnNumber.md';
     HymnModel? hymnModel = await _fetchHymnModel(hymnEntity);
     if (!mounted) return;
     if (hymnModel != null) {
       Navigator.of(context).push(
         MaterialPageRoute(
-          builder: (context) => XhHymnTemplate(hymnModel: hymnModel),
+          builder: (context) => XhHymnTemplate(
+            hymnModel: hymnModel,
+            filePath: filePath,
+          ),
         ),
       );
     } else {

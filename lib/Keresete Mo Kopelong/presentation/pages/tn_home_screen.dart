@@ -19,6 +19,14 @@ class TnHomeScreen extends StatefulWidget {
 }
 
 class _TnHomeScreenState extends State<TnHomeScreen> {
+  final TextEditingController _searchController = TextEditingController();
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ThemeBloc, ThemeState>(
@@ -34,6 +42,15 @@ class _TnHomeScreenState extends State<TnHomeScreen> {
               padding: const EdgeInsets.only(left: 10, right: 10, top: 10),
               child: Center(
                 child: TextField(
+                  controller: _searchController,
+                  onTap: () {
+                    if (_searchController.text.isNotEmpty) {
+                      _searchController.selection = TextSelection(
+                        baseOffset: 0,
+                        extentOffset: _searchController.text.length,
+                      );
+                    }
+                  },
                   onChanged: (value) {
                     if (value.trim().isEmpty) {
                       context.read<TnSearchBloc>().add(TnLoadAllHymnsEvent());
@@ -60,6 +77,22 @@ class _TnHomeScreenState extends State<TnHomeScreen> {
                     ),
                     prefixIcon: const Icon(
                       Icons.search,
+                    ),
+                    suffixIcon: ValueListenableBuilder<TextEditingValue>(
+                      valueListenable: _searchController,
+                      builder: (context, value, child) {
+                        return value.text.isNotEmpty
+                            ? IconButton(
+                                icon: const Icon(Icons.clear),
+                                onPressed: () {
+                                  _searchController.clear();
+                                  context
+                                      .read<TnSearchBloc>()
+                                      .add(TnLoadAllHymnsEvent());
+                                },
+                              )
+                            : const SizedBox.shrink();
+                      },
                     ),
                     contentPadding: const EdgeInsets.all(10),
                   ),

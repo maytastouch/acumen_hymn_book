@@ -80,6 +80,8 @@ class _LzHymnTemplateState extends State<LzHymnTemplate> {
 
         var dynamicColor = themeState.themeData.brightness == Brightness.dark;
 
+        final effectiveFilePath = widget.filePath ?? widget.hymnModel?.filePath;
+
         return Scaffold(
           appBar: AppBar(
             leading: const BackWidget(),
@@ -94,18 +96,18 @@ class _LzHymnTemplateState extends State<LzHymnTemplate> {
               textSize: 18,
             ),
             actions: [
-              if (widget.filePath != null)
+              if (effectiveFilePath != null)
                 IconButton(
                   icon: const Icon(Icons.edit, color: Colors.white),
                   onPressed: () async {
                     final rawContent = await HymnStorageService.loadHymnContent(
-                        widget.filePath!);
+                        effectiveFilePath);
                     if (context.mounted) {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
                           builder: (context) => HymnEditScreen(
-                            assetPath: widget.filePath!,
+                            assetPath: effectiveFilePath,
                             initialContent: rawContent,
                           ),
                         ),

@@ -6,11 +6,13 @@ class LzHymnModel extends Equatable {
   final int hymnNumber;
   final String hymnTitle;
   final List<Verse> verses;
+  final String? filePath;
 
   const LzHymnModel({
     required this.hymnNumber,
     required this.hymnTitle,
     required this.verses,
+    this.filePath,
   });
 
   // Parse Markdown file to create a Hymn object
@@ -96,7 +98,11 @@ class LzHymnModel extends Equatable {
       }
 
       return LzHymnModel(
-          hymnNumber: hymnNumber, hymnTitle: hymnTitle, verses: verses);
+        hymnNumber: hymnNumber,
+        hymnTitle: hymnTitle,
+        verses: verses,
+        filePath: filePath,
+      );
     } catch (e) {
       if (kDebugMode) {
         print('Error loading hymn from file: $e');
@@ -106,7 +112,7 @@ class LzHymnModel extends Equatable {
   }
 
   @override
-  List<Object> get props => [hymnNumber];
+  List<Object?> get props => [hymnNumber, filePath];
 
   @override
   bool get stringify => true;
