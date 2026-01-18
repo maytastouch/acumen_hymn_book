@@ -9,39 +9,38 @@ part 'tn_search_event.dart';
 part 'tn_search_state.dart';
 
 class TnSearchBloc extends Bloc<TnSearchEvent, TnSearchState> {
+  List<HymnEntity>? _allHymns;
+
   TnSearchBloc() : super(TnSearchInitial()) {
-    on<TnSearchEvent>(searchStarted);
+    on<TnSearchHymnsEvent>(_onSearchHymns);
+    on<TnLoadAllHymnsEvent>(_onLoadAllHymns);
   }
 
   Future<List<HymnEntity>> _fetchHymnList() async {
-    // Replace with your actual logic to fetch hymn list
-    // For example:
-    return TnLocalMethods.readHymnsFromFile('assets/hymns/tn/meta.json');
+    if (_allHymns != null) return _allHymns!;
+    _allHymns = await TnLocalMethods.readHymnsFromFile('assets/hymns/tn/meta.json');
+    return _allHymns!;
   }
 
-  FutureOr<void> searchStarted(
-      TnSearchEvent event, Emitter<TnSearchState> emit) async {
-    if (event is TnSearchHymnsEvent) {
-      emit(TnSearchLoading());
-      try {
-        List<HymnEntity> allHymns = await _fetchHymnList();
-        List<HymnEntity> filteredHymns = allHymns
-            .where((hymn) =>
-                hymn.title.toLowerCase().contains(event.query.toLowerCase()) ||
-                hymn.number.contains(event.query))
-            .toList();
-        emit(TnSearchLoaded(hymns: filteredHymns));
-      } catch (e) {
-        emit(TnSearchError(errorMessage: e.toString()));
-      }
-    } else if (event is TnLoadAllHymnsEvent) {
-      emit(TnSearchLoading());
-      try {
-        List<HymnEntity> allHymns = await _fetchHymnList();
-        emit(TnSearchLoaded(hymns: allHymns));
-      } catch (e) {
-        emit(TnSearchError(errorMessage: e.toString()));
-      }
+  Future<void> _onSearchHymns(
+      TnSearchHymnsEvent event, Emitter<TnSearchState> emit) async {
+    emit(TnSearchLoading());
+    try {
+      List<HymnEntity> allHymns = await _fetchHymnList();
+      List<HymnEntity> filteredHymns = allHymns
+          .where((hymn) =>
+              hymn.title.toLowerCase().contains(event.query.toLowerCase()) ||
+              hymn.number.contains(event.query))
+          .toList();
+      emit(TnSearchLoaded(hymns: filteredHymns));
+    } catch (e) {
+      emit(TnSearchError(errorMessage: e.toString()));
     }
+  }
+
+  Future<void> _onLoadAllHymns(
+      TnLoadAllHymnsEvent event, Emitter<TnSearchState> emit) async {
+    // Emit initial state to revert to TnHymnListWidget which has its own caching and state
+    emit(TnSearchInitial());
   }
 }
