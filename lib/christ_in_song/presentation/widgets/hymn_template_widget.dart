@@ -1,3 +1,5 @@
+import 'package:acumen_hymn_book/core/presentation/pages/hymn_edit_screen.dart';
+import 'package:acumen_hymn_book/core/services/hymn_storage_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -13,10 +15,12 @@ import 'back_widget.dart';
 
 class HymnTemplate extends StatefulWidget {
   final HymnModel? hymnModel;
+  final String? filePath;
 
   const HymnTemplate({
     Key? key,
     required this.hymnModel,
+    this.filePath,
   }) : super(key: key);
 
   @override
@@ -90,6 +94,25 @@ class _HymnTemplateState extends State<HymnTemplate> {
             ),
             // Other AppBar properties...
             actions: [
+              if (widget.filePath != null)
+                IconButton(
+                  icon: const Icon(Icons.edit, color: Colors.white),
+                  onPressed: () async {
+                    final rawContent = await HymnStorageService.loadHymnContent(
+                        widget.filePath!);
+                    if (context.mounted) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => HymnEditScreen(
+                            assetPath: widget.filePath!,
+                            initialContent: rawContent,
+                          ),
+                        ),
+                      );
+                    }
+                  },
+                ),
               BlocBuilder<FavoriteBloc, FavoriteState>(
                 builder: (context, state) {
                   if (state is FavoriteLoaded) {

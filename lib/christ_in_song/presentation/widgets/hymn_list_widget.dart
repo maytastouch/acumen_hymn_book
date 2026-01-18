@@ -76,12 +76,17 @@ class _HymnListWidgetState extends State<HymnListWidget>
   }
 
   void _onHymnTap(HymnEntity hymnEntity) async {
+    String formattedHymnNumber = hymnEntity.number.padLeft(3, '0');
+    String filePath = 'assets/hymns/en/$formattedHymnNumber.md';
     HymnModel? hymnModel = await _fetchHymnModel(hymnEntity);
     if (!mounted) return;
     if (hymnModel != null) {
       Navigator.of(context).push(
         MaterialPageRoute(
-          builder: (context) => HymnTemplate(hymnModel: hymnModel),
+          builder: (context) => HymnTemplate(
+            hymnModel: hymnModel,
+            filePath: filePath,
+          ),
         ),
       );
     } else {

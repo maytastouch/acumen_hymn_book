@@ -1,4 +1,6 @@
 import 'package:acumen_hymn_book/christ_in_song/data/models/hymn_model.dart';
+import 'package:acumen_hymn_book/core/presentation/pages/hymn_edit_screen.dart';
+import 'package:acumen_hymn_book/core/services/hymn_storage_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -14,10 +16,12 @@ import '../bloc/xh_favorite_bloc/xh_favorite_bloc.dart';
 
 class XhHymnTemplate extends StatefulWidget {
   final HymnModel? hymnModel;
+  final String? filePath;
 
   const XhHymnTemplate({
     Key? key,
     required this.hymnModel,
+    this.filePath,
   }) : super(key: key);
 
   @override
@@ -91,6 +95,25 @@ class _XhHymnTemplateState extends State<XhHymnTemplate> {
             ),
             // Other AppBar properties...
             actions: [
+              if (widget.filePath != null)
+                IconButton(
+                  icon: const Icon(Icons.edit, color: Colors.white),
+                  onPressed: () async {
+                    final rawContent = await HymnStorageService.loadHymnContent(
+                        widget.filePath!);
+                    if (context.mounted) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => HymnEditScreen(
+                            assetPath: widget.filePath!,
+                            initialContent: rawContent,
+                          ),
+                        ),
+                      );
+                    }
+                  },
+                ),
               BlocBuilder<XhFavoriteBloc, XhFavoriteState>(
                 builder: (context, state) {
                   if (state is XhFavoriteLoaded) {

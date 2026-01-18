@@ -16,7 +16,7 @@ class LzHymnListWidget extends StatefulWidget {
 class _LzHymnListWidgetState extends State<LzHymnListWidget>
     with AutomaticKeepAliveClientMixin {
   final Future<List<LzHymnModel>> christInSongMap =
-      LzLocalMethods.readHymnsFromFile('assets/hymns/lz/meta.json');
+      LocalMethods.fromJsonFile('assets/hymns/lz/meta.json');
 
   @override
   bool get wantKeepAlive => true;
@@ -60,15 +60,18 @@ class _LzHymnListWidgetState extends State<LzHymnListWidget>
   }
 
   void _onHymnTap(LzHymnModel hymnModel) async {
-    String formattedHymnNumber = hymnModel.hymnNumber.toString();
-    String filePath = 'assets/hymns/lz/$formattedHymnNumber.md';
+    String filePath = 'assets/hymns/lz/${hymnModel.hymnNumber}.md';
     LzHymnModel? fullHymnModel = await LzHymnModel.fromMarkdownFile(filePath);
 
     if (!mounted) return;
+
     if (fullHymnModel != null) {
       Navigator.of(context).push(
         MaterialPageRoute(
-          builder: (context) => LzHymnTemplate(hymnModel: fullHymnModel),
+          builder: (context) => LzHymnTemplate(
+            hymnModel: fullHymnModel,
+            filePath: filePath,
+          ),
         ),
       );
     } else {

@@ -1,14 +1,13 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:flutter/services.dart' show rootBundle;
+import 'package:acumen_hymn_book/christ_in_song/domain/entity/hymn_entity.dart';
+import 'package:acumen_hymn_book/core/services/hymn_storage_service.dart';
 
-import '../../domain/entity/hymn_entity.dart';
 import '../models/hymn_model.dart';
 
 class LocalMethods {
-  // Method to read JSON file from assets and return a list of Hymns
   static Future<List<HymnEntity>> readHymnsFromFile(String assetPath) async {
-    var contents = await rootBundle.loadString(assetPath);
+    var contents = await HymnStorageService.loadHymnContent(assetPath);
     var jsonData = json.decode(contents);
 
     List<HymnEntity> hymns = [];

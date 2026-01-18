@@ -95,15 +95,18 @@ class _LzHomeScreenState extends State<LzHomeScreen> {
   }
 
   void _onHymnTap(LzHymnModel hymnModel) async {
-    String formattedHymnNumber = hymnModel.hymnNumber.toString();
-    String filePath = 'assets/hymns/lz/$formattedHymnNumber.md';
+    String filePath = 'assets/hymns/lz/${hymnModel.hymnNumber}.md';
     LzHymnModel? fullHymnModel = await LzHymnModel.fromMarkdownFile(filePath);
 
-    if (!mounted) return;
+    if (!context.mounted) return;
+
     if (fullHymnModel != null) {
       Navigator.of(context).push(
         MaterialPageRoute(
-          builder: (context) => LzHymnTemplate(hymnModel: fullHymnModel),
+          builder: (context) => LzHymnTemplate(
+            hymnModel: fullHymnModel,
+            filePath: filePath,
+          ),
         ),
       );
     } else {

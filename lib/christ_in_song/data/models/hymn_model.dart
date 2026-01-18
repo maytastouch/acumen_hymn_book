@@ -1,6 +1,6 @@
+import 'package:acumen_hymn_book/core/services/hymn_storage_service.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/services.dart' show rootBundle;
 
 class HymnModel extends Equatable {
   final int hymnNumber;
@@ -16,7 +16,7 @@ class HymnModel extends Equatable {
   // Parse Markdown file to create a Hymn object
   static Future<HymnModel?> fromMarkdownFile(String filePath) async {
     try {
-      String contents = await rootBundle.loadString(filePath);
+      String contents = await HymnStorageService.loadHymnContent(filePath);
 
       var filename = filePath.split('/').last;
       var hymnNumberString = filename.split('.').first;

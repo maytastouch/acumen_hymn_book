@@ -85,7 +85,10 @@ class _SDAHymnListWidgetState extends State<SDAHymnListWidget>
     if (fetchedHymnModel != null) {
       Navigator.of(context).push(
         MaterialPageRoute(
-          builder: (context) => SDAHymnTemplate(hymnModel: fetchedHymnModel),
+          builder: (context) => SDAHymnTemplate(
+            hymnModel: fetchedHymnModel,
+            filePath: 'assets/hymns/sda/meta.json',
+          ),
         ),
       );
     } else {

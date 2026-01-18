@@ -1,12 +1,12 @@
 import 'dart:convert';
 
-import 'package:flutter/services.dart';
+import 'package:acumen_hymn_book/core/services/hymn_storage_service.dart';
 
 import '../models/sda_hymn_model.dart';
 
 class SDALocalMethods {
   static Future<List<SDAHymnModel>> fromJsonFile(String assetPath) async {
-    var jsonString = await rootBundle.loadString(assetPath);
+    var jsonString = await HymnStorageService.loadHymnContent(assetPath);
     var json = jsonDecode(jsonString);
 
     List<SDAHymnModel> hymns = [];

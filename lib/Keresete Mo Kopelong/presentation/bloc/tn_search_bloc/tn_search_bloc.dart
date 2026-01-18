@@ -1,10 +1,9 @@
 import 'dart:async';
 
+import 'package:acumen_hymn_book/Keresete%20Mo%20Kopelong/data/datasources/tn_local_data_source.dart';
+import 'package:acumen_hymn_book/christ_in_song/domain/entity/hymn_entity.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-
-import '../../../../christ_in_song/data/datasource/local_data_source_methods.dart';
-import '../../../../christ_in_song/domain/entity/hymn_entity.dart';
 
 part 'tn_search_event.dart';
 part 'tn_search_state.dart';
@@ -17,7 +16,7 @@ class TnSearchBloc extends Bloc<TnSearchEvent, TnSearchState> {
   Future<List<HymnEntity>> _fetchHymnList() async {
     // Replace with your actual logic to fetch hymn list
     // For example:
-    return LocalMethods.readHymnsFromFile('assets/hymns/tn/meta.json');
+    return TnLocalMethods.readHymnsFromFile('assets/hymns/tn/meta.json');
   }
 
   FutureOr<void> searchStarted(

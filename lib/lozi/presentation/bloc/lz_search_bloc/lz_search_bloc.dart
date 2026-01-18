@@ -17,7 +17,7 @@ class LzSearchBloc extends Bloc<LzSearchEvent, LzSearchState> {
   Future<List<LzHymnModel>> fetchHymnList() async {
     // Replace with your actual logic to fetch hymn list
     // For example:
-    return LzLocalMethods.readHymnsFromFile('assets/hymns/lz/meta.json');
+    return LocalMethods.fromJsonFile('assets/hymns/lz/meta.json');
   }
 
   FutureOr<void> searchStarted(

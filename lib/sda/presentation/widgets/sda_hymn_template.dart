@@ -1,3 +1,5 @@
+import 'package:acumen_hymn_book/core/presentation/pages/hymn_edit_screen.dart';
+import 'package:acumen_hymn_book/core/services/hymn_storage_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/services.dart';
@@ -13,10 +15,12 @@ import '../bloc/favorite_bloc/sda_favorite_bloc.dart';
 
 class SDAHymnTemplate extends StatefulWidget {
   final SDAHymnModel? hymnModel;
+  final String? filePath;
 
   const SDAHymnTemplate({
     Key? key,
     required this.hymnModel,
+    this.filePath,
   }) : super(key: key);
 
   @override
@@ -90,8 +94,25 @@ class _SDAHymnTemplateState extends State<SDAHymnTemplate> {
               textSize: 18,
             ),
             actions: [
-              // ... other widget code ...
-
+              if (widget.filePath != null)
+                IconButton(
+                  icon: const Icon(Icons.edit, color: Colors.white),
+                  onPressed: () async {
+                    final rawContent = await HymnStorageService.loadHymnContent(
+                        widget.filePath!);
+                    if (context.mounted) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => HymnEditScreen(
+                            assetPath: widget.filePath!,
+                            initialContent: rawContent,
+                          ),
+                        ),
+                      );
+                    }
+                  },
+                ),
               BlocBuilder<SDAFavoriteBloc, SDAFavoriteState>(
                 builder: (context, state) {
                   if (state is SDAFavoriteLoaded) {
@@ -126,8 +147,6 @@ class _SDAHymnTemplateState extends State<SDAHymnTemplate> {
                   }
                 },
               ),
-
-// ... other widget code ...
             ],
           ),
           body: PageView(
