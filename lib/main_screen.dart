@@ -1,3 +1,4 @@
+import 'package:acumen_hymn_book/core/constants/app_colors.dart';
 import 'package:acumen_hymn_book/core/presentation/pages/home_landing_page.dart';
 import 'package:acumen_hymn_book/favorite_screen_wrapper.dart';
 import 'package:acumen_hymn_book/settings_screen.dart';
@@ -83,6 +84,13 @@ class _MainScreenState extends State<MainScreen> {
             ),
         ],
       ),
+      floatingActionButton: !isHome
+          ? FloatingActionButton(
+              onPressed: () => _onItemSelected(0),
+              backgroundColor: AppColors.mainColor,
+              child: const Icon(Icons.home, color: Colors.white),
+            )
+          : null,
     );
   }
 }
