@@ -60,11 +60,23 @@ class _LzHymnListWidgetState extends State<LzHymnListWidget>
   }
 
   void _onHymnTap(LzHymnModel hymnModel) async {
+    String formattedHymnNumber = hymnModel.hymnNumber.toString();
+    String filePath = 'assets/hymns/lz/$formattedHymnNumber.md';
+    LzHymnModel? fullHymnModel = await LzHymnModel.fromMarkdownFile(filePath);
+
     if (!mounted) return;
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => LzHymnTemplate(hymnModel: hymnModel),
-      ),
-    );
+    if (fullHymnModel != null) {
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) => LzHymnTemplate(hymnModel: fullHymnModel),
+        ),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Error: Hymn not found or could not be loaded.'),
+        ),
+      );
+    }
   }
 }
