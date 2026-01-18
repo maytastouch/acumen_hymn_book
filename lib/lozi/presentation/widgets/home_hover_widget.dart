@@ -1,12 +1,11 @@
+import '../../data/models/lozi_hymn_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../general_bloc/theme_bloc/theme_bloc.dart';
 
-import '../../domain/lz_hymn_entity.dart';
-
 class LzHomeHoverableListItem extends StatefulWidget {
-  final LzHymnEntity hymn;
+  final LzHymnModel hymn;
   final VoidCallback onTap;
 
   const LzHomeHoverableListItem({
@@ -53,7 +52,7 @@ class _LzHomeHoverableListItemState extends State<LzHomeHoverableListItem> {
               color: isHovered ? hoverColor : Colors.transparent,
               child: ListTile(
                 title: Text(
-                  '${widget.hymn.number}: ${widget.hymn.title}',
+                  '${widget.hymn.hymnNumber}: ${widget.hymn.hymnTitle}',
                   style: TextStyle(color: textColor),
                 ),
               ),

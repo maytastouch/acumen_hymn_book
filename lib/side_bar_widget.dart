@@ -1,215 +1,221 @@
-import 'package:acumen_hymn_book/christ_in_song/presentation/pages/cis_bottom_bar_screen.dart';
 import 'package:acumen_hymn_book/core/constants/app_colors.dart';
-import 'package:acumen_hymn_book/core/constants/global_methods.dart';
-import 'package:acumen_hymn_book/general_bloc/theme_bloc/theme_bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 
-import 'Keresete Mo Kopelong/presentation/bloc/tn_search_bloc/tn_search_bloc.dart';
-import 'Keresete Mo Kopelong/presentation/pages/tn_bottom_bar_screen.dart';
-import 'christ_in_song/presentation/bloc/search_bloc/search_bloc.dart';
-import 'christ_in_song/presentation/widgets/text_widget.dart';
-import 'core/app_themes.dart';
-import 'general_bloc/church_name_bloc/church_name_bloc.dart';
-import 'general_bloc/route_bloc/route_bloc.dart';
-import 'lozi/presentation/bloc/lz_search_bloc/lz_search_bloc.dart';
-import 'lozi/presentation/pages/lozi_bottom_bar_screen.dart';
-import 'sda/presentation/bloc/sda_bloc/sda_search_bloc.dart';
-import 'sda/presentation/pages/sda_bottom_bar_screen.dart';
-import 'u-Kristu Engomeni/presentation/bloc/xh_search_bloc/xh_search_bloc.dart';
-import 'u-Kristu Engomeni/presentation/pages/xh_bottom_bar_screen.dart';
+class SidePanel extends StatefulWidget {
+  final int selectedIndex;
+  final Function(int) onItemSelected;
 
-class SideBar extends StatefulWidget {
-  const SideBar({super.key});
+  const SidePanel({
+    super.key,
+    required this.selectedIndex,
+    required this.onItemSelected,
+  });
 
   @override
-  State<SideBar> createState() => _SideBarState();
+  State<SidePanel> createState() => _SidePanelState();
 }
 
-class _SideBarState extends State<SideBar> {
+class _SidePanelState extends State<SidePanel> {
+  late bool _isExpanded;
+
+  @override
+  void initState() {
+    super.initState();
+    _isExpanded = false;
+  }
+
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ThemeBloc, ThemeState>(
-      builder: (context, themeState) {
-        var dynamicColor = themeState.themeData.brightness == Brightness.dark;
-        return Drawer(
-          backgroundColor:
-              dynamicColor ? AppColors.secondaryColor : Colors.white,
-          child: ListView(
-            padding: EdgeInsets.zero,
-            children: [
-              BlocBuilder<ThemeBloc, ThemeState>(
-                builder: (context, themeState) {
-                  var dynamicColor =
-                      themeState.themeData.brightness == Brightness.dark;
-                  return UserAccountsDrawerHeader(
-                    accountName: BlocBuilder<ChurchNameBloc, ChurchNameState>(
-                      builder: (context, state) {
-                        String displayName = "Enter Church Name";
-                        if (state is NameChanged &&
-                            state.churchName.isNotEmpty) {
-                          displayName = state.churchName;
-                        }
-                        return TextWidget(
-                          text: displayName,
-                          color: Colors.white,
-                          textSize: 15,
-                          maxLines: 1,
-                        );
-                      },
-                    ),
-                    accountEmail: TextWidget(
-                        text: 'Praising the lord in song',
-                        color: Colors.white,
-                        textSize: 10),
-                    currentAccountPicture: CircleAvatar(
-                      backgroundColor:
-                          dynamicColor ? Colors.black : Colors.white,
-                      child: ClipOval(
-                        child: Image.asset(
-                          'assets/images/sda.png',
-                          width: 70,
-                          height: 40,
-                          fit: BoxFit.cover,
-                          filterQuality: FilterQuality.high,
-                        ),
-                      ),
-                    ),
-                    decoration: const BoxDecoration(
-                      image: DecorationImage(
-                        image: AssetImage('assets/images/beautiful.jpeg'),
-                        fit: BoxFit.cover,
-                        filterQuality: FilterQuality.high,
-                      ),
-                    ),
-                  );
-                },
-              ),
-              _listTiles(
-                title: 'Tswana',
-                icon: IconlyLight.arrowUpCircle,
-                onPressed: () {
-                  GlobalMethods.navigateTo(
-                      ctx: context, routeName: TnBottomBarScreen.routeName);
-                  context.read<TnSearchBloc>().add(TnLoadAllHymnsEvent()); //
-                  BlocProvider.of<RouteBloc>(context)
-                      .add(SetNewRoute('/TnBottomBarScreen'));
-                },
-                context: context,
-              ),
-              const Divider(),
-              _listTiles(
-                title: 'English CIS',
-                icon: IconlyLight.arrowUpCircle,
-                onPressed: () {
-                  GlobalMethods.navigateTo(
-                      ctx: context,
-                      routeName: ChristInSongBottomBarScreen.routeName);
-                  context.read<SearchBloc>().add(LoadAllHymnsEvent()); //
-                  BlocProvider.of<RouteBloc>(context)
-                      .add(SetNewRoute('/ChristInSongBottomBarScreen'));
-                },
-                context: context,
-              ),
-              const Divider(),
-              _listTiles(
-                title: 'Xhosa',
-                icon: IconlyLight.arrowUpCircle,
-                onPressed: () {
-                  GlobalMethods.navigateTo(
-                      ctx: context, routeName: XhBottomBarScreen.routeName);
-                  context.read<XhSearchBloc>().add(XhLoadAllHymnsEvent()); //
-                  BlocProvider.of<RouteBloc>(context)
-                      .add(SetNewRoute('/XhBottomBarScreen'));
-                },
-                context: context,
-              ),
-              const Divider(),
-              _listTiles(
-                title: 'Lozi',
-                icon: IconlyLight.arrowUpCircle,
-                onPressed: () {
-                  GlobalMethods.navigateTo(
-                      ctx: context, routeName: LoziBottomBarScreen.routeName);
-                  context.read<LzSearchBloc>().add(LzLoadAllHymnsEvent()); //
-                  BlocProvider.of<RouteBloc>(context)
-                      .add(SetNewRoute('/LoziBottomBarScreen'));
-                },
-                context: context,
-              ),
-              const Divider(),
-              _listTiles(
-                title: 'English SDA',
-                icon: IconlyLight.arrowUpCircle,
-                onPressed: () {
-                  GlobalMethods.navigateTo(
-                      ctx: context, routeName: SDABottomBarScreen.routeName);
-                  // context.read<LzSearchBloc>().add(LzLoadAllHymnsEvent()); //
-                  context.read<SDASearchBloc>().add(SDALoadAllHymnsEvent());
-                  BlocProvider.of<RouteBloc>(context)
-                      .add(SetNewRoute('/SDABottomBarScreen'));
-                },
-                context: context,
-              ),
-              const Divider(),
-              BlocBuilder<ThemeBloc, ThemeState>(
-                builder: (context, state) {
-                  bool isDarkMode =
-                      state.themeData == appThemeData[AppTheme.DarkTheme];
-                  return SwitchListTile(
-                    activeColor: Colors.white,
-                    title: TextWidget(
-                      text: isDarkMode ? 'Dark Mode' : 'Light Mode',
-                      color: state.themeData.brightness == Brightness.dark
-                          ? Colors.white
-                          : Colors.black,
-                      textSize: 15,
-                    ),
-                    secondary: Icon(isDarkMode
-                        ? Icons.dark_mode_outlined
-                        : Icons.light_mode_outlined),
-                    onChanged: (bool value) {
-                      final appTheme =
-                          value ? AppTheme.DarkTheme : AppTheme.LightTheme;
-                      BlocProvider.of<ThemeBloc>(context)
-                          .add(ThemeChanged(theme: appTheme));
-                    },
-                    value: isDarkMode,
-                  );
-                },
-              )
-            ],
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    return MouseRegion(
+      onEnter: (_) => setState(() => _isExpanded = true),
+      onExit: (_) => setState(() => _isExpanded = false),
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.fastOutSlowIn,
+        width: _isExpanded ? 260 : 70,
+        decoration: BoxDecoration(
+          color: isDark ? Colors.grey.shade900 : Colors.white,
+          border: Border(
+            right: BorderSide(
+              color: isDark ? Colors.grey.shade800 : Colors.black12,
+              width: 1,
+            ),
           ),
-        );
-      },
+          boxShadow: [
+            if (_isExpanded)
+              BoxShadow(
+                color: Colors.black.withAlpha(26),
+                blurRadius: 15,
+                spreadRadius: 2,
+                offset: const Offset(5, 0),
+              ),
+          ],
+        ),
+        child: Column(
+          children: [
+            Container(
+              height: 100,
+              alignment: Alignment.center,
+              padding: const EdgeInsets.symmetric(vertical: 20),
+              child: _isExpanded
+                  ? Image.asset(
+                      'assets/images/sda.png',
+                      height: 35,
+                    )
+                  : const Icon(IconlyBold.home),
+            ),
+            Expanded(
+              child: ListView(
+                padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                children: [
+                  SidePanelItem(
+                    icon: IconlyBold.play,
+                    title: 'Christ In Song',
+                    isExpanded: _isExpanded,
+                    isSelected: widget.selectedIndex == 0,
+                    onTap: () => widget.onItemSelected(0),
+                  ),
+                  SidePanelItem(
+                    icon: IconlyBold.document,
+                    title: 'SDA Hymnal',
+                    isExpanded: _isExpanded,
+                    isSelected: widget.selectedIndex == 1,
+                    onTap: () => widget.onItemSelected(1),
+                  ),
+                  SidePanelItem(
+                    icon: IconlyBold.document,
+                    title: 'Lozi Hymnal',
+                    isExpanded: _isExpanded,
+                    isSelected: widget.selectedIndex == 2,
+                    onTap: () => widget.onItemSelected(2),
+                  ),
+                  SidePanelItem(
+                    icon: IconlyBold.document,
+                    title: 'Xhosa Hymnal',
+                    isExpanded: _isExpanded,
+                    isSelected: widget.selectedIndex == 3,
+                    onTap: () => widget.onItemSelected(3),
+                  ),
+                  SidePanelItem(
+                    icon: IconlyBold.document,
+                    title: 'Tswana Hymnal',
+                    isExpanded: _isExpanded,
+                    isSelected: widget.selectedIndex == 4,
+                    onTap: () => widget.onItemSelected(4),
+                  ),
+                  SidePanelItem(
+                    icon: IconlyBold.heart,
+                    title: 'Favorites',
+                    isExpanded: _isExpanded,
+                    isSelected: widget.selectedIndex == 5,
+                    onTap: () => widget.onItemSelected(5),
+                  ),
+                  SidePanelItem(
+                    icon: IconlyBold.setting,
+                    title: 'Settings',
+                    isExpanded: _isExpanded,
+                    isSelected: widget.selectedIndex == 6,
+                    onTap: () => widget.onItemSelected(6),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
 
-Widget _listTiles({
-  required String title,
-  String? subtitle,
-  required IconData icon,
-  required Function onPressed,
-  required BuildContext context,
-}) {
-  return BlocBuilder<ThemeBloc, ThemeState>(
-    builder: (context, state) {
-      Color textColor = state.themeData.brightness == Brightness.dark
-          ? Colors.white
-          : Colors.black;
-      return ListTile(
-        title: Container(
-            margin: const EdgeInsets.only(top: 2),
-            child: TextWidget(text: title, color: textColor, textSize: 15)),
-        subtitle:
-            TextWidget(text: subtitle ?? "", color: textColor, textSize: 18),
-        leading: Container(
-            margin: const EdgeInsets.only(bottom: 60),
-            child: Icon(icon, color: textColor)),
-        onTap: () => onPressed(),
-      );
-    },
-  );
+class SidePanelItem extends StatefulWidget {
+  final IconData icon;
+  final String title;
+  final bool isExpanded;
+  final bool isSelected;
+  final VoidCallback onTap;
+
+  const SidePanelItem({
+    super.key,
+    required this.icon,
+    required this.title,
+    required this.isExpanded,
+    required this.isSelected,
+    required this.onTap,
+  });
+
+  @override
+  State<SidePanelItem> createState() => _SidePanelItemState();
+}
+
+class _SidePanelItemState extends State<SidePanelItem> {
+  bool _isHovered = false;
+
+  @override
+  Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final iconColor = widget.isSelected
+        ? AppColors.mainColor
+        : (isDark ? Colors.grey.shade400 : Colors.grey.shade700);
+    final textColor = widget.isSelected
+        ? AppColors.mainColor
+        : (isDark ? Colors.white : Colors.black87);
+    final backgroundColor = widget.isSelected
+        ? AppColors.mainColor.withAlpha(26)
+        : _isHovered
+            ? (isDark ? Colors.grey.shade800 : Colors.grey.withAlpha(26))
+            : Colors.transparent;
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 4.0),
+      child: MouseRegion(
+        onEnter: (_) => setState(() => _isHovered = true),
+        onExit: (_) => setState(() => _isHovered = false),
+        child: GestureDetector(
+          onTap: widget.onTap,
+          child: AnimatedContainer(
+            duration: const Duration(milliseconds: 200),
+            curve: Curves.easeInOut,
+            height: 50,
+            decoration: BoxDecoration(
+              color: backgroundColor,
+              borderRadius: BorderRadius.circular(12.0),
+            ),
+            child: ClipRect(
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                physics: const NeverScrollableScrollPhysics(),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                      child: AnimatedScale(
+                        scale: _isHovered ? 1.2 : 1.0,
+                        duration: const Duration(milliseconds: 200),
+                        curve: Curves.easeInOut,
+                        child: Icon(widget.icon, color: iconColor, size: 18),
+                      ),
+                    ),
+                    Text(
+                      widget.title,
+                      maxLines: 1,
+                      style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: widget.isSelected
+                            ? FontWeight.bold
+                            : FontWeight.w500,
+                        color: textColor,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
 }

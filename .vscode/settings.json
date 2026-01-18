@@ -31,5 +31,6 @@
         "sublist",
         "utwa",
         "writeln"
-    ]
+    ],
+    "cmake.ignoreCMakeListsMissing": true
 }

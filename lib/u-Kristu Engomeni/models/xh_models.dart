@@ -1,6 +1,8 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/services.dart' show rootBundle;
 
+import 'dart:developer';
+
 class HymnModel extends Equatable {
   final int hymnNumber;
   final String hymnTitle;
@@ -97,7 +99,7 @@ class HymnModel extends Equatable {
       return HymnModel(
           hymnNumber: hymnNumber, hymnTitle: hymnTitle, verses: verses);
     } catch (e) {
-      print('Error loading hymn from file: $e');
+      log('Error loading hymn from file: $e');
       return null;
     }
   }

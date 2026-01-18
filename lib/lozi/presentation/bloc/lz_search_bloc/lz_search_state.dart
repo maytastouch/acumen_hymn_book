@@ -12,7 +12,7 @@ final class LzSearchInitial extends LzSearchState {}
 class LzSearchLoading extends LzSearchState {}
 
 class LzSearchLoaded extends LzSearchState {
-  final List<LzHymnEntity> hymns;
+  final List<LzHymnModel> hymns;
 
   const LzSearchLoaded({required this.hymns});
 

@@ -24,38 +24,30 @@ class SDAHymnTemplate extends StatefulWidget {
 }
 
 class _SDAHymnTemplateState extends State<SDAHymnTemplate> {
-  late ScrollController _controller;
+  late PageController _pageController;
   late double _sliderFontSize = 20;
 
   @override
   void initState() {
     super.initState();
-    _controller = ScrollController();
+    _pageController = PageController();
     _loadDefaultFontSize();
-    RawKeyboard.instance.addListener(_handleKeyDownEvent);
+    ServicesBinding.instance.keyboard.addHandler(_handleKeyDownEvent);
   }
 
-  void _handleKeyDownEvent(RawKeyEvent keyEvent) {
-    if (keyEvent is RawKeyDownEvent && _controller.hasClients) {
-      const offsetIncrement = 50.0;
-      if (keyEvent.logicalKey == LogicalKeyboardKey.arrowDown) {
-        if (_controller.offset < _controller.position.maxScrollExtent) {
-          _controller.animateTo(
-            _controller.offset + offsetIncrement,
-            duration: const Duration(milliseconds: 100),
-            curve: Curves.linear,
-          );
-        }
-      } else if (keyEvent.logicalKey == LogicalKeyboardKey.arrowUp) {
-        if (_controller.offset > 0.0) {
-          _controller.animateTo(
-            _controller.offset - offsetIncrement,
-            duration: const Duration(milliseconds: 100),
-            curve: Curves.linear,
-          );
-        }
+  bool _handleKeyDownEvent(KeyEvent keyEvent) {
+    if (keyEvent is KeyDownEvent) {
+      if (keyEvent.logicalKey == LogicalKeyboardKey.arrowRight) {
+        _pageController.nextPage(
+            duration: const Duration(milliseconds: 300), curve: Curves.ease);
+        return true;
+      } else if (keyEvent.logicalKey == LogicalKeyboardKey.arrowLeft) {
+        _pageController.previousPage(
+            duration: const Duration(milliseconds: 300), curve: Curves.ease);
+        return true;
       }
     }
+    return false;
   }
 
   void _loadDefaultFontSize() async {
@@ -69,8 +61,8 @@ class _SDAHymnTemplateState extends State<SDAHymnTemplate> {
 
   @override
   void dispose() {
-    _controller.dispose();
-    RawKeyboard.instance.removeListener(_handleKeyDownEvent);
+    ServicesBinding.instance.keyboard.removeHandler(_handleKeyDownEvent);
+    _pageController.dispose();
     super.dispose();
   }
 
@@ -138,110 +130,81 @@ class _SDAHymnTemplateState extends State<SDAHymnTemplate> {
 // ... other widget code ...
             ],
           ),
-          body: ListView(
-            controller: _controller,
-            children: [
-              Container(
-                color: dynamicColor ? Colors.black : AppColors.pageColor,
-                padding: const EdgeInsets.only(top: 20.0, bottom: 30, left: 20),
-                child: Text(
-                  "${widget.hymnModel?.number ?? ''} - ${widget.hymnModel?.title ?? ''}",
-                  style: TextStyle(
-                    color: textColor,
-                    fontSize: _sliderFontSize,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-              ..._buildVerseWidgets(textColor),
-            ],
+          body: PageView(
+            controller: _pageController,
+            children: _buildPages(textColor, dynamicColor),
           ),
         );
       },
     );
   }
 
-  List<Widget> _buildVerseWidgets(Color textColor) {
-    if (widget.hymnModel?.verses == null) {
-      return [];
-    }
+  List<Widget> _buildPages(Color textColor, bool dynamicColor) {
+    final pages = <Widget>[];
 
-    List<Widget> verseWidgets = List.generate(
-      widget.hymnModel!.verses.length,
-      (index) {
-        int verseNumber = index + 1;
-        String verse = widget.hymnModel!.verses[index];
-
-        return BlocBuilder<ThemeBloc, ThemeState>(
-          builder: (context, themeState) {
-            var dynamicColor =
-                themeState.themeData.brightness == Brightness.dark;
-
-            return Container(
-              color: dynamicColor ? Colors.black : AppColors.pageColor,
-              // Set height based on the number of verses
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  BlocBuilder<ThemeBloc, ThemeState>(
-                    builder: (context, themeState) {
-                      var dynamicColor =
-                          themeState.themeData.brightness == Brightness.dark;
-                      return Container(
-                        color:
-                            dynamicColor ? Colors.black : AppColors.pageColor,
-                        padding: const EdgeInsets.only(
-                          top: 70,
-                          bottom: 70,
-                          left: 20,
-                          right: 380,
-                        ),
-                        child: Text(
-                          "$verseNumber:\n$verse",
-                          style: TextStyle(
-                            color: textColor,
-                            fontSize: _sliderFontSize,
-                            height: 1.5,
-                          ),
-                        ),
-                      );
-                    },
-                  ),
-                  if (widget.hymnModel?.chorus != null &&
-                      widget.hymnModel!.chorus!.isNotEmpty)
-                    BlocBuilder<ThemeBloc, ThemeState>(
-                      builder: (context, themeState) {
-                        var dynamicColor =
-                            themeState.themeData.brightness == Brightness.dark;
-                        return Container(
-                          color:
-                              dynamicColor ? Colors.black : AppColors.pageColor,
-                          padding: const EdgeInsets.only(
-                            top: 70,
-                            bottom: 70,
-                            left: 20,
-                            right: 700,
-                          ),
-                          child: Text(
-                            "Chorus:\n${widget.hymnModel!.chorus}",
-                            style: TextStyle(
-                              color: textColor,
-                              fontSize: _sliderFontSize,
-                              fontStyle: FontStyle.italic,
-                              height: 1.5,
-                            ),
-                          ),
-                        );
-                      },
-                    ),
-                ],
-              ),
-            );
-          },
-        );
-      },
+    // Add title page
+    pages.add(
+      Container(
+        color: dynamicColor ? Colors.black : AppColors.pageColor,
+        padding: const EdgeInsets.all(20),
+        child: Center(
+          child: Text(
+            "${widget.hymnModel?.number ?? ''} - ${widget.hymnModel?.title ?? ''}",
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: textColor,
+              fontSize: _sliderFontSize + 4,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+      ),
     );
 
-    return verseWidgets;
+    // Add verse pages
+    for (var i = 0; i < widget.hymnModel!.verses.length; i++) {
+      pages.add(
+        Container(
+          color: dynamicColor ? Colors.black : AppColors.pageColor,
+          padding: const EdgeInsets.all(20),
+          child: Center(
+            child: Text(
+              "${i + 1}.\n${widget.hymnModel!.verses[i]}",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: textColor,
+                fontSize: _sliderFontSize,
+                height: 1.5,
+              ),
+            ),
+          ),
+        ),
+      );
+    }
+
+    // Add chorus page
+    if (widget.hymnModel?.chorus != null &&
+        widget.hymnModel!.chorus!.isNotEmpty) {
+      pages.add(
+        Container(
+          color: dynamicColor ? Colors.black : AppColors.pageColor,
+          padding: const EdgeInsets.all(20),
+          child: Center(
+            child: Text(
+              "Chorus:\n${widget.hymnModel!.chorus}",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: textColor,
+                fontSize: _sliderFontSize,
+                fontStyle: FontStyle.italic,
+                height: 1.5,
+              ),
+            ),
+          ),
+        ),
+      );
+    }
+
+    return pages;
   }
 }

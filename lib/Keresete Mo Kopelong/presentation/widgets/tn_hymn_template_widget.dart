@@ -24,41 +24,30 @@ class TnHymnTemplate extends StatefulWidget {
 }
 
 class _TnHymnTemplateState extends State<TnHymnTemplate> {
-  late ScrollController _controller;
+  late PageController _pageController;
   late double _sliderFontSize = 20;
 
   @override
   void initState() {
     super.initState();
-    _controller = ScrollController();
+    _pageController = PageController();
     _loadDefaultFontSize();
-    // Listen for the up and down key events
-    _controller = ScrollController();
-    RawKeyboard.instance.addListener(_handleKeyDownEvent);
+    ServicesBinding.instance.keyboard.addHandler(_handleKeyDownEvent);
   }
 
-  void _handleKeyDownEvent(RawKeyEvent keyEvent) {
-    if (keyEvent is RawKeyDownEvent && _controller.hasClients) {
-      // Adjusted the offset value for smoother scrolling
-      const offsetIncrement = 50.0;
-      if (keyEvent.logicalKey == LogicalKeyboardKey.arrowDown) {
-        if (_controller.offset < _controller.position.maxScrollExtent) {
-          _controller.animateTo(
-            _controller.offset + offsetIncrement,
-            duration: const Duration(milliseconds: 100),
-            curve: Curves.linear,
-          );
-        }
-      } else if (keyEvent.logicalKey == LogicalKeyboardKey.arrowUp) {
-        if (_controller.offset > 0.0) {
-          _controller.animateTo(
-            _controller.offset - offsetIncrement,
-            duration: const Duration(milliseconds: 100),
-            curve: Curves.linear,
-          );
-        }
+  bool _handleKeyDownEvent(KeyEvent keyEvent) {
+    if (keyEvent is KeyDownEvent) {
+      if (keyEvent.logicalKey == LogicalKeyboardKey.arrowRight) {
+        _pageController.nextPage(
+            duration: const Duration(milliseconds: 300), curve: Curves.ease);
+        return true;
+      } else if (keyEvent.logicalKey == LogicalKeyboardKey.arrowLeft) {
+        _pageController.previousPage(
+            duration: const Duration(milliseconds: 300), curve: Curves.ease);
+        return true;
       }
     }
+    return false;
   }
 
   void _loadDefaultFontSize() async {
@@ -71,7 +60,8 @@ class _TnHymnTemplateState extends State<TnHymnTemplate> {
 
   @override
   void dispose() {
-    _controller.dispose();
+    ServicesBinding.instance.keyboard.removeHandler(_handleKeyDownEvent);
+    _pageController.dispose();
     super.dispose();
   }
 
@@ -133,41 +123,49 @@ class _TnHymnTemplateState extends State<TnHymnTemplate> {
               ),
             ],
           ),
-          body: ListView(
-            controller: _controller,
-            children: [
-              Container(
-                color: dynamicColor ? Colors.black : AppColors.pageColor,
-                padding: const EdgeInsets.only(top: 20.0, bottom: 30, left: 20),
-                child: Text(
-                  "${widget.hymnModel!.hymnNumber} - ${widget.hymnModel!.hymnTitle}",
-                  style: TextStyle(
-                    color: textColor,
-                    fontSize: _sliderFontSize,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-              ..._buildVerseAndChorusWidgets(textColor),
-            ],
+          body: PageView(
+            controller: _pageController,
+            children: _buildPages(textColor, dynamicColor),
           ),
         );
       },
     );
   }
 
-  List<Widget> _buildVerseAndChorusWidgets(Color textColor) {
-    return widget.hymnModel!.verses.map((Verse verse) {
-      return BlocBuilder<ThemeBloc, ThemeState>(
-        builder: (context, themeState) {
-          var dynamicColor = themeState.themeData.brightness == Brightness.dark;
-          return Container(
-            padding: const EdgeInsets.symmetric(vertical: 70.0, horizontal: 20),
-            color: dynamicColor ? Colors.black : AppColors.pageColor,
+  List<Widget> _buildPages(Color textColor, bool dynamicColor) {
+    final pages = <Widget>[];
+
+    // Add title page
+    pages.add(
+      Container(
+        color: dynamicColor ? Colors.black : AppColors.pageColor,
+        padding: const EdgeInsets.all(20),
+        child: Center(
+          child: Text(
+            "${widget.hymnModel!.hymnNumber} - ${widget.hymnModel!.hymnTitle}",
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: textColor,
+              fontSize: _sliderFontSize + 4,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+      ),
+    );
+
+    // Add verse and chorus pages
+    for (var verse in widget.hymnModel!.verses) {
+      pages.add(
+        Container(
+          color: dynamicColor ? Colors.black : AppColors.pageColor,
+          padding: const EdgeInsets.all(20),
+          child: Center(
             child: Text(
               verse.isChorus
                   ? "Chorus:\n${verse.text}"
                   : "${verse.number}.\n${verse.text}",
+              textAlign: TextAlign.center,
               style: TextStyle(
                 color: textColor,
                 fontSize: _sliderFontSize,
@@ -175,9 +173,11 @@ class _TnHymnTemplateState extends State<TnHymnTemplate> {
                 height: 1.5,
               ),
             ),
-          );
-        },
+          ),
+        ),
       );
-    }).toList();
+    }
+
+    return pages;
   }
 }
