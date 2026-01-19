@@ -9,7 +9,7 @@
       <enclosure url="https://github.com/maytastouch/acumen_hymn_book/releases/download/v2.0.1/acumen_hymn_book_setup.exe"
                  sparkle:version="2.0.1"
                  sparkle:os="windows"
-                 length="0"
+                 length="17236310"
                  type="application/octet-stream" />
       <enclosure url="https://github.com/maytastouch/acumen_hymn_book/releases/download/v2.0.1/macos_build.zip"
                  sparkle:version="2.0.1"
