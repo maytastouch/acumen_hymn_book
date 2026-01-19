@@ -6,21 +6,54 @@ Acumen Hymn Book is a Flutter-based mobile/desktop application designed to serve
 
 - **Intuitive UI:** Acumen Hymn Book offers a user-friendly interface that is easy to navigate, ensuring that congregation members can quickly find and access their favorite hymns.
 
-- **Multilingual Hymns:** With hymns available in various languages, this app caters to the diverse Adventist community, allowing users to sing their beloved hymns in their preferred language.
+- **Multilingual Hymns:** With hymns available in various languages (English, Tswana, Xhosa, Lozi, etc.), this app caters to the diverse Adventist community, allowing users to sing their beloved hymns in their preferred language.
 
 - **Comprehensive Collection:** Acumen Hymn Book brings together a vast collection of hymns, ensuring that churches have access to a wide range of songs for different occasions and worship services.
 
+- **Customizable Home Screen:** Users can personalize the landing page by:
+    - Uploading a custom background image.
+    - Editing the welcome overlay text.
+    - Toggling the visibility of controls for a distraction-free view.
+    - *Settings are persisted locally.*
+
+- **Cross-Platform Support:** Fully optimized for Android, iOS, macOS, Windows, and Linux.
+
 ## Getting Started
 
-This project is a starting point for developing the Acumen Hymn Book app. If you're new to Flutter development, you can find resources to help you get started:
+This project is a starting point for developing the Acumen Hymn Book app.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab): This Flutter codelab is a great way to start your journey in mobile app development.
+### Prerequisites
+- [Flutter SDK](https://flutter.dev/docs/get-started/install)
+- VS Code or Android Studio
 
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook): The Flutter cookbook offers a collection of practical code samples to guide you in building various app features.
+### Installation
+1. Clone the repository.
+2. Run `flutter pub get` to install dependencies.
+3. Run the app:
+   ```bash
+   flutter run
+   ```
 
-For more detailed information on Flutter development, refer to the [online documentation](https://docs.flutter.dev/). It provides tutorials, samples, and a comprehensive API reference.
+## Building and Deployment
 
-Start creating a harmonious worship experience with Acumen Hymn Book today!
+### macOS
+To build the release version for macOS:
+```bash
+flutter build macos --release
+```
+The application bundle will be located in `build/macos/Build/Products/Release/acumen_hymn_book.app`.
+
+### Windows
+To build the release version for Windows:
+
+1.  **Build the Executable:**
+    ```powershell
+    flutter build windows --release
+    ```
+2.  **Create Installer (Inno Setup):**
+    -   Ensure [Inno Setup](https://jrsoftware.org/isdl.php) is installed.
+    -   Open `installers/windows/inno_setup.iss`.
+    -   Run the script to generate `acumen_hymn_book_setup.exe` in the `installers/windows` directory.
 
 ## Contribution
 
