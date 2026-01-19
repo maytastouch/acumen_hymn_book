@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle">
+  <channel>
+    <title>Acumen Hymn Book Changelog</title>
+    <item>
+      <title>Version 2.0.0</title>
+      <description>Major update with custom backgrounds, updated UI, and cross-platform support.</description>
+      <pubDate>Mon, 19 Jan 2026 12:00:00 +0000</pubDate>
+      <enclosure url="https://github.com/maytastouch/acumen_hymn_book/releases/download/v2.0.0/acumen_hymn_book_setup.exe"
+                 sparkle:version="2.0.0"
+                 sparkle:os="windows"
+                 length="0"
+                 type="application/octet-stream" />
+      <enclosure url="https://github.com/maytastouch/acumen_hymn_book/releases/download/v2.0.0/macos_build.zip"
+                 sparkle:version="2.0.0"
+                 sparkle:os="macos"
+                 length="0"
+                 type="application/octet-stream" />
+    </item>
+  </channel>
+</rss>

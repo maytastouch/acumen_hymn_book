@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:desktop_window/desktop_window.dart';
 import 'package:acumen_hymn_book/christ_in_song/presentation/pages/settings/font_settings.dart';
+import 'package:auto_updater/auto_updater.dart';
 
 import 'package:oktoast/oktoast.dart';
 
@@ -37,6 +38,19 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     DesktopWindow.setMinWindowSize(const Size(717, 600));
+    _initAutoUpdater();
+  }
+
+  Future<void> _initAutoUpdater() async {
+    // 1. Set the feed URL
+    String feedUrl = "https://maytastouch.github.io/acumen_hymn_book/appcast.xml";
+    await autoUpdater.setFeedURL(feedUrl);
+
+    // 2. Check for updates automatically
+    await autoUpdater.checkForUpdates();
+
+    // 3. Set the scheduled check interval (e.g., every day = 86400 seconds)
+    await autoUpdater.setScheduledCheckInterval(86400);
   }
 
   @override
