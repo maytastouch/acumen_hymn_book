@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:acumen_hymn_book/Keresete%20Mo%20Kopelong/presentation/bloc/tn_favorite_bloc/tn_favorite_bloc.dart';
 import 'package:acumen_hymn_book/general_bloc/theme_bloc/theme_bloc.dart';
 import 'package:flutter/material.dart';
@@ -44,6 +46,9 @@ class _MyAppState extends State<MyApp> {
   Future<void> _initAutoUpdater() async {
     // 1. Set the feed URL
     String feedUrl = "https://maytastouch.github.io/acumen_hymn_book/appcast.xml";
+    if (Platform.isWindows) {
+      feedUrl = "https://maytastouch.github.io/acumen_hymn_book/appcast_windows.xml";
+    }
     await autoUpdater.setFeedURL(feedUrl);
 
     // 2. Check for updates automatically

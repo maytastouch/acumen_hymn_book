@@ -13,28 +13,12 @@
                  type="application/octet-stream" />
     </item>
     <item>
-      <title>Version 2.0.1</title>
-      <description>Minor update including fix for hymn editing and version bump.</description>
-      <pubDate>Mon, 19 Jan 2026 12:05:00 +0000</pubDate>
-      <enclosure url="https://github.com/maytastouch/acumen_hymn_book/releases/download/v2.0.1/macos_build.zip"
-                 sparkle:version="2.0.1"
-                 sparkle:os="macos"
-                 length="75026389"
-                 type="application/octet-stream"
-                 sparkle:edSignature="L8pGbM6kmCks9G92PcL+Ok+aZv/HXq6JxHo41S4OyLJGBGo0SOVon5Ock2xPh4YPFoO0QlJ3rcLXNSR0TE8OAg==" />
-    </item>
-    <item>
       <title>Version 2.0.0</title>
       <description>Major update with custom backgrounds, updated UI, and cross-platform support.</description>
       <pubDate>Mon, 19 Jan 2026 12:00:00 +0000</pubDate>
       <enclosure url="https://github.com/maytastouch/acumen_hymn_book/releases/download/v2.0.0/acumen_hymn_book_setup.exe"
                  sparkle:version="2.0.0"
                  sparkle:os="windows"
-                 length="0"
-                 type="application/octet-stream" />
-      <enclosure url="https://github.com/maytastouch/acumen_hymn_book/releases/download/v2.0.0/macos_build.zip"
-                 sparkle:version="2.0.0"
-                 sparkle:os="macos"
                  length="0"
                  type="application/octet-stream" />
     </item>
