@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:acumen_hymn_book/core/presentation/pages/hymn_edit_screen.dart';
 import 'package:acumen_hymn_book/core/services/hymn_storage_service.dart';
 import 'package:flutter/material.dart';
@@ -100,18 +101,89 @@ class _SDAHymnTemplateState extends State<SDAHymnTemplate> {
                 IconButton(
                   icon: const Icon(Icons.edit, color: Colors.white),
                   onPressed: () async {
-                    final rawContent = await HymnStorageService.loadHymnContent(
-                        effectiveFilePath);
-                    if (context.mounted) {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => HymnEditScreen(
-                            assetPath: effectiveFilePath,
-                            initialContent: rawContent,
+                    if (effectiveFilePath.endsWith('meta.json') &&
+                        widget.hymnModel != null) {
+                      try {
+                        final rawContent =
+                            await HymnStorageService.loadHymnContent(
+                                effectiveFilePath);
+                        final fullJson = jsonDecode(rawContent);
+                        final songs = fullJson['songs'] as Map<String, dynamic>;
+                        String? songKey;
+                        Map<String, dynamic>? songData;
+
+                        for (var entry in songs.entries) {
+                          if (entry.value is Map &&
+                              entry.value['id'].toString() ==
+                                  widget.hymnModel!.number) {
+                            songKey = entry.key;
+                            songData = entry.value;
+                            break;
+                          }
+                        }
+
+                        if (songKey != null && songData != null) {
+                          const JsonEncoder encoder =
+                              JsonEncoder.withIndent('    ');
+                          final initialContent = encoder.convert(songData);
+
+                          if (context.mounted) {
+                            await Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => HymnEditScreen(
+                                  assetPath: effectiveFilePath,
+                                  initialContent: initialContent,
+                                  onSave: (newContent) async {
+                                    final updatedSongData =
+                                        jsonDecode(newContent);
+                                    final currentRawContent =
+                                        await HymnStorageService
+                                            .loadHymnContent(effectiveFilePath);
+                                    final currentFullJson =
+                                        jsonDecode(currentRawContent);
+                                    currentFullJson['songs'][songKey] =
+                                        updatedSongData;
+                                    final updatedRawContent =
+                                        encoder.convert(currentFullJson);
+                                    await HymnStorageService.saveHymnContent(
+                                        effectiveFilePath, updatedRawContent);
+                                  },
+                                ),
+                              ),
+                            );
+                          }
+                        } else {
+                          if (context.mounted) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                  content: Text(
+                                      'Error: Could not find hymn data to edit.')),
+                            );
+                          }
+                        }
+                      } catch (e) {
+                        if (context.mounted) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text('Error preparing edit: $e')),
+                          );
+                        }
+                      }
+                    } else {
+                      final rawContent =
+                          await HymnStorageService.loadHymnContent(
+                              effectiveFilePath);
+                      if (context.mounted) {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => HymnEditScreen(
+                              assetPath: effectiveFilePath,
+                              initialContent: rawContent,
+                            ),
                           ),
-                        ),
-                      );
+                        );
+                      }
                     }
                   },
                 ),

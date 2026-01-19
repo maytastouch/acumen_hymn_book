@@ -5,11 +5,13 @@ import 'package:acumen_hymn_book/core/constants/app_colors.dart';
 class HymnEditScreen extends StatefulWidget {
   final String assetPath;
   final String initialContent;
+  final Future<void> Function(String content)? onSave;
 
   const HymnEditScreen({
     super.key,
     required this.assetPath,
     required this.initialContent,
+    this.onSave,
   });
 
   @override
@@ -38,13 +40,19 @@ class _HymnEditScreenState extends State<HymnEditScreen> {
     });
 
     try {
-      await HymnStorageService.saveHymnContent(
-        widget.assetPath,
-        _controller.text,
-      );
+      if (widget.onSave != null) {
+        await widget.onSave!(_controller.text);
+      } else {
+        await HymnStorageService.saveHymnContent(
+          widget.assetPath,
+          _controller.text,
+        );
+      }
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Hymn saved successfully! Please restart the hymn to see changes.')),
+          const SnackBar(
+              content: Text(
+                  'Hymn saved successfully! Please restart the hymn to see changes.')),
         );
         Navigator.pop(context, true);
       }
