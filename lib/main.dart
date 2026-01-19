@@ -51,10 +51,7 @@ class _MyAppState extends State<MyApp> {
     }
     await autoUpdater.setFeedURL(feedUrl);
 
-    // 2. Check for updates automatically
-    await autoUpdater.checkForUpdates();
-
-    // 3. Set the scheduled check interval (e.g., every day = 86400 seconds)
+    // 2. Set the scheduled check interval (e.g., every day = 86400 seconds)
     await autoUpdater.setScheduledCheckInterval(86400);
   }
 
