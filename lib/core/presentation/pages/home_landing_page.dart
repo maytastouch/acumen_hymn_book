@@ -109,21 +109,6 @@ class _HomeLandingPageState extends State<HomeLandingPage> {
                             ),
                           ),
                           const SizedBox(height: 8),
-                          Align(
-                            alignment: Alignment.centerRight,
-                            child: Text(
-                              "${controller.text.length} / 140",
-                              style: TextStyle(
-                                fontSize: 12,
-                                color: controller.text.length >= 130
-                                    ? Colors.red
-                                    : Colors.grey,
-                                fontWeight: controller.text.length >= 130
-                                    ? FontWeight.bold
-                                    : FontWeight.normal,
-                                ),
-                              ),
-                            ),
                           const SizedBox(height: 24),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.end,
@@ -189,21 +174,18 @@ class _HomeLandingPageState extends State<HomeLandingPage> {
         child: Stack(
           children: [
             // Background Image
-            Center(
-              child: AspectRatio(
-                aspectRatio: 16 / 9,
-                child: _customImagePath != null
-                    ? Image.file(
-                        File(_customImagePath!),
-                        fit: BoxFit.cover,
-                      )
-                    : Image.asset(
-                        'assets/images/sunset.jpg',
-                        fit: BoxFit.cover,
-                      ),
-              ),
+            Positioned.fill(
+              child: _customImagePath != null
+                  ? Image.file(
+                      File(_customImagePath!),
+                      fit: BoxFit.cover,
+                    )
+                  : Image.asset(
+                      'assets/images/sunset.jpg',
+                      fit: BoxFit.cover,
+                    ),
             ),
-            
+
             // SDA Logo Top Right
             Positioned(
               top: 40,
@@ -262,7 +244,7 @@ class _HomeLandingPageState extends State<HomeLandingPage> {
                   ],
                 ),
               ),
-            
+
             if (_showControls)
               Positioned(
                 top: 20,
