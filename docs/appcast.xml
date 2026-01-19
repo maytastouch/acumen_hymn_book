@@ -9,9 +9,9 @@
       <enclosure url="https://github.com/maytastouch/acumen_hymn_book/releases/download/v2.0.1/macos_build.zip"
                  sparkle:version="2.0.1"
                  sparkle:os="macos"
-                 length="75026344"
+                 length="75026346"
                  type="application/octet-stream"
-                 sparkle:edSignature="PHQ6OWt3liJCYts+CKHl1+eHiEEt5Fqw2JsteQXnerw3SuWm0aGADf1F8UeHdIQTlZmASjIPzbMZUU805U3BAw==" />
+                 sparkle:edSignature="6I8Okgcrjc2AsPt2OWE8iBbRfc99n/lftELo5LtsGOx8nfKlRSn9tqokaX53efxAuCEoBAzPIP5ivLfYMSmjAA==" />
     </item>
     <item>
       <title>Version 2.0.0</title>
