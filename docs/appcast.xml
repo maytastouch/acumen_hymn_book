@@ -10,7 +10,8 @@
                  sparkle:version="2.0.1"
                  sparkle:os="macos"
                  length="75026344"
-                 type="application/octet-stream" />
+                 type="application/octet-stream"
+                 sparkle:edSignature="PHQ6OWt3liJCYts+CKHl1+eHiEEt5Fqw2JsteQXnerw3SuWm0aGADf1F8UeHdIQTlZmASjIPzbMZUU805U3BAw==" />
     </item>
     <item>
       <title>Version 2.0.0</title>
