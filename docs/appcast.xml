@@ -3,6 +3,16 @@
   <channel>
     <title>Acumen Hymn Book Changelog</title>
     <item>
+      <title>Version 2.0.1</title>
+      <description>Minor update including fix for hymn editing and version bump.</description>
+      <pubDate>Mon, 19 Jan 2026 12:05:00 +0000</pubDate>
+      <enclosure url="https://github.com/maytastouch/acumen_hymn_book/releases/download/v2.0.1/macos_build.zip"
+                 sparkle:version="2.0.1"
+                 sparkle:os="macos"
+                 length="75026344"
+                 type="application/octet-stream" />
+    </item>
+    <item>
       <title>Version 2.0.0</title>
       <description>Major update with custom backgrounds, updated UI, and cross-platform support.</description>
       <pubDate>Mon, 19 Jan 2026 12:00:00 +0000</pubDate>
