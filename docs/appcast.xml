@@ -6,6 +6,16 @@
       <title>Version 2.0.3</title>
       <description>Small improvements and sidebar hint update.</description>
       <pubDate>Tue, 20 Jan 2026 12:00:00 +0000</pubDate>
+      <enclosure url="https://github.com/maytastouch/acumen_hymn_book/releases/download/v2.0.3/acumen_hymn_book.exe"
+                 sparkle:version="2.0.3+1"
+                 sparkle:os="windows"
+                 length="85504"
+                 type="application/octet-stream" />
+    </item>
+    <item>
+      <title>Version 2.0.3</title>
+      <description>Small improvements and sidebar hint update.</description>
+      <pubDate>Tue, 20 Jan 2026 12:00:00 +0000</pubDate>
       <enclosure url="https://github.com/maytastouch/acumen_hymn_book/releases/download/v2.0.3/macos_build.zip"
                  sparkle:version="2.0.3+1"
                  sparkle:os="macos"
