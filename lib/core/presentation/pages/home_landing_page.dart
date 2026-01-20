@@ -256,7 +256,7 @@ class _HomeLandingPageState extends State<HomeLandingPage> {
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: const Text(
-                    "Tap anywhere to hide/show controls",
+                    "Tap anywhere to hide/show controls. Hover to the left for the sidebar.",
                     style: TextStyle(color: Colors.white70, fontSize: 12),
                   ),
                 ),
