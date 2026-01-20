@@ -35,7 +35,7 @@ class About extends StatelessWidget {
             SizedBox(
               height: 200,
             ),
-            Text('V2.0.2')
+            Text('V2.0.3')
           ],
         ),
       ),
